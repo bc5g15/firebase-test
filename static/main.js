@@ -140,6 +140,7 @@ function initGame(gameKey, me, token, channelId, initialMessage) {
       console.log("Token: ", token);
       console.log("Has this been updated?");
     });
+    console.log('This is a test message from Ben');
     // [END auth_login]
 
     // [START add_listener]
