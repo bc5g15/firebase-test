@@ -35,9 +35,9 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 import httplib2
 from oauth2client.client import GoogleCredentials
-#from oauth2client.service_account import ServiceAccountCredentials
+# from oauth2client.service_account import ServiceAccountCredentials
 
-#pathf variable for private key file
+# pathf variable for private key file
 
 _FIREBASE_CONFIG = '_firebase_config.html'
 
@@ -87,7 +87,7 @@ def _get_http():
     creds = GoogleCredentials.get_application_default().create_scoped(
         _FIREBASE_SCOPES)
 
-    #creds = ServiceAccountCredentials.from_json_keyfile_name(pathf, _FIREBASE_SCOPES)
+    # creds = ServiceAccountCredentials.from_json_keyfile_name(pathf, _FIREBASE_SCOPES)
     creds.authorize(http)
     return http
 
@@ -118,8 +118,8 @@ def create_custom_token(uid, valid_minutes=60):
     # use the app_identity service from google.appengine.api to get the
     # project's service account email automatically
     client_email = app_identity.get_service_account_name()
-    #creds = ServiceAccountCredentials.from_json_keyfile_name(pathf, _FIREBASE_SCOPOES)
-    #client_email = creds.service_account_email
+    # creds = ServiceAccountCredentials.from_json_keyfile_name(pathf, _FIREBASE_SCOPOES)
+    # client_email = creds.service_account_email
     logging.info("client Email " + client_email)
     # client_email = "firebase-adminsdk-slzkf@firebase-test-222916.iam.gserviceaccount.com"
     # logging.info("Client Email: " + client_email)
@@ -140,7 +140,7 @@ def create_custom_token(uid, valid_minutes=60):
     # Sign the jwt using the built in app_identity service
     return '{}.{}'.format(to_sign, base64.b64encode(
         app_identity.sign_blob(to_sign)[1]))
-        #creds.sign_blob(to_sign)
+        # creds.sign_blob(to_sign)
 
 
 class Game(ndb.Model):
