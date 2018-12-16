@@ -30,6 +30,23 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         // Nothing yet!
     }
 
+    function onMessage(newState)
+    {
+        updateGame(newState);
+    }
+
+    function countUp(e) {
+        $.post('/count');
+    }
+
+    function onOpened() {
+        $.post('/count/open');
+    }
+
+    function deleteChannel() {
+        $.post('/delete');
+    }
+
 
     function openChannel() {
         // [START auth_login]
@@ -66,7 +83,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
             opts.url += '?g=' + state.gameKey;
         });
     
-        $('#board').on('click', '.cell', moveInSquare);
+        $('#board').on('click', '.cell', countUp);
     
         openChannel();
     
