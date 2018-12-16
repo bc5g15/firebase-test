@@ -143,6 +143,36 @@ def create_custom_token(uid, valid_minutes=60):
         # creds.sign_blob(to_sign)
 
 
+class Counter(ndb.Model):
+    """Data stored for a counting experiment"""
+    # Allow multiple users
+    users = ndb.UserProperty(repeated=True)
+    recentUser = ndb.UserProperty()
+    count = ndb.IntegerProperty()
+
+    # Very basic method for now
+    def to_json(self):
+        d = self.to_dict()
+        return json.dumps(d, default=lambda user: user.user_id())
+
+    def send_updates(self):
+        """Update firebase and users with the new score"""
+        message = self.to_json()
+        #send updated game state to all users
+        for u in users:
+            _send_firebase_message(
+                u + self.key.id(), message=message)
+    
+    def add(self, user):
+        """A user adds a value to the counter"""
+        self.recentUser = user
+        self.count+=1
+        self.put()
+        self.send_update()
+        return
+        
+
+
 class Game(ndb.Model):
     """All the data we store for a game"""
     userX = ndb.UserProperty()
@@ -282,4 +312,26 @@ def main_page():
     }
 
     return flask.render_template('fire_index.html', **template_values)
-    # [END pass_token]
+   
+# [END pass_token]
+@app.route('/test')
+def test_me():
+    """Just for me to test things"""
+    user = users.get_current_user()
+    game_key = user.user_id()
+    game = Game.get_by_id(game_key)
+    if not game:
+        return 'No such game', 404
+    else:
+        return game.to_json()
+
+
+@app.route('/new')
+def new_model():
+    user = users.get_current_user()
+
+    # Create a new counter
+    counter = Counter(recentUser = user, count = 0, users = [user])
+
+    return counter.to_json()
+# [START testing_section]
