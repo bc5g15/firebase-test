@@ -31,7 +31,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         // Nothing yet!
         $.extend(state, newState);
         var count = $("#number");
-        count.html = "sausage";
+        count.html(state.count);
         console.log(state.count);
         console.log(newState);
 
