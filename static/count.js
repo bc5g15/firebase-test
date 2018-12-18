@@ -15,7 +15,8 @@ function initGame(gameKey, me, token, channelId, initialMessage)
 {
     var state = {
         gameKey: gameKey,
-        me: me
+        me: me,
+        count: 0
     };
 
     // This is our Firebase realtime DB path that we'll listen to 
@@ -28,23 +29,43 @@ function initGame(gameKey, me, token, channelId, initialMessage)
     function updateGame(newState)
     {
         // Nothing yet!
+        $.extend(state, newState);
+        var count = $("#number");
+        count.html = "sausage";
+        console.log(state.count);
+        console.log(newState);
+
+        var displayArea = $('#display-area');
+
+        displayArea[0].className='your-move';
     }
 
     function onMessage(newState)
     {
         updateGame(newState);
+
+        /*
+        If we have a count of 10 or more, close
+        the channel
+        */
+    //    if (state.count >= 10) {
+    //        channel.off();
+    //        deleteChannel();
+    //        console.log("End of game");
+    //    }
     }
 
     function countUp(e) {
-        $.post('/count');
+        $.post('/count/up');
     }
 
     function onOpened() {
+        console.log("Opening...");
         $.post('/count/open');
     }
 
     function deleteChannel() {
-        $.post('/delete');
+        $.post('/count/delete');
     }
 
 
@@ -63,9 +84,12 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         // add a listener to the path that fires any time the
         // value of the data changes
         channel.on('value', function(data) {
-            console.log("Change!");
+            console.log("Something happened!");
+            console.log(data.val());
+            onMessage(data.val());
         });
         // [END add_listener]
+        onOpened();
     }
 
     /**

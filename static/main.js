@@ -40,6 +40,8 @@ function initGame(gameKey, me, token, channelId, initialMessage) {
    * Updates the displayed game board.
    */
   function updateGame(newState) {
+    console.log(state);
+    console.log(newState);
     $.extend(state, newState);
 
     $('.cell').each(function(i) {

@@ -143,36 +143,6 @@ def create_custom_token(uid, valid_minutes=60):
         # creds.sign_blob(to_sign)
 
 
-class Counter(ndb.Model):
-    """Data stored for a counting experiment"""
-    # Allow multiple users
-    users = ndb.UserProperty(repeated=True)
-    recentUser = ndb.UserProperty()
-    count = ndb.IntegerProperty()
-
-    # Very basic method for now
-    def to_json(self):
-        d = self.to_dict()
-        return json.dumps(d, default=lambda user: user.user_id())
-
-    def send_updates(self):
-        """Update firebase and users with the new score"""
-        message = self.to_json()
-        #send updated game state to all users
-        for u in users:
-            _send_firebase_message(
-                u + self.key.id(), message=message)
-    
-    def add(self, user):
-        """A user adds a value to the counter"""
-        self.recentUser = user
-        self.count+=1
-        self.put()
-        self.send_update()
-        return
-        
-
-
 class Game(ndb.Model):
     """All the data we store for a game"""
     userX = ndb.UserProperty()
@@ -325,13 +295,110 @@ def test_me():
     else:
         return game.to_json()
 
+"""
+Everything after this point is original code
+"""
 
-@app.route('/new')
+class Counter(ndb.Model):
+    """Data stored for a counting experiment"""
+    # Allow multiple users
+    users = ndb.UserProperty(repeated=True)
+    recentUser = ndb.UserProperty()
+    count = ndb.IntegerProperty()
+
+    # Very basic method for now
+    def to_json(self):
+        d = self.to_dict()
+        return json.dumps(d, default=lambda user: user.user_id())
+
+    def send_update(self):
+        """Update firebase and users with the new score"""
+        message = self.to_json()
+
+        logging.info("What will this print?")
+        logging.info(users)
+
+        #send updated game state to all users
+        # for u in users:
+        #     _send_firebase_message(
+        #         u + self.key.id(), message=message)
+        _send_firebase_message(
+            self.recentUser.user_id() + self.key.id(), message=message
+        )
+    
+    def add(self, user):
+        """A user adds a value to the counter"""
+        self.recentUser = user
+        self.count+=1
+        logging.info("New Value = " + str(self.count))
+        self.put()
+        self.send_update()
+        return
+
+@app.route('/count')
 def new_model():
     user = users.get_current_user()
+    key = user.user_id()
+    channel_id = user.user_id() + key
 
-    # Create a new counter
-    counter = Counter(recentUser = user, count = 0, users = [user])
 
-    return counter.to_json()
+    #Create a new counter if one doesn't already exist
+    counter = Counter.get_by_id(user.user_id())
+    if not counter:
+        #Create a new counter
+        counter = Counter(id = key, recentUser = user, count = 0, users = [user])
+        counter.put()
+
+
+    client_auth_token = create_custom_token(channel_id)
+    _send_firebase_message(channel_id, message=counter.to_json())
+
+    game_link = '{}?g={}'.format(request.base_url, key)
+
+    template_values = {
+        'token': client_auth_token,
+        'channel_id': channel_id,
+        'me': user.user_id(),
+        'game_key': key,
+        'game_link': game_link,
+        'initial_message': urllib.unquote(counter.to_json())
+    }
+
+    return flask.render_template('count_index.html', **template_values)
+
+@app.route("/where")
+def where():
+    return request.base_url
+
+# [START route_delete]
+@app.route('/count/delete', methods=['POST'])
+def my_delete():
+    game = Counter.get_by_id(request.args.get('g'))
+    if not game:
+        return 'Game not found', 400
+    user = users.get_current_user()
+    _send_firebase_message(user.user_id() + game.key.id(), message=None)
+    return ''
+# [END route_delete]
+
+@app.route('/count/open', methods=['POST'])
+def my_opened():
+    logging.info(request.args.get('g'))
+    logging.info("Now what?")
+    game = Counter.get_by_id(request.args.get('g'))
+    if not game:
+        return 'Game not found', 400
+    game.send_update()
+    return ''
+
+@app.route('/count/up', methods=['POST'])
+def my_count_up():
+    logging.debug("Made it here...")
+    game = Counter.get_by_id(request.args.get('g'))
+    if not game:
+        logging.debug("Game not found! " + request.args.get('g'))
+        return 'Game not found, or invalid position', 400
+    game.add(users.get_current_user())
+    return ''
+
 # [START testing_section]
