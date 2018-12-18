@@ -342,6 +342,8 @@ def new_model():
     channel_id = user.user_id() + key
 
 
+    logging.info("I should only see this once")
+
     #Create a new counter if one doesn't already exist
     counter = Counter.get_by_id(user.user_id())
     if not counter:
@@ -384,7 +386,6 @@ def my_delete():
 @app.route('/count/open', methods=['POST'])
 def my_opened():
     logging.info(request.args.get('g'))
-    logging.info("Now what?")
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
         return 'Game not found', 400
@@ -393,7 +394,6 @@ def my_opened():
 
 @app.route('/count/up', methods=['POST'])
 def my_count_up():
-    logging.debug("Made it here...")
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
         logging.debug("Game not found! " + request.args.get('g'))
