@@ -337,6 +337,10 @@ class Counter(ndb.Model):
 #[START testing section]
 @app.route('/count')
 def new_model():
+    """
+    The main entrypoint of the counting application
+    Controls creating and joining games
+    """
     user = users.get_current_user()
 
     key = request.args.get('g')
@@ -389,6 +393,10 @@ def where():
 # [START route_delete]
 @app.route('/count/delete', methods=['POST'])
 def my_delete():
+    """
+    NOT CURRENTLY CALLED
+    Called to remove the record from the database
+    """
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
         return 'Game not found', 400
@@ -399,6 +407,9 @@ def my_delete():
 
 @app.route('/count/open', methods=['POST'])
 def my_opened():
+    """
+    This is called when the initial channel is opened
+    """
     logging.info(request.args.get('g'))
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
@@ -408,6 +419,9 @@ def my_opened():
 
 @app.route('/count/up', methods=['POST'])
 def my_count_up():
+    """
+    Handles a web request to increase the count
+    """
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
         logging.debug("Game not found! " + request.args.get('g'))
