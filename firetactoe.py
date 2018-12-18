@@ -142,6 +142,9 @@ def create_custom_token(uid, valid_minutes=60):
         app_identity.sign_blob(to_sign)[1]))
         # creds.sign_blob(to_sign)
 
+"""
+AFTER THIS POINT IS TIC-TAC-TOE CODE
+"""
 
 class Game(ndb.Model):
     """All the data we store for a game"""
@@ -284,6 +287,11 @@ def main_page():
     return flask.render_template('fire_index.html', **template_values)
    
 # [END pass_token]
+
+"""
+Everything after this point is original code
+"""
+
 @app.route('/test')
 def test_me():
     """Just for me to test things"""
@@ -294,10 +302,6 @@ def test_me():
         return 'No such game', 404
     else:
         return game.to_json()
-
-"""
-Everything after this point is original code
-"""
 
 class Counter(ndb.Model):
     """Data stored for a counting experiment"""
