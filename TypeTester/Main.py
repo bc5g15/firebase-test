@@ -12,7 +12,7 @@ for line in text:
     linedifficulty = typetester.calculateLineComplexity(text.index(line), longeststrings, linespecialchars)
     lineswithpoints[line] = linedifficulty
 
-with open("Difficulties.txt", 'w') as difficultyjson:
+with open("Difficulties.json", 'w') as difficultyjson:
     json.dump(lineswithpoints, difficultyjson)
 
     
