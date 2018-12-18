@@ -1,5 +1,5 @@
 import Tester
-import csv
+import json
 typetester = Tester.Tester()
 lineswithpoints = {}
 longeststrings = {}
@@ -12,12 +12,7 @@ for line in text:
     linedifficulty = typetester.calculateLineComplexity(text.index(line), longeststrings, linespecialchars)
     lineswithpoints[line] = linedifficulty
 
-difficultycsv = open("Difficulties.csv", 'w')
-writer = csv.writer(difficultycsv)
-#print(lineswithpoints.items())
-#writer.writerows(lineswithpoints.items())
-for key, value in lineswithpoints.items():
-    print(key + "," + str(value) + "/n")
-    writer.writerow([key, value])
+with open("Difficulties.txt", 'w') as difficultyjson:
+    json.dump(lineswithpoints, difficultyjson)
 
     
