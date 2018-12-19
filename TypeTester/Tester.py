@@ -1,6 +1,5 @@
 class Tester:
 
-    specialchars = ["?", "!", ]
     text = []
 
     def retrieveText(self):
