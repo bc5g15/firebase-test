@@ -299,7 +299,7 @@ def test_me():
 Everything after this point is original code
 """
 
-class Counter(ndb.Model):
+class CounterLobby(ndb.Model):
     """Data stored for a counting experiment"""
     # Allow multiple users
     users = ndb.UserProperty(repeated=True)
@@ -325,6 +325,87 @@ class Counter(ndb.Model):
         #     self.recentUser.user_id() + self.key.id(), message=message
         # )
     
+    def add(self, user):
+        """A user added to the lobby"""
+        self.users.push(user.user_id)
+        self.put()
+        self.send_update()
+        return
+
+
+# [START testing section]
+@app.route('/count-lobby')
+def new_model():
+    user = users.get_current_user()
+
+    key = request.args.get('g')
+
+    if not key:
+        # Create a new game
+        key = user.user_id()
+        counter = Counter(id=key, recentUser=user, count=0, users=[user])
+        counter.put()
+    else:
+        counter = Counter.get_by_id(key)
+        if not counter:
+            return 'No Such Counter', 404
+        if not user in counter.users:
+            counter.users.append(user)
+            counter.put()
+
+    channel_id = user.user_id() + key
+
+    # Support joining with an id in the url
+
+    logging.info("I should only see this once")
+
+    # Create a new counter if one doesn't already exist
+
+    # [START pass_token]
+    client_auth_token = create_custom_token(channel_id)
+    _send_firebase_message(channel_id, message=counter.to_json())
+
+    game_link = '{}?g={}'.format(request.base_url, key)
+
+    template_values = {
+        'token': client_auth_token,
+        'channel_id': channel_id,
+        'me': { id: user.user_id(), nickname: "Test" },
+        'game_key': key,
+        'game_link': game_link,
+        'initial_message': urllib.unquote(counter.to_json())
+    }
+    # [END pass_token]
+
+    return flask.render_template('count_lobby.html', **template_values)
+
+
+class Counter(ndb.Model):
+    """Data stored for a counting experiment"""
+    # Allow multiple users
+    users = ndb.UserProperty(repeated=True)
+    recentUser = ndb.UserProperty()
+    count = ndb.IntegerProperty()
+
+    # Very basic method for now
+    def to_json(self):
+        """A simple JSON reference to myself that can be passed back and forth"""
+        d = self.to_dict()
+        return json.dumps(d, default=lambda user: user.user_id())
+
+    def send_update(self):
+        """Update firebase and users with the new score"""
+        message = self.to_json()
+
+        logging.info(len(self.users))
+        #send updated game state to all users
+        for u in self.users:
+            _send_firebase_message(
+                u.user_id() + self.key.id(), message=message)
+        # _send_firebase_message(
+        #     self.recentUser.user_id() + self.key.id(), message=message
+        # )
+
     def add(self, user):
         """A user adds a value to the counter"""
         self.recentUser = user

@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% include "_firebase_config.html" %}
+    <link rel="stylesheet" type="text/css" href="static/main.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="static/count.js"></script>
+    <script>
+      initGame('{{ game_key }}', '{{ me }}', '{{ token }}', '{{ channel_id }}',
+          {# use the |safe flag to get unescaped json to render #}
+          {{ initial_message|safe }});
+    </script>
+  </head>
+  <body>
+    <div id="display-area" class="waiting">
+      <h2>Firebase-enabled Counting Game</h2>
+      <div id="other-player">
+        Waiting for another player to join.<br>
+        Send them this link to play:<br>
+        <div id="game-link"><a href="{{ game_link }}">{{ game_link }}</a></div>
+      </div>
+      <div id="userList">Hello?</div>
+      <div id="board">
+        <div class="t l cell" id="0"></div>  
+      </div>
+      <div id="this-game" float="top">
+        Quick link to this game: <span id="this-game-link"><a href="{{ game_link }}">{{ game_link }}</a></span>
+      </div>
+    </div>
+  </body>
+</html>
