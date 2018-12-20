@@ -58,7 +58,6 @@ O_WINS = map(lambda s: re.compile(s), _O_WIN_PATTERNS)
 
 app = flask.Flask(__name__)
 
-
 # Memoize the value, to avoid parsing the code snippet every time
 @lru_cache()
 def _get_firebase_db_url():
@@ -192,6 +191,9 @@ class Game(ndb.Model):
             self.winner = 'Noone'
 
     def make_move(self, position, user):
+        global myNumber
+        myNumber += 1
+        logging.info("My number is: " + str(myNumber))
         # If the user is a player, and it's their move
         if (user in (self.userX, self.userO)) and (
                 self.moveX == (user == self.userX)):
