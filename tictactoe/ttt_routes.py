@@ -14,11 +14,11 @@ from tictactoe_model import Game
 
 import flask
 from flask import request
-from google.appengine.api import app_identity
+# from google.appengine.api import app_identity
 from google.appengine.api import users
 from google.appengine.ext import ndb
-import httplib2
-from oauth2client.client import GoogleCredentials
+# import httplib2
+# from oauth2client.client import GoogleCredentials
 
 ttt = Blueprint('tictactoe', __name__, template_folder='templates')
 
@@ -102,3 +102,14 @@ def main_page():
     return flask.render_template('fire_index.html', **template_values)
    
 # [END pass_token]
+
+@ttt.route('/test')
+def test_me():
+    """Just for me to test things"""
+    user = users.get_current_user()
+    game_key = user.user_id()
+    game = Game.get_by_id(game_key)
+    if not game:
+        return 'No such game', 404
+    else:
+        return game.to_json()
