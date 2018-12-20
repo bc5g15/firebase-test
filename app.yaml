@@ -9,7 +9,7 @@ handlers:
   static_dir: static
 
 - url: /.*
-  script: firetactoe.app
+  script: master_route.app
   login: required
 
 libraries:
