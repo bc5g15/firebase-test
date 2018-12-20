@@ -28,6 +28,9 @@ function initLobby(gameKey, me, token, channelId, initialMessage)
      */
     function updateGame(newState)
     {
+        console.log(state);
+        console.log(newState);
+        
         // Nothing yet!
         $.extend(state, newState);
         $("#users").html("<p>Hello World!</p>");

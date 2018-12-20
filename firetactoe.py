@@ -344,15 +344,18 @@ class Counter(ndb.Model):
     def add_user(self, user):
         """Add a user to the counter"""
         logging.info(len(self.users))
-        self.users.append(user)
-        logging.info(len(self.users))
-        self.put()
-        self.send_update()
+        #Only add the user if we haven't already
+        if not user in self.users:
+            self.users.append(user)
+            logging.info(len(self.users))
+            self.put()
+            self.send_update()
         return
 
 
 @app.route('/count-lobby')
 def new_lobby():
+    logging.info("Main Lobby introduction")
     user = users.get_current_user()
     key = request.args.get('g')
     if not key:
@@ -365,8 +368,7 @@ def new_lobby():
         if not counter:
             return 'No Such Lobby', 404
         if not user in counter.users:
-            counter.users.append(user)
-            counter.put()
+            counter.add_user(user)
 
     channel_id = user.user_id() + key
     # Support joining with an id in the url
@@ -397,6 +399,7 @@ def new_model():
     The main entrypoint of the counting application
     Controls creating and joining games
     """
+    logging.info("Main Counter Introduction")
     user = users.get_current_user()
 
     key = request.args.get('g')
@@ -466,6 +469,7 @@ def my_opened():
     """
     This is called when the initial channel is opened
     """
+    logging.info("Opening Counter Channel")
     logging.info(request.args.get('g'))
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
@@ -478,6 +482,7 @@ def my_count_up():
     """
     Handles a web request to increase the count
     """
+    logging.info("Counting Up")
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
         logging.debug("Game not found! " + request.args.get('g'))
@@ -491,11 +496,13 @@ def my_lobby_add():
     """
     Handles a web request to increase the count
     """
+    logging.info("Attempting to add a user")
     lobby = Counter.get_by_id(request.args.get('g'))
     if not lobby:
         logging.debug("Game not found! " + request.args.get('g'))
         return 'Game not found, or invalid position', 400
     lobby.add_user(users.get_current_user())
+    lobby.send_update()
     return ''
 
 
