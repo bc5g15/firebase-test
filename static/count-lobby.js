@@ -39,15 +39,18 @@ function initLobby(gameKey, me, token, channelId, initialMessage)
 
         //Create a list of users
         let userStr = "";
-        for(var user in state.users)
-        {
+        for(var user in state.users){
             userStr += state.users[user] + "<br>";
         }
 
-        // $("#users").html("<p>Hello World!</p>");
-        //Display the list of users
         $("#users").html(userStr);
-        // alert("waddup");
+
+        $('#start-game').click(function(){
+            $("#number").css("display","block");
+            $("#board").css("display","block");
+            $("#start-game").css("display","none");
+            initGame(gameKey, me, token, channelId, state);
+        });
 
     }
 
@@ -104,9 +107,14 @@ function initLobby(gameKey, me, token, channelId, initialMessage)
 
         addUser();
         openChannel();
-    
+
+
+
         onMessage(initialMessage);
       }
 
       setTimeout(initialize, 100);
+}
+
+function startGame(gameKey, me, token, channelId, initialMessage) {
 }

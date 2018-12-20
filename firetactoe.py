@@ -313,6 +313,8 @@ class Counter(ndb.Model):
     users = ndb.UserProperty(repeated=True)
     recentUser = ndb.UserProperty()
     count = ndb.IntegerProperty()
+    started = ndb.BooleanProperty()
+    started = False
 
     # Very basic method for now
     def to_json(self):
@@ -353,6 +355,10 @@ class Counter(ndb.Model):
             self.send_update()
         return
 
+    def start(self):
+        started = True
+        return
+
 
 @app.route('/count-lobby')
 def new_lobby():
@@ -381,10 +387,16 @@ def new_lobby():
     _send_firebase_message(channel_id, message=counter.to_json())
 
     game_link = '{}?g={}'.format(request.base_url, key)
+
+    #If user is host of the game
+    host = 0
+    if key is user.user_id(): host = 1
+
     template_values = {
         'token': client_auth_token,
         'channel_id': channel_id,
         'me': user.user_id(),
+        'host': host,
         'game_key': key,
         'game_link': game_link,
         'initial_message': urllib.unquote(counter.to_json())
@@ -503,6 +515,20 @@ def my_lobby_add():
         logging.debug("Game not found! " + request.args.get('g'))
         return 'Game not found, or invalid position', 400
     lobby.add_user(users.get_current_user())
+    lobby.send_update()
+    return ''
+
+@app.route('/count-lobby/start', methods=['POST'])
+def my_lobby_start():
+    """
+    Handles a web request to increase the count
+    """
+    logging.info("Attempting to add a user")
+    lobby = Counter.get_by_id(request.args.get('g'))
+    if not lobby:
+        logging.debug("Game not found! " + request.args.get('g'))
+        return 'Game not found, or invalid position', 400
+    lobby.start()
     lobby.send_update()
     return ''
 

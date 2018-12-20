@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="static/main.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="static/count-lobby.js"></script>
+    <script src="static/count.js"></script>
     <script>
       initLobby('{{ game_key }}', '{{ me }}', '{{ token }}', '{{ channel_id }}',
           {# use the |safe flag to get unescaped json to render #}
@@ -21,7 +22,15 @@
         <div id="game-link"><a href="{{ game_link }}">{{ game_link }}</a></div>
       </div>
         <div id="userList">Users in Lobby:
-        <div id="users">Marco</div>
+        <hr />
+        <div id="users"></div>
+        {%  if host %}
+            <button id="start-game">Start!</button>
+        {% endif %}
+      </div>
+      <div id="number">Hello?</div>
+      <div id="board">
+        <div class="m c cell" id="0"></div>
       </div>
       <div id="this-game" float="top">
         Quick link to this game: <span id="this-game-link"><a href="{{ game_link }}">{{ game_link }}</a></span>
