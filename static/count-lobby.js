@@ -30,11 +30,24 @@ function initLobby(gameKey, me, token, channelId, initialMessage)
     {
         console.log(state);
         console.log(newState);
-        
+
         // Nothing yet!
         $.extend(state, newState);
-        $("#users").html("<p>Hello World!</p>");
-        alert("waddup");
+
+        console.log(state.users);
+        console.log(state.users[0]);
+
+        //Create a list of users
+        let userStr = "";
+        for(var user in state.users)
+        {
+            userStr += state.users[user] + "<br>";
+        }
+
+        // $("#users").html("<p>Hello World!</p>");
+        //Display the list of users
+        $("#users").html(userStr);
+        // alert("waddup");
 
     }
 
