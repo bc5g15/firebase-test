@@ -16,7 +16,7 @@ function initLobby(gameKey, me, token, channelId, initialMessage)
     var state = {
         gameKey: gameKey,
         me: me,
-        users: []
+        users: null
     };
 
     // This is our Firebase realtime DB path that we'll listen to 
@@ -30,44 +30,23 @@ function initLobby(gameKey, me, token, channelId, initialMessage)
     {
         // Nothing yet!
         $.extend(state, newState);
-        var users = $("#userList");
-        users.appendChild("<p>" + state.me.nickname + "</p>");
-        console.log(state.users.nickname);
-        console.log(newState);
+        $("#users").html("<p>Hello World!</p>");
+        alert("waddup");
 
-        var displayArea = $('#display-area');
-
-        displayArea[0].className='your-move';
     }
 
     function onMessage(newState)
     {
         updateGame(newState);
-
-        /*
-        If we have a count of 10 or more, close
-        the channel
-        */
-    //    if (state.count >= 10) {
-    //        channel.off();
-    //        deleteChannel();
-    //        console.log("End of game");
-    //    }
     }
 
-    function countUp(e) {
-        $.post('/count/up');
+    function addUser(e) {
+        $.post('/count-lobby/add');
     }
 
     function onOpened() {
-        console.log("Opening...");
         $.post('/count/open');
     }
-
-    function deleteChannel() {
-        $.post('/count/delete');
-    }
-
 
     function openChannel() {
         // [START auth_login]
@@ -106,9 +85,8 @@ function initLobby(gameKey, me, token, channelId, initialMessage)
           else
             opts.url += '?g=' + state.gameKey;
         });
-    
-        $('#board').on('click', '.cell', countUp);
-    
+
+        addUser();
         openChannel();
     
         onMessage(initialMessage);

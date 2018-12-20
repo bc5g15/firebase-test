@@ -28,13 +28,17 @@ function initGame(gameKey, me, token, channelId, initialMessage)
      */
     function updateGame(newState)
     {
-        // Nothing yet!
+        //Update the old state with the new data
         $.extend(state, newState);
+
+        //Change the number onscreen
         var count = $("#number");
         count.html(state.count);
-        console.log(state.count);
-        console.log(newState);
+        
+        // console.log(state.count);
+        // console.log(newState);
 
+        //Make sure we aren't stuck in waiting mode
         var displayArea = $('#display-area');
 
         displayArea[0].className='your-move';
@@ -84,8 +88,8 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         // add a listener to the path that fires any time the
         // value of the data changes
         channel.on('value', function(data) {
-            console.log("Something happened!");
-            console.log(data.val());
+            // console.log("Something happened!");
+            // console.log(data.val());
             onMessage(data.val());
         });
         // [END add_listener]
