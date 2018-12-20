@@ -294,6 +294,7 @@ def main_page():
 Everything after this point is original code
 """
 
+
 @app.route('/test')
 def test_me():
     """Just for me to test things"""
@@ -319,7 +320,7 @@ class Counter(ndb.Model):
         return json.dumps(d, default=lambda user: user.user_id())
 
     def send_update(self):
-        """Update firebase and users with the new score"""
+        """Update firebase and users with the new score // users"""
         message = self.to_json()
 
         logging.info(len(self.users))
@@ -330,7 +331,7 @@ class Counter(ndb.Model):
         # _send_firebase_message(
         #     self.recentUser.user_id() + self.key.id(), message=message
         # )
-    
+
     def add(self, user):
         """A user adds a value to the counter"""
         self.recentUser = user
@@ -339,6 +340,55 @@ class Counter(ndb.Model):
         self.put()
         self.send_update()
         return
+
+    def add_user(self, user):
+        """Add a user to the counter"""
+        logging.info(len(self.users))
+        self.users.append(user)
+        logging.info(len(self.users))
+        self.put()
+        self.send_update()
+        return
+
+
+@app.route('/count-lobby')
+def new_lobby():
+    user = users.get_current_user()
+    key = request.args.get('g')
+    if not key:
+        #Create a new game
+        key = user.user_id()
+        counter = Counter(id = key, recentUser = user, count = 0, users = [user])
+        counter.put()
+    else:
+        counter = Counter.get_by_id(key)
+        if not counter:
+            return 'No Such Lobby', 404
+        if not user in counter.users:
+            counter.users.append(user)
+            counter.put()
+
+    channel_id = user.user_id() + key
+    # Support joining with an id in the url
+    logging.info("I should only see this once")
+    # Create a new counter if one doesn't already exist
+
+    # [START pass_token]
+    client_auth_token = create_custom_token(channel_id)
+    _send_firebase_message(channel_id, message=counter.to_json())
+
+    game_link = '{}?g={}'.format(request.base_url, key)
+    template_values = {
+        'token': client_auth_token,
+        'channel_id': channel_id,
+        'me': user.user_id(),
+        'game_key': key,
+        'game_link': game_link,
+        'initial_message': urllib.unquote(counter.to_json())
+    }
+    # [END pass_token]
+
+    return flask.render_template('count_lobby.html', **template_values)
 
 #[START testing section]
 @app.route('/count')
@@ -434,5 +484,19 @@ def my_count_up():
         return 'Game not found, or invalid position', 400
     game.add(users.get_current_user())
     return ''
+
+
+@app.route('/count-lobby/add', methods=['POST'])
+def my_lobby_add():
+    """
+    Handles a web request to increase the count
+    """
+    lobby = Counter.get_by_id(request.args.get('g'))
+    if not lobby:
+        logging.debug("Game not found! " + request.args.get('g'))
+        return 'Game not found, or invalid position', 400
+    lobby.add_user(users.get_current_user())
+    return ''
+
 
 # [END testing_section]

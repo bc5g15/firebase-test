@@ -1,11 +1,14 @@
+
 class Tester:
 
+    specialchars = ["?", "!", ]
     text = []
 
     def retrieveText(self):
-        textfile = open("Text.txt", "r")
+        textfile = open("Short Text.txt", "r")
         if textfile.mode == 'r':
             text = textfile.readlines()  #Produces a list of lines in the text
+            print(len(text))
         return text;
 
     def longestWords(self, text, longeststrings):
@@ -22,13 +25,16 @@ class Tester:
                 if number > currentmax:
                     currentmax = number
                     currentmaxindex = wordlengths.values().index(number)
-            #mutablelongeststring(wordlengths.keys()[currentmaxindex])
-            longeststrings[line] = currentmax #Finds the longest string in the line and stores its length alongside the line in the longeststrings dictionary
+
+            longeststring = wordlengths.keys()[currentmaxindex] #Finds the longest string in the line and stores it and its length in the longeststrings dictionary
+            longeststrings[longeststring] = currentmax
             counter += 1
             wordlengths = {} #Empties wordlengths ready to work with the strings of the next line
             currentmax = 0
             currentmaxindex = 0
 
+        #print(counter)
+        print(len(longeststrings.keys()))
         return longeststrings
 
     def rateSpecialChars(self, text, linespecialchars):
@@ -43,9 +49,12 @@ class Tester:
         #print(len(linespecialchars.values()))
         return linespecialchars
 
-    def calculateLineComplexity(self, line, longeststrings, linespecialchars): #Calculates a score for a particular line by adding the length of its longest string to the number of special characters in it
-        longestwordlength = longeststrings.get(line)
-        linerating = linespecialchars.get(line)
+    def calculateLineComplexity(self, sentencenumber, longeststrings, linespecialchars): #Calculates a score for a particular line by adding the length of its longest string to the number of special characters in it
+        longeststringvalues = longeststrings.values()
+        longestwordlength = longeststringvalues[sentencenumber]
+        linespecialcharvalues = linespecialchars.values()
+        #print("(" + str(sentencenumber) + ", " + str(len(longeststringvalues)) + ")")
+        linerating = linespecialcharvalues[sentencenumber]
         return longestwordlength + linerating
 
 
