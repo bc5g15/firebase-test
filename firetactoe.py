@@ -161,6 +161,7 @@ class Game(ndb.Model):
 
     def send_update(self):
         """Updates Firebase's copy of the board."""
+        logging.info("Sending TTT state update")
         message = self.to_json()
         # send updated game state to user X
         _send_firebase_message(
