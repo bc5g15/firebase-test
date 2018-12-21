@@ -43,6 +43,10 @@ function initGame(gameKey, me, token, channelId, initialMessage) {
     console.log(state);
     console.log(newState);
     $.extend(state, newState);
+    console.log("Oldstate");
+    console.log(state);
+    console.log("newstate");
+    console.log(newState);
 
     $('.cell').each(function(i) {
       var square = $(this);
