@@ -29,3 +29,9 @@ def loadtemp():
 
     return "Loaded values " + str(records) 
 
+@loader.route("/gettask")
+def get_task():
+    """
+    Returns a random typing task from the server
+    """
+    return "Nothing yet!"
