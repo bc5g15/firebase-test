@@ -1,6 +1,8 @@
 import os.path
 
 from google.appengine.ext import vendor
+from gaesessions import SessionMiddleware
+
 
 # Add any libraries installed in the "lib" folder.
 vendor.add('lib')
@@ -10,3 +12,8 @@ vendor.add('lib')
 os.path.expanduser = lambda path: path
 
 #Add local path
+
+
+def webapp_add_wsgi_middleware(app):
+    app = SessionMiddleware(app, cookie_key="SomeSimpleButRandomAndLongGobbledeygook")
+    return app
