@@ -29,8 +29,10 @@ import flask
 from tictactoe.ttt_routes import ttt
 from counter.counter_routes import count
 from temp.typeloader import loader
+from sessions.session_routes import sess
 
 app = flask.Flask(__name__)
 app.register_blueprint(ttt)
 app.register_blueprint(count)
 app.register_blueprint(loader)
+app.register_blueprint(sess)
