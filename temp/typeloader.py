@@ -27,5 +27,5 @@ def loadtemp():
         tt.put()
         index += 1
 
-    return "Loaded values"
+    return "Loaded values " + str(records) 
 
