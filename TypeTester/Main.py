@@ -1,5 +1,7 @@
 import Tester
 import csv
+import json
+
 typetester = Tester.Tester()
 lineswithpoints = {}
 longeststrings = {}
@@ -16,4 +18,5 @@ with open("Difficulties.csv", 'w') as difficultycsv:
     writer = csv.writer(difficultycsv)
     writer.writerows(lineswithpoints.items())
 
-    
+with open("test.json", 'w') as outfile:
+    outfile.write(json.dumps(lineswithpoints))

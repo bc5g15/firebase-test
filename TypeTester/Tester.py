@@ -3,7 +3,7 @@ class Tester:
     text = []
 
     def retrieveText(self):
-        textfile = open("Text.txt", "r")
+        textfile = open("Short Text.txt", "r")
         if textfile.mode == 'r':
             text = textfile.readlines()  #Produces a list of lines in the text
         return text;
