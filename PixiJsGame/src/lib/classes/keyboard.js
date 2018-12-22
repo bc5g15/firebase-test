@@ -1,13 +1,11 @@
-
 function keyboard(value) {
-
     let key = {};
     key.value = value;
     key.isDown = false;
     key.isUp = true;
     key.press = undefined;
     key.release = undefined;
-    
+
     //The `downHandler`
     key.downHandler = event => {
         if (event.key === key.value) {
@@ -44,37 +42,51 @@ function keyboard(value) {
     return key;
 }
 
-function keyboardInit(){
-
+function keyboardInit() {
     let left = keyboard("ArrowLeft"),
         up = keyboard("ArrowUp"),
         right = keyboard("ArrowRight"),
         down = keyboard("ArrowDown");
 
     left.press = () => {
-        myShip.sprite.rotation = -Math.PI/2;
-        myShip.moveLeft();
+        myShip.sprite.rotation = -Math.PI / 2;
+        if (canAfford(costOfMovement)) {
+            myShip.moveLeft();
+        } else {
+            console.log("Cannot afford to move");
+        }
+
     };
 
     right.press = () => {
-        myShip.sprite.rotation = Math.PI/2;
-        myShip.moveRight();
+        myShip.sprite.rotation = Math.PI / 2;
+        if (canAfford(costOfMovement)) {
+            myShip.moveRight();
+        } else {
+            console.log("Cannot afford to move");
+        }
     };
 
     up.press = () => {
         myShip.sprite.rotation = 0;
-        myShip.moveUp();
+        if (canAfford(costOfMovement)) {
+            myShip.moveUp();
+        } else {
+            console.log("Cannot afford to move");
+        }
     };
 
     down.press = () => {
         myShip.sprite.rotation = Math.PI;
-        myShip.moveDown();
+        if (canAfford(costOfMovement)) {
+            myShip.moveDown();
+        } else {
+            console.log("Cannot afford to move");
+        }
     };
 
     app.stage.on("mousedown", function(e) {
-
-        if(!(mouseposition.y > window.innerHeight * 0.8)){      
-            
+        if (!(mouseposition.y > window.innerHeight * 0.8)) {
             let pos = getPositionOfCurrentSquare();
             moveGreenSquare(getGridIndex(pos));
         }

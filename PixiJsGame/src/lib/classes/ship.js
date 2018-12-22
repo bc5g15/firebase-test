@@ -3,7 +3,7 @@ class Ship {
         this.app = app;
         this.id = id;
         this.position = position; //coordinates
-        this.positionExact = null;
+        this.positionExact = null; //exact coordinates
         this.sprite = null;
     }
 
@@ -26,36 +26,47 @@ class Ship {
     }
 
     moveLeft() {
-        console.log("this.position: " + this.position);
-
-        if (!(this.position[0] === 0)) {
-            // let x = this.position[0] - 1;
-            // let y = this.position[1];
-
-            // this.calculatePosition([x, y]);
-
-            // this.position[0] = x;
-            // this.position[1] = y;
-
-            move(-1, 0);
+        if (!(this.position[0] === 0)) { 
+            this.moveGeneral(-1, 0);
         } else {
             console.log("Cant move left!");
         }
     }
 
-    moveRight() {}
+    moveRight() {
+        if (!(this.position[0] === (dimention - 1))) { 
+            this.moveGeneral(1, 0);
+        } else {
+            console.log("Cant move right!");
+        }
+    }
 
-    moveUp() {}
+    moveUp() {
+        if (!(this.position[1] === 0)) { 
+            this.moveGeneral(0, -1);
+        } else {
+            console.log("Cant move up!");
+        }
+    }
 
-    moveDown() {}
+    moveDown() {
+        if (!(this.position[1] === (dimention - 1))) { 
+            this.moveGeneral(0, 1);
+        } else {
+            console.log("Cant move down!");
+        }
+    }
 
-    move(x, y) {
-        let x = this.position[0] + x;
-        let y = this.position[1] + y;
+    moveGeneral(newx, newy) {
+
+        let x = this.position[0] + newx;
+        let y = this.position[1] + newy;
 
         this.calculatePosition([x, y]);
 
         this.position[0] = x;
         this.position[1] = y;
-    }
+
+        console.log("New Position: " + this.position + ", Score: " + score);
+    }    
 }

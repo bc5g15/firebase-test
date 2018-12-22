@@ -9,3 +9,15 @@ function calculateDistance(point1, point2){
 
     return Math.sqrt(Math.pow(point1[0] - point2[0], 2) + Math.pow(point1[1] - point2[1], 2));
 }
+
+function canAfford(cost){
+    
+    let temp = score - cost;
+
+    if(!(temp < 0)){
+        score -= cost;
+        return true;
+    } else {
+        return false;
+    }    
+}

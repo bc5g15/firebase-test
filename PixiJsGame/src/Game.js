@@ -18,31 +18,36 @@ app = new PIXI.Application({
 
 let dimention = 9;
 var mouseposition = app.renderer.plugins.interaction.mouse.global;
-var explodeSound;
-var launchSound;
 
 var myShip;
 var enemyShips = [];
 
-var grid = new GridDrawer(app, dimention, 2, window.innerWidth, window.innerHeight);
+var costOfMovement = 0;
+
+var grid = new GridDrawer(
+    app,
+    dimention,
+    2,
+    window.innerWidth,
+    window.innerHeight
+);
 
 ocean = null;
 gameState = "Remember to do gamestate stuff";
 
 id = "Insert ID";
-score = 20000;
+score = 1000;
 health = 1000;
 missiles = [];
-missileSpeed = 4;
+missileSpeed = sizeGridSquareX;
 missileCount = 0;
 
 var sizeGridSquareX = innerWidth / this.dimention;
-var sizeGridSquareY = innerHeight * 0.8 / this.dimention;
+var sizeGridSquareY = (innerHeight * 0.8) / this.dimention;
 
 init();
 
 function init() {
-
     //setting up the view to render to
     app.renderer.view.style.position = "absolute";
     app.renderer.view.style.display = "block";
@@ -62,13 +67,19 @@ function init() {
     //visuals
     ocean = new Ocean(app);
     ocean.init();
-    
+
     ///dealing with grids and squares;
-    grid = new GridDrawer(app, dimention, 2, window.innerWidth, window.innerHeight);
+    grid = new GridDrawer(
+        app,
+        dimention,
+        2,
+        window.innerWidth,
+        window.innerHeight
+    );
     grid.drawGrid();
-    
+
     initLowerConsole();
-    
+
     //create squares
     createSquare(dimention, grid.getPointArray());
 
@@ -79,7 +90,6 @@ function init() {
     createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
     //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
     app.ticker.add(delta => gameLoop(delta));
-
 }
 
 //main game loop
