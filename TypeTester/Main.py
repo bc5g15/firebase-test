@@ -18,9 +18,15 @@ for line in text:
 #     writer = csv.writer(difficultycsv)
 #     writer.writerows(lineswithpoints.items())
 #
-# with open("test.json", 'w') as outfile:
-#     outfile.write(json.dumps(lineswithpoints))
+with open("test.json", 'w') as outfile:
+    outfile.write(json.dumps(lineswithpoints))
 
-with open("AText.txt", 'w') as outfile:
-    outfile.write(typetester.strip_unicode("Text.txt"))
-    print "Unicode stripped"
+# shortatext = typetester.strip_unicode("GText.txt")
+# shortatext = open("GText.txt", 'r').read().replace('\n', ' ')
+# marked_text = typetester.add_markers(shortatext)
+# # print marked_text
+# grammatical_lines = marked_text.split("<>")
+# print grammatical_lines[1].strip()
+#
+# with open("AShortText.txt", 'w') as outfile:
+#     outfile.write(grammatical_lines[1])

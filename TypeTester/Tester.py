@@ -1,5 +1,6 @@
 import gzip
 import StringIO
+import string
 
 class Tester:
 
@@ -10,9 +11,19 @@ class Tester:
         a_text = text.decode('ascii', errors='ignore')
         return a_text
 
+    def add_markers(self, intext):
+        # Read text character by character
+        # Define the characters we split on
+        splitchars = ['!', '?', '.']
+        myout = ""
+        for item in splitchars:
+            myout = intext.replace(str(item), str(item + "<>"))
+        return myout
+
+
 
     def retrieveText(self):
-        textfile = open("Text.txt", "r")
+        textfile = open("GText.txt", "r")
         if textfile.mode == 'r':
             text = textfile.readlines()  #Produces a list of lines in the text
         return text;
