@@ -14,9 +14,13 @@ for line in text:
     linedifficulty = typetester.calculateLineComplexity(line, longeststrings, linespecialchars)
     lineswithpoints[line] = linedifficulty
 
-with open("Difficulties.csv", 'w') as difficultycsv:
-    writer = csv.writer(difficultycsv)
-    writer.writerows(lineswithpoints.items())
+# with open("Difficulties.csv", 'w') as difficultycsv:
+#     writer = csv.writer(difficultycsv)
+#     writer.writerows(lineswithpoints.items())
+#
+# with open("test.json", 'w') as outfile:
+#     outfile.write(json.dumps(lineswithpoints))
 
-with open("test.json", 'w') as outfile:
-    outfile.write(json.dumps(lineswithpoints))
+with open("AText.txt", 'w') as outfile:
+    outfile.write(typetester.strip_unicode("Text.txt"))
+    print "Unicode stripped"

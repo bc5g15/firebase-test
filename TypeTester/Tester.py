@@ -1,9 +1,18 @@
+import gzip
+import StringIO
+
 class Tester:
 
     text = []
 
+    def strip_unicode(self, infile):
+        text = open(infile, 'r').read()
+        a_text = text.decode('ascii', errors='ignore')
+        return a_text
+
+
     def retrieveText(self):
-        textfile = open("Short Text.txt", "r")
+        textfile = open("Text.txt", "r")
         if textfile.mode == 'r':
             text = textfile.readlines()  #Produces a list of lines in the text
         return text;
@@ -24,7 +33,7 @@ class Tester:
                     currentmaxindex = wordlengths.values().index(number)
             longeststrings[line] = currentmax #Finds the longest string in the line and stores its length alongside the line in the longeststrings dictionary
             counter += 1
-            wordlengths = {} #Empties wordlengths ready to work with the strings of the next line
+            wordlengths = {}  # Empties wordlengths ready to work with the strings of the next line
             currentmax = 0
             currentmaxindex = 0
 
