@@ -23,10 +23,27 @@ function buttonPressed(){
 
     button.texture = textureButtonDown;
     let pos = getPositionOfGreenSquare();
-    shoot(rotateTo(pos[0], pos[1], ship.x, ship.y), {
-        x: window.innerWidth / 2,
-        y: (window.innerHeight * 0.8) / 2
-    });      
+
+    let dist = calculateDistance([myShip.positionExact[0], myShip.positionExact[1]], pos)
+
+    if(!(score < dist)){
+
+        shoot(rotateTo(pos[0], pos[1], myShip.positionExact[0], myShip.positionExact[1]), {
+            x: myShip.positionExact[0],
+            y: myShip.positionExact[1]
+        });
+        
+        score -= dist;
+        
+        if(score < 0){
+            score = 0;
+        }
+
+        console.log("Points: " + score + ", Distance: " + dist);
+
+    } else {
+        console.log("not enough points");
+    }     
 }
 
 function buttonReleased(){

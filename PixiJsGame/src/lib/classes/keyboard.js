@@ -1,10 +1,3 @@
-var moveEnum = {
-
-    UP: 1,
-    DOWN: 2,
-    LEFT: 3,
-    RIGHT: 4
-};
 
 function keyboard(value) {
 
@@ -59,25 +52,33 @@ function keyboardInit(){
         down = keyboard("ArrowDown");
 
     left.press = () => {
-        ship.rotation -= Math.PI/2;
+        myShip.sprite.rotation = -Math.PI/2;
+        myShip.moveLeft();
     };
 
     right.press = () => {
-        ship.rotation += Math.PI/2
+        myShip.sprite.rotation = Math.PI/2;
+        myShip.moveRight();
     };
 
     up.press = () => {
-        console.log("up pressed");
-        let pos = getPositionOfGreenSquare();
-        shoot(rotateTo(pos[0], pos[1], ship.x, ship.y), {
-            x: window.innerWidth / 2,
-            y: (window.innerHeight * 0.8) / 2
-        });  
+        myShip.sprite.rotation = 0;
+        myShip.moveUp();
     };
 
     down.press = () => {
-        console.log("down pressed");
+        myShip.sprite.rotation = Math.PI;
+        myShip.moveDown();
     };
+
+    app.stage.on("mousedown", function(e) {
+
+        if(!(mouseposition.y > window.innerHeight * 0.8)){      
+            
+            let pos = getPositionOfCurrentSquare();
+            moveGreenSquare(getGridIndex(pos));
+        }
+    });
 }
 
 //taken from https://github.com/kittykatattack/learningPixi#keyboard

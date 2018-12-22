@@ -1,4 +1,4 @@
-let pointArray = [];
+var pointArray = [];
 let oldIndex = 0;
 
 let position = null;
@@ -30,6 +30,11 @@ function createSquare(dimention, array) {
     squareSprite = new PIXI.Sprite(squareTexture);
     squareSprite.anchor.set(0.5);
     squareSprite.position.set(position[0], position[1]);
+    
+    app.stage.addChild(squareSprite);
+}
+
+function createGreenSquare(x, y){
 
     let squareGreen = new PIXI.Graphics();
     squareGreen.beginFill(0x00ff00, 0.3);
@@ -39,11 +44,9 @@ function createSquare(dimention, array) {
     let squareTextureGreen = squareGreen.generateCanvasTexture();
     squareSpriteGreen = new PIXI.Sprite(squareTextureGreen);
     squareSpriteGreen.anchor.set(0.5);
-    squareSpriteGreen.position.set(position[0], position[1]);
+    squareSpriteGreen.position.set(x, y);
 
-    app.stage.addChild(squareSprite);    
     app.stage.addChild(squareSpriteGreen);
-
 }
 
 //calculates starting position for red square
@@ -78,31 +81,30 @@ function updateSquare(mouseposition){
     let minDist = Number.MAX_SAFE_INTEGER;
     indexClosest = -1;
 
-    for(let i = 0; i < pointArray.length; i++){
-        let dist = Math.sqrt(Math.pow(x - pointArray[i].x, 2) + Math.pow(y - pointArray[i].y, 2));
-        if(dist < minDist){
-            minDist = dist;
-            indexClosest = i;            
+    if(!(y > window.innerHeight * 0.8)){
+        for(let i = 0; i < pointArray.length; i++){
+            let dist = Math.sqrt(Math.pow(x - pointArray[i].x, 2) + Math.pow(y - pointArray[i].y, 2));
+            if(dist < minDist){
+                minDist = dist;
+                indexClosest = i;            
+            }
         }
+
+        moveSquare(indexClosest);
     }
-
-    moveSquare(indexClosest);
-
 }
 
 function getPositionOfCurrentSquare(){
 
     let x = pointArray[indexClosest].x;
-    let y = pointArray[indexClosest].y;
-    
+    let y = pointArray[indexClosest].y;    
     return [x, y]
 }
 
 function getPositionOfGreenSquare(){
 
     let x = squareSpriteGreen.position.x
-    let y = squareSpriteGreen.position.y;
-    
+    let y = squareSpriteGreen.position.y;    
     return [x, y]
 }
 
@@ -121,5 +123,7 @@ function getGridIndex(point){
             indexClosest = i;            
         }
     }
+
     return indexClosest;
 }
+

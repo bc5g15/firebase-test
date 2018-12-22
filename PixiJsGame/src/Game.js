@@ -16,11 +16,13 @@ app = new PIXI.Application({
     backgroundColor: 0x00ffff
 });
 
-let dimention = 7;
+let dimention = 9;
 var mouseposition = app.renderer.plugins.interaction.mouse.global;
-var ship;
 var explodeSound;
 var launchSound;
+
+var myShip;
+var enemyShips = [];
 
 var grid = new GridDrawer(app, dimention, 2, window.innerWidth, window.innerHeight);
 
@@ -28,16 +30,20 @@ ocean = null;
 gameState = "Remember to do gamestate stuff";
 
 id = "Insert ID";
-score = 0;
+score = 20000;
 health = 1000;
 missiles = [];
 missileSpeed = 4;
 missileCount = 0;
 
+var sizeGridSquareX = innerWidth / this.dimention;
+var sizeGridSquareY = innerHeight * 0.8 / this.dimention;
+
 init();
 
 function init() {
 
+    //setting up the view to render to
     app.renderer.view.style.position = "absolute";
     app.renderer.view.style.display = "block";
     app.renderer.autoResize = true;
@@ -45,49 +51,35 @@ function init() {
     app.stage.interactive = true;
     document.body.appendChild(app.view);
 
-    grid = new GridDrawer(app, dimention, 2, window.innerWidth, window.innerHeight);
-
+    //caching sprite and loading sounds
     loader.add("missileSprite", "../assets/Sprites/missile.png");
-
-    keyboardInit();
-
-    ocean = new Ocean(app);
-    ocean.init();
-
-    ship = PIXI.Sprite.fromImage("../assets/Sprites/ship.png");
-    ship.scale.x = 0.25;
-    ship.scale.y = 0.25;
-    ship.anchor.set(0.5);
-    ship.position.set(window.innerWidth / 2, (innerHeight * 0.8) / 2);
-
-    app.stage.addChild(ship);
-    app.ticker.add(delta => gameLoop(delta));
-
-    //dealing with grids and squares;
-    drawGrid();
-    createSquare(dimention, grid.getPointArray());
-    initLowerConsole();
-
-    app.stage.on("mousedown", function(e) {
-
-        if(!(mouseposition.y > window.innerHeight * 0.8)){      
-            
-            let pos = getPositionOfCurrentSquare();
-            moveGreenSquare(getGridIndex(pos));
-        }
-
-    });
-
     explodeSound = new sound("../assets/Sounds/explode.mp3");
     launchSound = new sound("../assets/Sounds/launch.mp3");
 
+    //initialse keyboard input
+    keyboardInit();
 
-}
+    //visuals
+    ocean = new Ocean(app);
+    ocean.init();
+    
+    ///dealing with grids and squares;
+    grid = new GridDrawer(app, dimention, 2, window.innerWidth, window.innerHeight);
+    grid.drawGrid();
+    
+    initLowerConsole();
+    
+    //create squares
+    createSquare(dimention, grid.getPointArray());
 
-function drawGrid() {
-    grid.drawPerimeterLine();
-    grid.drawGridLines();
-    grid.calculatePoints();
+    //creates ship
+    myShip = new Ship(app, 1, [4, 4]);
+    myShip.initShip();
+
+    createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
+    //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
+    app.ticker.add(delta => gameLoop(delta));
+
 }
 
 //main game loop

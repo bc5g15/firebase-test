@@ -104,6 +104,12 @@ class GridDrawer {
     setPointsArray(newPoints){
         this.points = newPoints;
     }
+
+    drawGrid() {
+        this.drawPerimeterLine();
+        this.drawGridLines();
+        this.calculatePoints();
+    }
 }
 
 //number of lines of a grid is 2(n-1) where n is the dimention of the grid
