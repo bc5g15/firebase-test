@@ -7,6 +7,7 @@ from temp.typemodel import TypeTask
 
 loader = Blueprint('loader', __name__, template_folder='templates')
 
+
 @loader.route("/loadtemp")
 def loadtemp():
     """
@@ -20,7 +21,7 @@ def loadtemp():
     records = json.loads(text)
 
     for item in records:
-        # logging.info(item)
+        logging.info(item)
         # mytext= item["text"]
         # mydifficulty = item["difficulty"]
         tt = TypeTask(id=index, text=item["text"], difficulty=item["difficulty"])
@@ -28,6 +29,7 @@ def loadtemp():
         index += 1
 
     return "Loaded values " + str(records) 
+
 
 @loader.route("/gettask")
 def get_task():
