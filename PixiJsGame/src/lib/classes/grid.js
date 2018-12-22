@@ -10,12 +10,10 @@ points will be used to calculate the visuals and the positions of the ships.
 
 class GridDrawer {
 
-    constructor(app, dimention, lineWidth, windowWidth, windowHeight) {
+    constructor(app, dimention, lineWidth) {
 
         this.dimention = dimention;
         this.width = lineWidth;
-        this.innerWidth = windowWidth;
-        this.innerHeight = windowHeight;
         this.app = app;
         this.colour = 0xffffff;
 
@@ -31,14 +29,11 @@ class GridDrawer {
 
     calculatePoints() {
 
-        let squareX = innerWidth / this.dimention;
-        let squareY = innerHeight * 0.8 / this.dimention;
-        let halfSquareX = (innerWidth / this.dimention)/2;
-        let halfSquareY = (innerHeight * 0.8 / this.dimention)/2;
+        let squareX = globalWidth / this.dimention;
+        let squareY = globalHeight * 0.8 / this.dimention;
+        let halfSquareX = (globalWidth / this.dimention)/2;
+        let halfSquareY = (globalHeight * 0.8 / this.dimention)/2;
         
-        // let point = new PIXI.Point(halfSquare, (innerHeight * 0.8 / this.dimention)/2)
-        // console.log(point);
-
         for(let i = 0; i < this.dimention; i++){
             for(let j = 0; j < this.dimention; j++){                            
                 let point = new PIXI.Point(halfSquareX + (squareX * j), halfSquareY + (squareY * i))
@@ -66,8 +61,8 @@ class GridDrawer {
         
         for (let i = 1; i < this.dimention; i++) {
             line.lineStyle(this.width, this.colour, 0.1)
-                .moveTo((innerWidth * i) / this.dimention, 0)
-                .lineTo((innerWidth * i) / this.dimention, innerHeight * 0.8)
+                .moveTo((globalWidth * i) / this.dimention, 0)
+                .lineTo((globalWidth * i) / this.dimention, globalHeight * 0.8)
                 
 
             this.app.stage.addChild(line);
@@ -76,8 +71,8 @@ class GridDrawer {
         //add horizontal lines
         for (let i = 0; i < this.dimention; i++) {
             line.lineStyle(this.width, this.colour, 0.1)
-                .moveTo(0, (innerHeight * 0.8 * i) / this.dimention)
-                .lineTo(innerWidth, (innerHeight * 0.8 * i) / this.dimention);
+                .moveTo(0, (globalHeight * 0.8 * i) / this.dimention)
+                .lineTo(globalWidth, (globalHeight * 0.8 * i) / this.dimention);
 
             this.app.stage.addChild(line);
         }
@@ -92,7 +87,7 @@ class GridDrawer {
         let perimeter = new PIXI.Graphics();
         perimeter
             .lineStyle(5, 0x000000, 0.2)
-            .drawRect(0, 0, innerWidth, innerHeight * 0.8);
+            .drawRect(0, 0, globalWidth, globalHeight * 0.8);
 
         this.app.stage.addChild(perimeter);
     }

@@ -21,3 +21,15 @@ function canAfford(cost){
         return false;
     }    
 }
+
+function calculateMissileSpeed(factor){
+
+    let missileSpeedX = sizeGridSquareX / dimention;
+    let missileSpeedY = sizeGridSquareY / dimention;
+
+    return missileSpeedX/missileSpeedY * factor;
+}
+
+function indexToGridCoord(index){
+    return [Math.floor(index / dimention), index % dimention];
+}

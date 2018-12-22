@@ -55,7 +55,6 @@ function keyboardInit() {
         } else {
             console.log("Cannot afford to move");
         }
-
     };
 
     right.press = () => {
@@ -86,7 +85,8 @@ function keyboardInit() {
     };
 
     app.stage.on("mousedown", function(e) {
-        if (!(mouseposition.y > window.innerHeight * 0.8)) {
+
+        if (!(mouseposition.y > globalHeight * 0.8)) {
             let pos = getPositionOfCurrentSquare();
             moveGreenSquare(getGridIndex(pos));
         }

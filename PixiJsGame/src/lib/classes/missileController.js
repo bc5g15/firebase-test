@@ -1,13 +1,16 @@
 let frameCount = 0;
 
 function shoot(rotation, startPosition) {
+
     let target = getPositionOfGreenSquare();
 
     var missile = {
         sprite: new PIXI.Sprite.fromImage("../assets/Sprites/missile.png"),
-
+        targetCoord: indexToGridCoord(getGridIndex(target)), 
         target: [target[0], target[1]]
     };
+
+    console.log("Missile Coord: " + missile.targetCoord)
 
     missile.sprite.position.x = startPosition.x;
     missile.sprite.position.y = startPosition.y;
@@ -19,6 +22,8 @@ function shoot(rotation, startPosition) {
     app.stage.addChild(missile.sprite);
     missiles.push(missile);
 
+    //start = new Date().getTime();
+
     launchSound.play();
 }
 
@@ -29,20 +34,14 @@ function updateMissiles() {
         var m = missiles[len].sprite;
         m.position.x += Math.cos(m.rotation) * missileSpeed;
         m.position.y += Math.sin(m.rotation) * missileSpeed;
-        //m.scale.x = 0.66 + Math.sin(missileCount)/2;
-        //m.scale.y = 0.66 + Math.sin(missileCount)/2;
     }
 
-    //only check for hits every 1/10th frame
-    if (frameCount > 3) {
-        frameCount = 0;
-        checkForHit();
-    }
+    checkForHit();
 }
 
 function checkForHit() {
 
-    for (let m = 0; m < missiles.length; m++) {        
+    for (let m = 0; m < missiles.length; m++) {
         let target = missiles[m].target;
         let position = missiles[m].sprite.position;
 
@@ -52,20 +51,15 @@ function checkForHit() {
         );
 
         if (distToTarget < 20) {
-            destroyMissile(m, distToTarget);
+            destroyMissile(m);
         }
     }
 }
 
-function destroyMissile(missile, dist) {
+function destroyMissile(missile) {
 
-    // let location = [
-    //     missiles[missile].sprite.position.x,
-    //     missiles[missile].sprite.position.y
-    // ];
-
-    app.stage.removeChild(missiles[missile].sprite);
+    checkEnemyHit(missiles[missile].targetCoord);
+    app.stage.removeChild(missiles[missile].sprite);    
     missiles.splice(missile, 1);
-    console.log("Target Destroyed! Distance to target: " + dist);
     explodeSound.play();
 }

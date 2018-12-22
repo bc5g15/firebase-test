@@ -5,11 +5,12 @@ let Application = PIXI.Application,
     Sprite = PIXI.Sprite,
     Texture = PIXI.Texture;
 
-const log = console.log;
+var globalWidth = 800;
+var globalHeight = 960;
 
-app = new PIXI.Application({
-    width: 800, // default: 800
-    height: 600, // default: 600
+var app = new PIXI.Application({
+    width: globalWidth, // default: 800
+    height: globalHeight, // default: 600
     antialias: true, // default: false
     transparent: false, // default: false
     resolution: 1, // default: 1
@@ -19,31 +20,27 @@ app = new PIXI.Application({
 let dimention = 9;
 var mouseposition = app.renderer.plugins.interaction.mouse.global;
 
+var gameState = testGameState();
 var myShip;
-var enemyShips = [];
-
+var missileSpeed = 1;
+var missileSpeedFactor = 4;
 var costOfMovement = 0;
 
-var grid = new GridDrawer(
-    app,
-    dimention,
-    2,
-    window.innerWidth,
-    window.innerHeight
-);
+//var start;  //timing stuff, check the missile controller
 
-ocean = null;
-gameState = "Remember to do gamestate stuff";
+var grid = new GridDrawer(app, dimention, 2, globalWidth, app.height);
 
-id = "Insert ID";
-score = 1000;
+var ocean = null;
+
+
+id = 000;
+score = 20000;
 health = 1000;
 missiles = [];
-missileSpeed = sizeGridSquareX;
 missileCount = 0;
 
-var sizeGridSquareX = innerWidth / this.dimention;
-var sizeGridSquareY = (innerHeight * 0.8) / this.dimention;
+var sizeGridSquareX;
+var sizeGridSquareY;
 
 init();
 
@@ -52,9 +49,13 @@ function init() {
     app.renderer.view.style.position = "absolute";
     app.renderer.view.style.display = "block";
     app.renderer.autoResize = true;
-    app.renderer.resize(window.innerWidth, window.innerHeight);
+    //app.renderer.resize(window.innerWidth, window.innerHeight);
     app.stage.interactive = true;
     document.body.appendChild(app.view);
+
+
+    sizeGridSquareX = globalWidth / dimention;
+    sizeGridSquareY = (globalHeight * 0.8) / dimention;
 
     //caching sprite and loading sounds
     loader.add("missileSprite", "../assets/Sprites/missile.png");
@@ -69,27 +70,31 @@ function init() {
     ocean.init();
 
     ///dealing with grids and squares;
-    grid = new GridDrawer(
-        app,
-        dimention,
-        2,
-        window.innerWidth,
-        window.innerHeight
-    );
+    grid = new GridDrawer(app, dimention, 2, globalWidth, globalHeight);
     grid.drawGrid();
 
+    //initialises button and other data to display
     initLowerConsole();
 
     //create squares
     createSquare(dimention, grid.getPointArray());
 
     //creates ship
-    myShip = new Ship(app, 1, [4, 4]);
+    myShip = new Ship(app, [0, 0]);
     myShip.initShip();
 
+    //calculate missile speed in utility function
+    missileSpeed = calculateMissileSpeed(missileSpeedFactor);
+
+    //create green square to start around the ship
     createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
+
+    //loads enemy ships from gamestate data
+    loadEnemies();
+
     //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
     app.ticker.add(delta => gameLoop(delta));
+
 }
 
 //main game loop
@@ -97,4 +102,5 @@ function gameLoop(delta) {
     ocean.update(delta);
     updateMissiles(delta);
     updateSquare(mouseposition);
+    updateDestroyedShips();
 }

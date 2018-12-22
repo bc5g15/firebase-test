@@ -1,7 +1,6 @@
 class Ship {
-    constructor(app, id, position) {
+    constructor(app, position) {
         this.app = app;
-        this.id = id;
         this.position = position; //coordinates
         this.positionExact = null; //exact coordinates
         this.sprite = null;
