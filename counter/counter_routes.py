@@ -1,5 +1,6 @@
 from flask import Blueprint
 from counter.model import Counter
+from gaesessions import get_current_session
 
 import base64
 try:
@@ -26,78 +27,91 @@ from google.appengine.ext import ndb
 
 count = Blueprint('counter', __name__, template_folder='templates')
 
-@count.route('/count-lobby')
-def new_lobby():
-    logging.info("Main Lobby introduction")
-    user = users.get_current_user()
-    key = request.args.get('g')
-    if not key:
-        #Create a new game
-        key = user.user_id()
-        counter = Counter(id = key, recentUser = user, count = 0, users = [user])
-        counter.put()
-    else:
-        counter = Counter.get_by_id(key)
-        if not counter:
-            return 'No Such Lobby', 404
-        if not user in counter.users:
-            counter.add_user(user)
+next_id = 1
 
-    channel_id = user.user_id() + key
-    # Support joining with an id in the url
-    logging.info("I should only see this once")
-    # Create a new counter if one doesn't already exist
 
-    # [START pass_token]
-    client_auth_token = create_custom_token(channel_id)
-    _send_firebase_message(channel_id, message=counter.to_json())
-
-    game_link = '{}?g={}'.format(request.base_url, key)
-    template_values = {
-        'token': client_auth_token,
-        'channel_id': channel_id,
-        'me': user.user_id(),
-        'game_key': key,
-        'game_link': game_link,
-        'initial_message': urllib.unquote(counter.to_json())
-    }
-    # [END pass_token]
-
-    return flask.render_template('count_lobby.html', **template_values)
+# @count.route('/count-lobby')
+# def new_lobby():
+#     logging.info("Main Lobby introduction")
+#     user = users.get_current_user()
+#     key = request.args.get('g')
+#     if not key:
+#         #Create a new game
+#         key = user.user_id()
+#         counter = Counter(id = key, recentUser = user, count = 0, users = [user])
+#         counter.put()
+#     else:
+#         counter = Counter.get_by_id(key)
+#         if not counter:
+#             return 'No Such Lobby', 404
+#         if not user in counter.users:
+#             counter.add_user(user)
+#
+#     channel_id = user.user_id() + key
+#     # Support joining with an id in the url
+#     logging.info("I should only see this once")
+#     # Create a new counter if one doesn't already exist
+#
+#     # [START pass_token]
+#     client_auth_token = create_custom_token(channel_id)
+#     _send_firebase_message(channel_id, message=counter.to_json())
+#
+#     game_link = '{}?g={}'.format(request.base_url, key)
+#     template_values = {
+#         'token': client_auth_token,
+#         'channel_id': channel_id,
+#         'me': user.user_id(),
+#         'game_key': key,
+#         'game_link': game_link,
+#         'initial_message': urllib.unquote(counter.to_json())
+#     }
+#     # [END pass_token]
+#
+#     return flask.render_template('count_lobby.html', **template_values)
 
 #[START testing section]
+
+
 @count.route('/count')
 def new_model():
     """
     The main entrypoint of the counting application
     Controls creating and joining games
     """
+    global next_id
     logging.info("Main Counter Introduction")
-    user = users.get_current_user()
+
+    session = get_current_session()
+    user = session.get("id", 0)
+    if user == 0:
+        session["id"] = next_id
+        next_id += 1
+
+    # user = users.get_current_user()
 
     key = request.args.get('g')
+    user = str(session["id"])
 
     if not key:
-        #Create a new game
-        key = user.user_id()
-        counter = Counter(id = key, recentUser = user, count = 0, users = [user])
+        # Create a new game
+        key = str(session["id"])
+        counter = Counter(id=key, recentUser=user, count=0, users=[user])
         counter.put()
     else:
         counter = Counter.get_by_id(key)
         if not counter:
             return 'No Such Counter', 404
-        if not user in counter.users:
+        if user not in counter.users:
             counter.users.append(user)
             counter.put()
 
+    channel_id = str(user) + key
 
-    channel_id = user.user_id() + key
-
-    #Support joining with an id in the url
+    # Support joining with an id in the url
 
     logging.info("I should only see this once")
 
-    #Create a new counter if one doesn't already exist
+    # Create a new counter if one doesn't already exist
        
 
     # [START pass_token]
@@ -109,8 +123,8 @@ def new_model():
     template_values = {
         'token': client_auth_token,
         'channel_id': channel_id,
-        'me': user.user_id(),
-        'game_key': key,
+        'me': user,
+        'game_key': str(key),
         'game_link': game_link,
         'initial_message': urllib.unquote(counter.to_json())
     }
@@ -118,11 +132,14 @@ def new_model():
 
     return flask.render_template('count_index.html', **template_values)
 
+
 @count.route("/where")
 def where():
     return request.base_url
 
 # [START route_delete]
+
+
 @count.route('/count/delete', methods=['POST'])
 def my_delete():
     """
@@ -133,9 +150,10 @@ def my_delete():
     if not game:
         return 'Game not found', 400
     user = users.get_current_user()
-    _send_firebase_message(user.user_id() + game.key.id(), message=None)
+    _send_firebase_message(str(get_current_session()["id"]) + game.key.id(), message=None)
     return ''
 # [END route_delete]
+
 
 @count.route('/count/open', methods=['POST'])
 def my_opened():
@@ -146,9 +164,11 @@ def my_opened():
     logging.info(request.args.get('g'))
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
+        logging.info("Bad things!")
         return 'Game not found', 400
     game.send_update()
     return ''
+
 
 @count.route('/count/up', methods=['POST'])
 def my_count_up():
@@ -160,23 +180,23 @@ def my_count_up():
     if not game:
         logging.debug("Game not found! " + request.args.get('g'))
         return 'Game not found, or invalid position', 400
-    game.add(users.get_current_user())
+    game.add(str(get_current_session()["id"]))
     return ''
 
 
-@count.route('/count-lobby/add', methods=['POST'])
-def my_lobby_add():
-    """
-    Handles a web request to increase the count
-    """
-    logging.info("Attempting to add a user")
-    lobby = Counter.get_by_id(request.args.get('g'))
-    if not lobby:
-        logging.debug("Game not found! " + request.args.get('g'))
-        return 'Game not found, or invalid position', 400
-    lobby.add_user(users.get_current_user())
-    lobby.send_update()
-    return ''
+# @count.route('/count-lobby/add', methods=['POST'])
+# def my_lobby_add():
+#     """
+#     Handles a web request to increase the count
+#     """
+#     logging.info("Attempting to add a user")
+#     lobby = Counter.get_by_id(request.args.get('g'))
+#     if not lobby:
+#         logging.debug("Game not found! " + request.args.get('g'))
+#         return 'Game not found, or invalid position', 400
+#     lobby.add_user()
+#     lobby.send_update()
+#     return ''
 
 
 # [END testing_section]

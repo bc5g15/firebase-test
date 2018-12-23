@@ -38,25 +38,26 @@ Everything after this point is original code
 class Counter(ndb.Model):
     """Data stored for a counting experiment"""
     # Allow multiple users
-    users = ndb.UserProperty(repeated=True)
-    recentUser = ndb.UserProperty()
+    users = ndb.StringProperty(repeated=True)
+    recentUser = ndb.StringProperty()
     count = ndb.IntegerProperty()
 
     # Very basic method for now
     def to_json(self):
         """A simple JSON reference to myself that can be passed back and forth"""
         d = self.to_dict()
-        return json.dumps(d, default=lambda user: user.user_id())
+        # return json.dumps(d, default=lambda user: user.user_id())
+        return json.dumps(d)
 
     def send_update(self):
         """Update firebase and users with the new score // users"""
         message = self.to_json()
 
         logging.info(len(self.users))
-        #send updated game state to all users
+        # send updated game state to all users
         for u in self.users:
             _send_firebase_message(
-                u.user_id() + self.key.id(), message=message)
+                str(u) + self.key.id(), message=message)
         # _send_firebase_message(
         #     self.recentUser.user_id() + self.key.id(), message=message
         # )
@@ -64,7 +65,7 @@ class Counter(ndb.Model):
     def add(self, user):
         """A user adds a value to the counter"""
         self.recentUser = user
-        self.count+=1
+        self.count += 1
         logging.info("New Value = " + str(self.count))
         self.put()
         self.send_update()

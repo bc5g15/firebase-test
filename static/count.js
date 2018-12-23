@@ -82,7 +82,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
                 console.log('Error message: ', error.message);
             });
         // [END auth_login]
-
+        console.log("Logged in")
         // [START add_listener]
         channel = firebase.database().ref('channels/' + channelId);
         // add a listener to the path that fires any time the
