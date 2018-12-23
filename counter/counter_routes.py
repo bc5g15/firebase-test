@@ -20,8 +20,8 @@ from firebase_interface import _send_firebase_message, create_custom_token
 import flask
 from flask import request
 # from google.appengine.api import app_identity
-from google.appengine.api import users
-from google.appengine.ext import ndb
+# from google.appengine.api import users
+# from google.appengine.ext import ndb
 # import httplib2
 # from oauth2client.client import GoogleCredentials
 
@@ -55,9 +55,6 @@ def create_counter_session():
     if not key:
         # Create a new game
         key = session["id"]
-
-        logging.info(type(key))
-        logging.info(type(user))
 
         counter = Counter(id=key, recentUser=user, count=0, users=[user])
         counter.put()
@@ -130,8 +127,7 @@ def my_delete():
     game = Counter.get_by_id(request.args.get('g'))
     if not game:
         return 'Game not found', 400
-    user = users.get_current_user()
-    _send_firebase_message(str(get_current_session()["id"]) + game.key.id(), message=None)
+    _send_firebase_message(get_current_session()["id"] + game.key.id(), message=None)
     return ''
 # [END route_delete]
 
