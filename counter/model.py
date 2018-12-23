@@ -22,18 +22,6 @@ import httplib2
 from oauth2client.client import GoogleCredentials
 # from oauth2client.service_account import ServiceAccountCredentials
 
-# pathf variable for private key file
-
-"""
-AFTER THIS POINT IS TIC-TAC-TOE CODE
-"""
-
-
-
-"""
-Everything after this point is original code
-"""
-
 
 class Counter(ndb.Model):
     """Data stored for a counting experiment"""
@@ -57,10 +45,7 @@ class Counter(ndb.Model):
         # send updated game state to all users
         for u in self.users:
             _send_firebase_message(
-                str(u) + self.key.id(), message=message)
-        # _send_firebase_message(
-        #     self.recentUser.user_id() + self.key.id(), message=message
-        # )
+                u + self.key.id(), message=message)
 
     def add(self, user):
         """A user adds a value to the counter"""
@@ -74,7 +59,7 @@ class Counter(ndb.Model):
     def add_user(self, user):
         """Add a user to the counter"""
         logging.info(len(self.users))
-        #Only add the user if we haven't already
+        # Only add the user if we haven't already
         if not user in self.users:
             self.users.append(user)
             logging.info(len(self.users))
