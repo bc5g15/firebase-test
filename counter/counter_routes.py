@@ -30,71 +30,35 @@ count = Blueprint('counter', __name__, template_folder='templates')
 next_id = 1
 
 
-# @count.route('/count-lobby')
-# def new_lobby():
-#     logging.info("Main Lobby introduction")
-#     user = users.get_current_user()
-#     key = request.args.get('g')
-#     if not key:
-#         #Create a new game
-#         key = user.user_id()
-#         counter = Counter(id = key, recentUser = user, count = 0, users = [user])
-#         counter.put()
-#     else:
-#         counter = Counter.get_by_id(key)
-#         if not counter:
-#             return 'No Such Lobby', 404
-#         if not user in counter.users:
-#             counter.add_user(user)
-#
-#     channel_id = user.user_id() + key
-#     # Support joining with an id in the url
-#     logging.info("I should only see this once")
-#     # Create a new counter if one doesn't already exist
-#
-#     # [START pass_token]
-#     client_auth_token = create_custom_token(channel_id)
-#     _send_firebase_message(channel_id, message=counter.to_json())
-#
-#     game_link = '{}?g={}'.format(request.base_url, key)
-#     template_values = {
-#         'token': client_auth_token,
-#         'channel_id': channel_id,
-#         'me': user.user_id(),
-#         'game_key': key,
-#         'game_link': game_link,
-#         'initial_message': urllib.unquote(counter.to_json())
-#     }
-#     # [END pass_token]
-#
-#     return flask.render_template('count_lobby.html', **template_values)
-
-#[START testing section]
-
-
-@count.route('/count')
-def new_model():
+def create_counter_session():
     """
-    The main entrypoint of the counting application
-    Controls creating and joining games
+    Creates or retrieves the counter and sets the session state
+    :return:
+    returns template values that can be passed to the render_template
+    method
     """
     global next_id
-    logging.info("Main Counter Introduction")
+    logging.info("Create a new session for a counter")
 
+    # Check if a session already exists, create it if it doesn't
     session = get_current_session()
     user = session.get("id", 0)
     if user == 0:
-        session["id"] = next_id
+        session["id"] = str(next_id)
+        user = session["id"]
         next_id += 1
 
     # user = users.get_current_user()
 
     key = request.args.get('g')
-    user = str(session["id"])
 
     if not key:
         # Create a new game
-        key = str(session["id"])
+        key = session["id"]
+
+        logging.info(type(key))
+        logging.info(type(user))
+
         counter = Counter(id=key, recentUser=user, count=0, users=[user])
         counter.put()
     else:
@@ -105,14 +69,7 @@ def new_model():
             counter.users.append(user)
             counter.put()
 
-    channel_id = str(user) + key
-
-    # Support joining with an id in the url
-
-    logging.info("I should only see this once")
-
-    # Create a new counter if one doesn't already exist
-       
+    channel_id = user + key
 
     # [START pass_token]
     client_auth_token = create_custom_token(channel_id)
@@ -124,11 +81,35 @@ def new_model():
         'token': client_auth_token,
         'channel_id': channel_id,
         'me': user,
-        'game_key': str(key),
+        'game_key': key,
         'game_link': game_link,
         'initial_message': urllib.unquote(counter.to_json())
     }
     # [END pass_token]
+
+    return template_values
+
+
+@count.route('/count-lobby')
+def new_lobby():
+    logging.info("Main Lobby introduction")
+
+    template_values = create_counter_session()
+
+    return flask.render_template('count_lobby.html', **template_values)
+
+# [START testing section]
+
+
+@count.route('/count')
+def new_model():
+    """
+    The main entrypoint of the counting application
+    Controls creating and joining games
+    """
+    logging.info("Main Counter Introduction")
+
+    template_values = create_counter_session()
 
     return flask.render_template('count_index.html', **template_values)
 
