@@ -1,6 +1,6 @@
 var enemyShips = [];
 var destroyedShips = [];
-var destroyedTexture = PIXI.Texture.fromImage("../assets/Sprites/shipDestroyed.png");
+var destroyedTexture = PIXI.Texture.fromImage("/assets/Sprites/shipDestroyed.png");
 
 function loadEnemies(){
 

@@ -26,6 +26,7 @@
 
 import flask
 
+
 # from tictactoe.ttt_routes import ttt
 from counter.counter_routes import count
 from temp.typeloader import loader
@@ -36,3 +37,8 @@ app = flask.Flask(__name__)
 app.register_blueprint(count)
 app.register_blueprint(loader)
 app.register_blueprint(sess)
+
+
+@app.route("/game")
+def start_game():
+    return flask.render_template("game_index.html")

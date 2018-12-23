@@ -4,10 +4,10 @@ var buttonDown;
 function initButtons() {
 
     textureButton = new PIXI.Texture.fromImage(
-        "../assets/Sprites/buttonFire.png"
+        "static/assets/Sprites/buttonFire.png"
     );
     textureButtonDown = new PIXI.Texture.fromImage(
-        "../assets/Sprites/buttonFirePressed.png"
+        "static/assets/Sprites/buttonFirePressed.png"
     );
 
     button = new PIXI.Sprite(textureButton);

@@ -58,9 +58,9 @@ function init() {
     sizeGridSquareY = (globalHeight * 0.8) / dimention;
 
     //caching sprite and loading sounds
-    loader.add("missileSprite", "../assets/Sprites/missile.png");
-    explodeSound = new sound("../assets/Sounds/explode.mp3");
-    launchSound = new sound("../assets/Sounds/launch.mp3");
+    loader.add("missileSprite", "static/assets/Sprites/missile.png");
+    explodeSound = new sound("static/assets/Sounds/explode.mp3");
+    launchSound = new sound("static/assets/Sounds/launch.mp3");
 
     //initialse keyboard input
     keyboardInit();

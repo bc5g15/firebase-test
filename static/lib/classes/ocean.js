@@ -6,7 +6,7 @@ class Ocean {
     }
 
     init() {
-        var texture = Texture.fromImage("../assets/Textures/water.jpg");
+        var texture = Texture.fromImage("/static/assets/Textures/water.jpg");
         this.tilingSprite = new PIXI.extras.TilingSprite(
             texture,
             this.app.screen.width * 1.5,

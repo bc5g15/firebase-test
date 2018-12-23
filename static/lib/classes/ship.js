@@ -7,7 +7,7 @@ class Ship {
     }
 
     initShip() {
-        this.sprite = PIXI.Sprite.fromImage("../assets/Sprites/ship.png");
+        this.sprite = PIXI.Sprite.fromImage("static/assets/Sprites/ship.png");
         this.sprite.scale.x = 1.5 / dimention;
         this.sprite.scale.y = 1.5 / dimention;
         this.sprite.anchor.set(0.5);

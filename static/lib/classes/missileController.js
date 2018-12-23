@@ -5,7 +5,7 @@ function shoot(rotation, startPosition) {
     let target = getPositionOfGreenSquare();
 
     var missile = {
-        sprite: new PIXI.Sprite.fromImage("../assets/Sprites/missile.png"),
+        sprite: new PIXI.Sprite.fromImage("static/assets/Sprites/missile.png"),
         targetCoord: indexToGridCoord(getGridIndex(target)), 
         target: [target[0], target[1]]
     };
