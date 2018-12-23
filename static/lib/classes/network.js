@@ -1,3 +1,8 @@
+/*
+This class will be used to properly interface with the server by sending and recieving the actual
+requests from the server
+*/
+
 function requestGameState(){
 
     /*

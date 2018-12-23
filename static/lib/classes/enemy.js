@@ -1,3 +1,8 @@
+/*
+Enemy class that adds enemies to the game, each with their own health, position, and ID (specific to this game only,
+and coordinates to say which coordinates the ship is in for the current game state)
+*/
+
 class Enemy {
     constructor(app, id, position) {
         this.app = app;
@@ -29,6 +34,7 @@ class Enemy {
         this.calculateCoords([x, y]);
     }
 
+    //takes a physical position (x=276.222, y= 655.77777) for example, and returns its coordinates.
     calculateCoords(pos){
         this.coordinates = indexToGridCoord(getGridIndex(pos));
     }

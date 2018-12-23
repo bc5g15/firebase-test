@@ -1,3 +1,6 @@
+//group of functions used by all "classes" used to make code a bit tidier and reduce
+//code duplication.
+
 function rotateTo(dx, dy, px, py) {
     var dist_Y = dy - py;
     var dist_X = dx - px;
@@ -22,6 +25,9 @@ function canAfford(cost){
     }    
 }
 
+//calculates the speed missiles should travel with. This needs to be improved so that
+//it calculates the correct speed for missiles regardless of screen size and aspect 
+//ratio
 function calculateMissileSpeed(factor){
 
     let missileSpeedX = sizeGridSquareX / dimention;
@@ -30,6 +36,7 @@ function calculateMissileSpeed(factor){
     return missileSpeedX/missileSpeedY * factor;
 }
 
+//returns the grid coordinate for a specific index for an array of a given dimentionality.
 function indexToGridCoord(index){
     return [Math.floor(index / dimention), index % dimention];
 }

@@ -1,3 +1,9 @@
+/*
+Creates the translucent white square at the bottom of the grid square
+In future, this will be used to display information about the game to
+the user.
+*/
+
 var lowerConsole;
 
 function initLowerConsole() {

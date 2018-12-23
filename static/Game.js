@@ -1,3 +1,8 @@
+/*
+This class is the entry point for the enmtire game and sets up the neccessary pixi.js app boiler plate stuff
+as well as the neccessary classes and functions for the remainder of the game.
+*/
+
 let Application = PIXI.Application,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
@@ -5,9 +10,11 @@ let Application = PIXI.Application,
     Sprite = PIXI.Sprite,
     Texture = PIXI.Texture;
 
+//variables to set size of game view
 var globalWidth = 800;
 var globalHeight = 960;
 
+//initialize new pixi application
 var app = new PIXI.Application({
     width: globalWidth, // default: 800
     height: globalHeight, // default: 600
@@ -17,9 +24,11 @@ var app = new PIXI.Application({
     backgroundColor: 0x00ffff
 });
 
+//currently the dimention represents the grid dimention, this will be retrieved from the server in the actual final product
 let dimention = 9;
 var mouseposition = app.renderer.plugins.interaction.mouse.global;
 
+//initializing variables to be used in the game
 var gameState = testGameState();
 var myShip;
 var missileSpeed = 1;
@@ -28,11 +37,13 @@ var costOfMovement = 0;
 
 //var start;  //timing stuff, check the missile controller
 
+//initialize grid class to draw grid
 var grid = new GridDrawer(app, dimention, 2, globalWidth, app.height);
 
+//initializes ocean class
 var ocean = null;
 
-
+//initializes variables regarding the player
 id = 000;
 score = 20000;
 health = 1000;
@@ -42,7 +53,17 @@ missileCount = 0;
 var sizeGridSquareX;
 var sizeGridSquareY;
 
+//initializes the game
 init();
+
+/*
+This init function starts by setting some stuff for pixi.js, boilerplate stuff
+and adding the game to the document. It loads sounds and caches missile assets
+and initializes the keyboard listeners, grid , ocean, lower console, ship, enemies
+and a few other things. Lastly, the app.ticker adds specific functions into pixi's
+inbuilt ticker. This is set to 60fps. The gameLoop() function is added to the ticker
+so that the gameLoop function is run 60 times per second.
+*/
 
 function init() {
     //setting up the view to render to
@@ -52,7 +73,6 @@ function init() {
     //app.renderer.resize(window.innerWidth, window.innerHeight);
     app.stage.interactive = true;
     document.body.appendChild(app.view);
-
 
     sizeGridSquareX = globalWidth / dimention;
     sizeGridSquareY = (globalHeight * 0.8) / dimention;

@@ -1,4 +1,16 @@
+/*
+This is an example piece of code from online! All credit for this code goes to https://github.com/kittykatattack/learningPixi#keyboard
+If this is a problem it can be re-written!!!
+If not, we can put it in a library to reduce our LoC.
+*/
+
+//the keyboard abstracts the key event handling away from the rest of the code
+//the keyboard init method determines what functions are called when either of
+//the arrow keys are pressed. Currently they are used for moving the ship around
+//the grid.
+
 function keyboard(value) {
+
     let key = {};
     key.value = value;
     key.isDown = false;
@@ -43,6 +55,7 @@ function keyboard(value) {
 }
 
 function keyboardInit() {
+
     let left = keyboard("ArrowLeft"),
         up = keyboard("ArrowUp"),
         right = keyboard("ArrowRight"),
@@ -84,6 +97,7 @@ function keyboardInit() {
         }
     };
 
+    //this function sets the location of the green square when the mouse is clicked
     app.stage.on("mousedown", function(e) {
 
         if (!(mouseposition.y > globalHeight * 0.8)) {
@@ -92,6 +106,3 @@ function keyboardInit() {
         }
     });
 }
-
-//taken from https://github.com/kittykatattack/learningPixi#keyboard
-//can change later

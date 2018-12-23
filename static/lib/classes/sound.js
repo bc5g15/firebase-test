@@ -1,3 +1,5 @@
+//creates the sounds used by the misisles
+
 var launch;
 var explode;
 

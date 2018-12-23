@@ -1,3 +1,8 @@
+/* 
+This class keeps track of the state of the players ship (SPECIFICALLY NOT USED FOR ENEMY SHIPS)
+This class us used to rotate the ship and move it around the map.
+*/
+
 class Ship {
     constructor(app, position) {
         this.app = app;
