@@ -29,34 +29,20 @@ function checkEnemyHit(coord){
     //This currently is quite buggy for some reason, ie not detecting hits and not fully removing sprites
     //Uncomment block to test hit detection.
 
-    /*
+
     enemyShips.forEach(enemy => {
 
-        console.log((enemyShips[i].coordinates[0] === coord[0]) && (enemyShips[i].coordinates[1] === coord[1]));
+        //console.log((enemyShips[i].coordinates[0] === coord[0]) && (enemyShips[i].coordinates[1] === coord[1]));
         
         if(enemy.coordinates[0] === coord[0] && enemy.coordinates[1] === coord[1]){
             console.log("Target Hit!");
             enemy.sprite.texture = destroyedTexture;
             destroyedShips.push(enemy);
-            enemyShips.pop(enemy);
+            enemyShips.splice(enemy, 1);
         }
     });
-    */
 
-
-
-
-    // for(let i = 0; i < enemyShips.length; i++){
-
-    //     console.log("X: " + enemyShips[i].coordinates[0]);
-    //     console.log("Y: " + enemyShips[i].coordinates[1]);
-
-    //     console.log("X COORD: " + coord[0]);
-    //     console.log("Y COORD: " + coord[1]);
-        
-    // }
-
-    // console.log("Length of enemyShips: " + enemyShips.length);
+    console.log("Length of enemyShips: " + enemyShips.length);
 }
 
 //destroys the ship and slowly makes it "sink into the waves"
@@ -64,12 +50,12 @@ function checkEnemyHit(coord){
 function updateDestroyedShips(){
 
     destroyedShips.forEach(enemy => {
-
         enemy.sprite.alpha -= 0.005;
 
         if(enemy.sprite.alpha < 0){
             app.stage.removeChild(enemy.sprite);          
         } 
     });
-    //console.log("Number of destroyed ships: " + destroyedShips.length);
 }
+
+//FIX BUG WITH DESTROYING ENEMIES AND THEIR FADING 

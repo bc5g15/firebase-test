@@ -23,10 +23,11 @@ class Enemy {
         this.calculatePosition(this.position);
         
         app.stage.addChild(this.sprite);
-        console.log("Enemy Coord: " + this.coordinates);
+        console.log("Enemy Coordinate: " + this.coordinates);
     }
 
     calculatePosition(pos) {
+
         let x = pointArray[pos[0]].x;
         let y = pointArray[dimention * pos[1]].y;
 

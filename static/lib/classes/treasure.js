@@ -1,33 +1,35 @@
 class Treasure {
-    constructor(app, position){
+    constructor(app, coordinates){
         this.app = app;
-        this.position = position;
+        this.position = null;;
         this.sprite = null;
-        this.coordinates = [];
+        this.coordinates = coordinates;
     }
 
-    init(){
+    initTreasure(){
         this.sprite = PIXI.Sprite.fromImage("static/assets/Sprites/treasure.png");
-        this.sprite.scale.x = 0.5 / dimention
-        this.sprite.scale.y = 0.5 / dimention
-        this.sprite.anchor.set(0.5)
-        this.calculatePosition(this.position)
+        this.sprite.scale.x = 1.5 / dimention;
+        this.sprite.scale.y = 1.5 / dimention;
+        this.sprite.anchor.set(0.5);
+        this.calculatePosition(this.coordinates);
+
+        app.stage.addChild(this.sprite);
     }
 
-    calculatePosition(pos) {
-        let x = pointArray[pos[0]].x;
-        let y = pointArray[dimention * pos[1]].y;
+    calculatePosition(coord) {
+
+        let x = pointArray[coord[0]].x;
+        let y = pointArray[dimention * coord[1]].y;
 
         this.sprite.position.set(x, y);
         this.positionExact = [x, y];
     }
 
-    calculateCoords(position){
+    calculateCoords(pos){
         this.coordinates = indexToGridCoord(getGridIndex(pos));
     }
 
     collectTreasure(){
         app.stage.removeChild(this.sprite);
-
     }
 }

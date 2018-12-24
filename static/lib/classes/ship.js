@@ -73,6 +73,7 @@ class Ship {
         this.position[0] = x;
         this.position[1] = y;
 
-        console.log("New Position: " + this.position + ", Score: " + score);
+        checkCollectedTreasure(this.position);
+        //console.log("New Position: " + this.position + ", Score: " + score);
     }
 }

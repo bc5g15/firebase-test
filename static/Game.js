@@ -34,6 +34,9 @@ var myShip;
 var missileSpeed = 1;
 var missileSpeedFactor = 4;
 var costOfMovement = 0;
+var treasureArray = [];
+
+var testTreasureLocations = [[1,1],[2,2],[3,3],[4,4]];
 
 //var start;  //timing stuff, check the missile controller
 
@@ -113,6 +116,9 @@ function init() {
     grid.drawGrid();
     grid.drawCircles();
     myShip.render();
+
+    //load treasure based on array of coordinates;
+    loadTreasure(testTreasureLocations);
 
     //create squares
     createSquare(dimention);
