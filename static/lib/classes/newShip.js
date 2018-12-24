@@ -3,9 +3,10 @@ This class keeps track of the state of the players ship (SPECIFICALLY NOT USED F
 This class us used to rotate the ship and move it around the map.
 */
 
-class Ship {
-    constructor(app, position) {
+class NewShip {
+    constructor(app, id, position) {
         this.app = app;
+        this.id = id;
         this.position = position; //coordinates
         this.positionExact = null; //exact coordinates
         this.sprite = null;
@@ -66,12 +67,21 @@ class Ship {
         let x = this.position[0] + newx;
         let y = this.position[1] + newy;
 
-        this.calculatePosition([x, y]);
+        //create message using the jQuery
+        let params = {
+            id: id,
+            x: x,
+            y: y
+        }
 
-        this.position[0] = x;
-        this.position[1] = y;
+        $.post('/game/move', params)
 
-        console.log("New Position: " + this.position + ", Score: " + score);
+        // this.calculatePosition([x, y]);
+        //
+        // this.position[0] = x;
+        // this.position[1] = y;
+        //
+        // console.log("New Position: " + this.position + ", Score: " + score);
     }
 
     /*

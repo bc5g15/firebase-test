@@ -5,7 +5,7 @@ the arrays will be sent with each update from the server.
 
 var enemyShips = [];
 var destroyedShips = [];
-var destroyedTexture = PIXI.Texture.fromImage("/assets/Sprites/shipDestroyed.png");
+var destroyedTexture = PIXI.Texture.fromImage("static/assets/Sprites/shipDestroyed.png");
 
 function loadEnemies(){
 

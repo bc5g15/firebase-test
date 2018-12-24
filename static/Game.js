@@ -53,8 +53,77 @@ missileCount = 0;
 var sizeGridSquareX;
 var sizeGridSquareY;
 
+let state = {}
+
+function initGame(gameKey, me, token, channelId, initialMessage)
+{
+    console.log("Insert the game creation code here!");
+    state = {
+        gameKey: gameKey,
+        me: me
+    }
+
+    let channel = null;
+
+    function onMessage(newState)
+    {
+        if (newState.token === "open")
+        {
+            init()
+        }
+        else if(newState.token === "move")
+        {
+            console.log("Got Move Response");
+        }
+    }
+
+    function onOpened() {
+        console.log("Opening Game");
+        $.post('/game/open');
+    }
+
+    function openChannel() {
+        // [START auth_login]
+        // sign into Firebase with the token passed from the server
+        firebase.auth().signInWithCustomToken(token).catch(
+            function(error){
+                console.log('Login Failed: ', error.code);
+                console.log('Error message: ', error.message);
+            });
+        // [END auth_login]
+        console.log("Logged in")
+        // [START add_listener]
+        channel = firebase.database().ref('channels/' + channelId);
+        // add a listener to the path that fires any time the
+        // value of the data changes
+        channel.on('value', function(data) {
+            // console.log("Something happened!");
+            // console.log(data.val());
+            onMessage(data.val());
+        });
+        // [END add_listener]
+        onOpened();
+    }
+
+    function initialize() {
+        // Always include the gamekey in our requests
+        $.ajaxPrefilter(function(opts) {
+          if (opts.url.indexOf('?') > 0)
+            opts.url += '&g=' + state.gameKey;
+          else
+            opts.url += '?g=' + state.gameKey;
+        });
+
+        openChannel();
+
+        onMessage(initialMessage)
+    }
+
+    setTimeout(initialize, 100);
+}
+
 //initializes the game
-init();
+// init();
 
 /*
 This init function starts by setting some stuff for pixi.js, boilerplate stuff
@@ -100,7 +169,8 @@ function init() {
     createSquare(dimention, grid.getPointArray());
 
     //creates ship
-    myShip = new Ship(app, [0, 0]);
+    // myShip = new Ship(app, [0, 0]);
+    myShip = new NewShip(app, state.gameKey, [0,0]);
     myShip.initShip();
 
     //calculate missile speed in utility function
@@ -110,7 +180,7 @@ function init() {
     createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
 
     //loads enemy ships from gamestate data
-    loadEnemies();
+    // loadEnemies();
 
     //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
     app.ticker.add(delta => gameLoop(delta));

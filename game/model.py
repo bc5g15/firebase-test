@@ -30,13 +30,14 @@ class GameState(ndb.Model):
     def to_json(self):
         return json.dumps(self.to_dict())
 
-    def send_update(self):
+    def send_update(self, token):
         """
         Send an update to the server when the
         state of the game changes
         :return:
         """
         message = self.to_json()
+        message["token"] = token
         for u in self.users:
             _send_firebase_message(
                 u + self.key.id(), message=message
