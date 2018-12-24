@@ -23,7 +23,7 @@ class GridDrawer {
         //draws the grid in its entirity
         this.drawGridLines();
         this.drawPerimeterLine();
-        this.calculatePoints();
+        //this.calculatePoints();
     }
 
     calculatePoints() {
@@ -37,24 +37,26 @@ class GridDrawer {
         for(let i = 0; i < this.dimention; i++){
             for(let j = 0; j < this.dimention; j++){                            
                 let point = new PIXI.Point(halfSquareX + (squareX * j), halfSquareY + (squareY * i))
-                this.points.push(point);
+                pointArray.push(point);
             }
         }
+    }
+
+    drawCircles(){
 
         //creates small circles at each point
         let circle = new PIXI.Graphics();
 
-        this.points.forEach(point => {
+        pointArray.forEach(point => {
             circle.lineStyle(0)
-                  .beginFill(0xFFFFFF, 0.2)
-                  .drawCircle(point.x, point.y, 3)
-                  .endFill();
+                    .beginFill(0xFFFFFF, 0.2)
+                    .drawCircle(point.x, point.y, 3)
+                    .endFill();
         });
         
-        this.app.stage.addChild(circle);
-        
+        this.app.stage.addChild(circle);        
     }
-
+    
     //draws gridlines based on the dimentionality provided
     drawGridLines() {
         let gridLines = [];

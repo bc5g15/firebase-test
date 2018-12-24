@@ -21,7 +21,7 @@ var app = new PIXI.Application({
     antialias: true, // default: false
     transparent: false, // default: false
     resolution: 1, // default: 1
-    backgroundColor: 0x00ffff
+    backgroundColor: 0x000000
 });
 
 //currently the dimention represents the grid dimention, this will be retrieved from the server in the actual final product
@@ -42,6 +42,7 @@ var grid = new GridDrawer(app, dimention, 2, globalWidth, app.height);
 
 //initializes ocean class
 var ocean = null;
+var fog = null;
 
 //initializes variables regarding the player
 id = 000;
@@ -91,26 +92,35 @@ function init() {
 
     ///dealing with grids and squares;
     grid = new GridDrawer(app, dimention, 2, globalWidth, globalHeight);
-    grid.drawGrid();
-
-    //initialises button and other data to display
-    initLowerConsole();
-
-    //create squares
-    createSquare(dimention, grid.getPointArray());
+    grid.calculatePoints();
 
     //creates ship
     myShip = new Ship(app, [0, 0]);
     myShip.initShip();
+    
+    //initialises button and other data to display
+    initLowerConsole();
 
-    //calculate missile speed in utility function
-    missileSpeed = calculateMissileSpeed(missileSpeedFactor);
+    //create fog of
+    //fog = new FogOfWar(app);
+    //fog.init();
+
+    //renders the grid lines and the circles ontop of the fog
+    grid.drawGrid();
+    grid.drawCircles();
+    myShip.render();
+    
+    //loads enemy ships from gamestate data
+    loadEnemies();
+
+    //create squares
+    createSquare(dimention);
 
     //create green square to start around the ship
     createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
-
-    //loads enemy ships from gamestate data
-    loadEnemies();
+    
+    //calculate missile speed in utility function
+    missileSpeed = calculateMissileSpeed(missileSpeedFactor);
 
     //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
     app.ticker.add(delta => gameLoop(delta));
