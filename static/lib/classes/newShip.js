@@ -69,7 +69,7 @@ class NewShip {
 
         //create message using the jQuery
         let params = {
-            id: id,
+            id: this.id,
             x: x,
             y: y
         }
@@ -88,6 +88,10 @@ class NewShip {
     A new method that sets the position of a ship on the grid
      */
     setPosition(newx, newy) {
+
+        console.log("Message in");
+        console.log(newx);
+        console.log(newy);
 
         this.calculatePosition([newx, newy]);
 

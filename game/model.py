@@ -1,6 +1,7 @@
 from google.appengine.ext import ndb
 import json
 from firebase_interface import _send_firebase_message
+import logging
 
 """
 This file stores the models used for storing the
@@ -36,8 +37,9 @@ class GameState(ndb.Model):
         state of the game changes
         :return:
         """
-        message = self.to_json()
-        message["token"] = token
+        mdict = self.to_dict()
+        mdict["token"] = token
+        message = json.dumps(mdict)
         for u in self.users:
             _send_firebase_message(
                 u + self.key.id(), message=message
@@ -57,7 +59,7 @@ class GameState(ndb.Model):
             self.users.append(user_id)
             self.tiles.append(TileEntity(type=user_id, row=row, col=col))
             self.put()
-            self.send_update()
+            self.send_update("user_add")
 
     def move(self, user_id, new_row, new_col):
         """
@@ -67,11 +69,21 @@ class GameState(ndb.Model):
         :param new_col:
         :return:
         """
+        for x in xrange(len(self.tiles)):
+            logging.info(x)
+            logging.info(user_id)
+            logging.info(self.tiles[x].type)
+            if self.tiles[x].type == user_id:
+                logging.info("Update")
+                self.tiles[x].row = int(new_row)
+                self.tiles[x].col = int(new_col)
 
-        for tile in self.tiles:
-            if tile.type == user_id:
-                tile.row = new_row
-                tile.col = new_col
+        # for tile in self.tiles:
+        #     logging.info(tile.type)
+        #     if tile.type == user_id:
+        #
+        #         tile.row = new_row
+        #         tile.col = new_col
 
         self.put()
-        self.send_update()
+        self.send_update("move")

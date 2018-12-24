@@ -50,7 +50,7 @@ def create_game_session():
     else:
         my_game = GameState.get_by_id(key)
         if not my_game:
-            return 'No Such Counter', 404
+            return 'No Such Game', 404
         if user not in my_game.users:
             my_game.users.append(user)
             my_game.put()
@@ -104,8 +104,13 @@ def game_move():
     Handle the moving logic from the game
     :return:
     """
-    logging.info(request)
+    logging.info(request.form.get('x'))
+    my_id = request.form.get('id')
+    col = request.form.get('x')
+    row = request.form.get('y')
+    logging.info("Row: " + str(row))
+    logging.info("Col: " + str(col))
     game = GameState.get_by_id(request.args.get('g'))
-    game.send_update("move")
+    game.move(my_id, row, col)
     return ''
 

@@ -67,6 +67,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
 
     function onMessage(newState)
     {
+        console.log("New Message");
         if (newState.token === "open")
         {
             init()
@@ -74,6 +75,14 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         else if(newState.token === "move")
         {
             console.log("Got Move Response");
+            console.log(newState);
+            console.log(newState.tiles);
+            console.log(newState.tiles[0]);
+            let tile = newState.tiles[0];
+            console.log(tile.row);
+            console.log(tile.col);
+            myShip.setPosition(tile.col, tile.row)
+
         }
     }
 
