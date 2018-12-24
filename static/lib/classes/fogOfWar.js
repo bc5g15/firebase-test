@@ -10,6 +10,7 @@ class FogOfWar {
     constructor(app){
         this.app = app;
         this.tilingSprite = null;
+        this.viewPort = null;
     }
 
     init(rotation, position){
@@ -22,6 +23,24 @@ class FogOfWar {
 
         this.tilingSprite.anchor.set(0, 0);
         this.app.stage.addChild(this.tilingSprite);
+
+        this.createMask(rotation, position);
+    }
+
+    createMask(rotation, position){
+        
+        var fogMask = new PIXI.Graphics();
+        app.stage.addChild(fogMask);
+        fogMask.position.x = globalWidth / 2;
+        fogMask.position.x = globalHeight / 2;
+        fogMask.lineStyle(0);
+        fogMask.alpha= (0);
+        
+        fogMask.beginFill(0xFF3300);
+        fogMask.drawRect(-500, 50, 1000, 1000);
+        fogMask.endFill();
+
+        this.tilingSprite.mask = fogMask;
     }
 
     updateFog(rotation, position){}

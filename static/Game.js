@@ -40,9 +40,10 @@ var costOfMovement = 0;
 //initialize grid class to draw grid
 var grid = new GridDrawer(app, dimention, 2, globalWidth, app.height);
 
-//initializes ocean class
+//initializes ocean and fog of war classes
 var ocean = null;
 var fog = null;
+var fogMask = new PIXI.Graphics();
 
 //initializes variables regarding the player
 id = 000;
@@ -97,6 +98,9 @@ function init() {
     //creates ship
     myShip = new Ship(app, [0, 0]);
     myShip.initShip();
+        
+    //loads enemy ships from gamestate data
+    loadEnemies();
     
     //initialises button and other data to display
     initLowerConsole();
@@ -109,9 +113,6 @@ function init() {
     grid.drawGrid();
     grid.drawCircles();
     myShip.render();
-    
-    //loads enemy ships from gamestate data
-    loadEnemies();
 
     //create squares
     createSquare(dimention);
@@ -124,7 +125,6 @@ function init() {
 
     //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
     app.ticker.add(delta => gameLoop(delta));
-
 }
 
 //main game loop
