@@ -31,6 +31,8 @@ var mouseposition = app.renderer.plugins.interaction.mouse.global;
 //initializing variables to be used in the game
 var gameState = testGameState();
 var myShip;
+// Allow for multiple ships
+let ships = {};
 var missileSpeed = 1;
 var missileSpeedFactor = 4;
 var costOfMovement = 0;
@@ -78,10 +80,18 @@ function initGame(gameKey, me, token, channelId, initialMessage)
             console.log(newState);
             console.log(newState.tiles);
             console.log(newState.tiles[0]);
-            let tile = newState.tiles[0];
-            console.log(tile.row);
-            console.log(tile.col);
-            myShip.setPosition(tile.col, tile.row)
+
+            for(let x=0; x<newState.tiles.length; x++)
+            {
+                let tile = newState.tiles[x];
+                ships[tile.type].setPosition(tile.col, tile.row);
+            }
+
+            // let tile = newState.tiles[0];
+            // console.log(tile.row);
+            // console.log(tile.col);
+
+            // myShip.setPosition(tile.col, tile.row)
 
         }
     }
@@ -179,7 +189,10 @@ function init() {
 
     //creates ship
     // myShip = new Ship(app, [0, 0]);
+    // Need to pass the positional parameters from
+    // the initial state
     myShip = new NewShip(app, state.gameKey, [0,0]);
+    ships[state.gameKey] = myShip;
     myShip.initShip();
 
     //calculate missile speed in utility function
