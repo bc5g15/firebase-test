@@ -6,12 +6,14 @@ from gaesessions import get_current_session
 from game.model import GameState, TileEntity
 import urllib
 
+import build_ids
+
 from flask import request
 
 r_game = flask.Blueprint('game', __name__, template_folder='templates')
 
-game_id = 1
-player_id = 1
+# game_id = 1
+# player_id = 1
 
 
 def create_game_session():
@@ -22,16 +24,14 @@ def create_game_session():
     method
     """
     global game_id
-    global player_id
     logging.info("Create a new session for a game")
 
     # Check if a session already exists, create it if it doesn't
     session = get_current_session()
     user = session.get("id", 0)
     if user == 0:
-        session["id"] = str(player_id)
+        session["id"] = str(build_ids.new_user_id())
         user = session["id"]
-        player_id += 1
 
     # user = users.get_current_user()
 
@@ -41,11 +41,11 @@ def create_game_session():
         # Create a new game
         key = session["id"]
 
-        ships = [
-            TileEntity(type=user, row=0, col=0)
-        ]
+        # ships = [
+        #     TileEntity(type=user, row=0, col=0)
+        # ]
 
-        my_game = GameState(id=key, tiles=ships, users=[user])
+        my_game = GameState(id=key, tiles=[], users=[user])
         my_game.put()
     else:
         my_game = GameState.get_by_id(key)
@@ -95,6 +95,41 @@ def open_game():
     if not game:
         return 'Game not found', 404
     game.send_update("open")
+    return ''
+
+
+@r_game.route("/game/join", methods=['POST'])
+def join_game():
+    """
+    Called when a new user wants to join an
+    existing game
+    :return:
+    """
+    logging.info("Joining Game")
+    game = GameState.get_by_id(request.args.get('g'))
+    if not game:
+        return 'Game not found', 404
+
+    # Get session ID
+    """
+    A LOT OF THIS SHOULD BE SPLIT TO A DEDICATED
+    LOBBY ROUTINE
+    """
+    session = get_current_session()
+    user = session.get("id", 0)
+    if user == 0:
+        session["id"] = str(build_ids.new_user_id())
+        user = session["id"]
+
+    if user in game.list_users():
+        logging.info("User already present")
+        game.notify_user_position(user)
+        return ''
+
+    # Create a position and stick the user in
+    pos = game.random_empty_position()
+    game.add_user(session["id"], pos[0], pos[1])
+    logging.info("Attempting join")
     return ''
 
 

@@ -30,7 +30,7 @@ var mouseposition = app.renderer.plugins.interaction.mouse.global;
 
 //initializing variables to be used in the game
 var gameState = testGameState();
-var myShip;
+let myShip;
 // Allow for multiple ships
 let ships = {};
 var missileSpeed = 1;
@@ -55,31 +55,79 @@ missileCount = 0;
 var sizeGridSquareX;
 var sizeGridSquareY;
 
-let state = {}
+let state = {};
+let myid;
 
 function initGame(gameKey, me, token, channelId, initialMessage)
 {
     console.log("Insert the game creation code here!");
     state = {
         gameKey: gameKey,
-        me: me
+        me: me,
+        started: false
     }
+
+    myid = me;
 
     let channel = null;
 
     function onMessage(newState)
     {
         console.log("New Message");
+        console.log(newState.token);
         if (newState.token === "open")
         {
-            init()
+            if(!state.started) {
+                // init();
+                // Declare shipbuilding code in the listener
+                // myShip = new NewShip(app, state.gameKey, [0,0]);
+                // ships[state.gameKey] = myShip;
+                // myShip.initShip();
+                // console.log("Is this me?")
+                // console.log(state.me);
+                $.post("/game/join");
+                state.started = true;
+            }
+        }
+        else if(newState.token === "position") {
+            /*
+            Returns my own position if I rejoin the game
+            Some of this is repeated. Should extract the new
+            user conditionals
+             */
+            let tiles = newState.tiles;
+            console.log(tiles);
+            for(let x=0; x<tiles.length; x++) {
+                let tile = tiles[x];
+                console.log(tile);
+                ships[tile.type] = new NewShip(app, tile.type, [tile.col, tile.row]);
+                // myShip = new NewShip(app, newState.type, [newState.col, newState.row]);
+                // ships[newState.type] = myShip;
+                ships[tile.type].initShip();
+                if(tile.type === state.me) {
+                    myShip = ships[tile.type];
+                    createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
+                }
+            }
+        }
+        else if(newState.token === "new_user") {
+            console.log("New Ship");
+            // Declare shipbuilding code in the listener
+            let newShip = new NewShip(app, newState.type, [newState.col, newState.row]);
+            ships[newState.type] = newShip;
+            newShip.initShip();
+            if (newState.type === state.me) {
+                myShip = newShip;
+                createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
+            }
+
         }
         else if(newState.token === "move")
         {
             console.log("Got Move Response");
-            console.log(newState);
-            console.log(newState.tiles);
-            console.log(newState.tiles[0]);
+            // console.log(newState);
+            // console.log(newState.tiles);
+            // console.log(newState.tiles[0]);
 
             for(let x=0; x<newState.tiles.length; x++)
             {
@@ -98,6 +146,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
 
     function onOpened() {
         console.log("Opening Game");
+        init();
         $.post('/game/open');
     }
 
@@ -191,15 +240,16 @@ function init() {
     // myShip = new Ship(app, [0, 0]);
     // Need to pass the positional parameters from
     // the initial state
-    myShip = new NewShip(app, state.gameKey, [0,0]);
-    ships[state.gameKey] = myShip;
-    myShip.initShip();
+    // Declare shipbuilding code in the listener
+    // myShip = new NewShip(app, state.gameKey, [0,0]);
+    // ships[state.gameKey] = myShip;
+    // myShip.initShip();
 
     //calculate missile speed in utility function
     missileSpeed = calculateMissileSpeed(missileSpeedFactor);
 
     //create green square to start around the ship
-    createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
+    // createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
 
     //loads enemy ships from gamestate data
     // loadEnemies();

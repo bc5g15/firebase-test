@@ -23,6 +23,7 @@ class NewShip {
     }
 
     calculatePosition(pos) {
+        console.log(pos);
         let x = pointArray[pos[0]].x;
         let y = pointArray[dimention * pos[1]].y;
 

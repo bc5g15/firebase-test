@@ -2,6 +2,7 @@ from google.appengine.ext import ndb
 import json
 from firebase_interface import _send_firebase_message
 import logging
+import random
 
 """
 This file stores the models used for storing the
@@ -45,6 +46,36 @@ class GameState(ndb.Model):
                 u + self.key.id(), message=message
             )
 
+    def notify_user_position(self, user_id):
+        logging.info("Do something...")
+        for x in self.tiles:
+            logging.info("Compare...")
+            logging.info(x.type)
+            logging.info(user_id)
+            if x.type == user_id:
+                mdict = self.to_dict()
+                mdict["token"] = "position"
+                message = json.dumps(mdict)
+                _send_firebase_message(
+                    x.type + self.key.id(), message=message
+                )
+
+    def notify_add_user(self, user):
+        """
+        A special notification method
+        that just sends the details
+        of a new user
+        :param user:
+        :return:
+        """
+        mdict = user.to_dict()
+        mdict["token"] = "new_user"
+        message = json.dumps(mdict)
+        for u in self.users:
+            _send_firebase_message(
+                u + self.key.id(), message=message
+            )
+
     def add_user(self, user_id, row, col):
         """
         Add the user to the state and add a new location
@@ -54,12 +85,14 @@ class GameState(ndb.Model):
         :param col:
         :return:
         """
-
-        if user_id not in self.users:
-            self.users.append(user_id)
-            self.tiles.append(TileEntity(type=user_id, row=row, col=col))
-            self.put()
-            self.send_update("user_add")
+        # if user_id not in self.users:
+        self.users.append(user_id)
+        new_user = TileEntity(type=user_id, row=row, col=col)
+        self.tiles.append(new_user)
+        self.put()
+        self.notify_add_user(new_user)
+        # else:
+        #     logging.info("Existing user attempting to join!")
 
     def move(self, user_id, new_row, new_col):
         """
@@ -87,3 +120,21 @@ class GameState(ndb.Model):
 
         self.put()
         self.send_update("move")
+
+    def list_users(self):
+        return map(lambda x: x.type, self.tiles)
+
+    def full_tiles(self):
+        return map(lambda x: (x.row, x.col), self.tiles)
+
+    def random_empty_position(self):
+        done = False
+        nrow = 0
+        ncol = 0
+        while not done:
+            nrow = random.randint(0, 7)
+            ncol = random.randint(0, 7)
+
+            if (nrow, ncol) not in self.full_tiles():
+                done = True
+        return nrow, ncol
