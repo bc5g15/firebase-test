@@ -31,5 +31,8 @@
               {# use the |safe flag to get unescaped json to render #}
               {{ initial_message|safe }});
         </script>
+        <div id="this-game" float="top">
+            Quick link to this game: <span id="this-game-link"><a href="{{ game_link }}">{{ game_link }}</a></span>
+        </div>
     </body>
 </html>
