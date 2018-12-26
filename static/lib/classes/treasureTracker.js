@@ -2,7 +2,7 @@ function loadTreasure(treasureLocations){
     //treasureLocations is an array of coordinates for the treasures
     treasureLocations.forEach(location => {
         let coord = [location[0], location[1]];
-        console.log("Treasure Coordinate: " + coord);
+        //console.log("Treasure Coordinate: " + coord);
         treasure = new Treasure(app, coord);
         treasureArray.push(treasure)
     });

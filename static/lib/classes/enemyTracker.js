@@ -5,7 +5,7 @@ the arrays will be sent with each update from the server.
 
 var enemyShips = [];
 var destroyedShips = [];
-var destroyedTexture = PIXI.Texture.fromImage("/assets/Sprites/shipDestroyed.png");
+var destroyedTexture = PIXI.Texture.fromImage("static/assets/Sprites/shipDestroyed.png");
 
 function loadEnemies(){
 
@@ -24,25 +24,21 @@ function loadEnemies(){
 
 //if there exists an enemy ship at the provided coordinates, the enemy is destroyed.
 function checkEnemyHit(coord){
-
     
     //This currently is quite buggy for some reason, ie not detecting hits and not fully removing sprites
     //Uncomment block to test hit detection.
+    enemyShips.forEach(enemy => {  
 
-
-    enemyShips.forEach(enemy => {
-
-        //console.log((enemyShips[i].coordinates[0] === coord[0]) && (enemyShips[i].coordinates[1] === coord[1]));
-        
         if(enemy.coordinates[0] === coord[0] && enemy.coordinates[1] === coord[1]){
+
             console.log("Target Hit!");
             enemy.sprite.texture = destroyedTexture;
+            enemy.sprite.alpha = 0.65;
             destroyedShips.push(enemy);
-            enemyShips.splice(enemy, 1);
-        }
+            enemyShips.splice(enemyShips.indexOf(enemy), 1);
+        }       
     });
-
-    console.log("Length of enemyShips: " + enemyShips.length);
+    console.log("Length of destroyed ships: " + destroyedShips.length);
 }
 
 //destroys the ship and slowly makes it "sink into the waves"
@@ -50,6 +46,7 @@ function checkEnemyHit(coord){
 function updateDestroyedShips(){
 
     destroyedShips.forEach(enemy => {
+        //console.log(enemy);
         enemy.sprite.alpha -= 0.005;
 
         if(enemy.sprite.alpha < 0){

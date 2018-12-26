@@ -38,5 +38,5 @@ function calculateMissileSpeed(factor){
 
 //returns the grid coordinate for a specific index for an array of a given dimentionality.
 function indexToGridCoord(index){
-    return [Math.floor(index / dimention), index % dimention];
+    return [index % dimention,Math.floor(index / dimention)];
 }

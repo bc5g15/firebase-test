@@ -1,9 +1,11 @@
-/*
-This class will be used to properly interface with the server by sending and recieving the actual
-requests from the server
+/* 
+This class will be used to send and recieve updates from the server, im not sure
+how, hopefully the people doing the backed will know. This class calles methods
+in the game state class. This enables this allows the networking and server
+communication to be abstracted away from the game and its operations.
 */
 
-function requestGameState(){
+function requestGameState() {
 
     /*
     
@@ -13,7 +15,11 @@ function requestGameState(){
     */
 }
 
-function updatePosition(id, position){
+function updatePosition(id, position) {
+
+/* this will send a position to the server to update the location of a players
+ship in the game.
+*/
 
 }
 
