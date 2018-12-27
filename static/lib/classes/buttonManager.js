@@ -31,7 +31,6 @@ function initButtons() {
 }
 
 function buttonPressed() {
-
     button.texture = textureButtonDown;
 
     let pos = getPositionOfGreenSquare();

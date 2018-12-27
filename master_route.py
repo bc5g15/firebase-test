@@ -31,14 +31,14 @@ import flask
 from counter.counter_routes import count
 from temp.typeloader import loader
 from sessions.session_routes import sess
+from game.routes import r_game
+from temp.session_debug import sessdebug
 
 app = flask.Flask(__name__)
 # app.register_blueprint(ttt)
 app.register_blueprint(count)
 app.register_blueprint(loader)
 app.register_blueprint(sess)
+app.register_blueprint(r_game)
+app.register_blueprint(sessdebug)
 
-
-@app.route("/game")
-def start_game():
-    return flask.render_template("game_index.html")
