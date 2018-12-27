@@ -116,8 +116,8 @@ class GameState(ndb.Model):
         :param col:
         :return:
         """
-        # if user_id not in self.users:
-        self.users.append(user_id)
+        if user_id not in self.users:
+            self.users.append(user_id)
         new_user = TileEntity(type=user_id, row=row, col=col)
         self.tiles.append(new_user)
         self.put()

@@ -53,6 +53,7 @@ def create_game_session():
             return 'No Such Game', 404
         if user not in my_game.users:
             my_game.users.append(user)
+            # my_game.add_user(user)
             my_game.put()
 
     channel_id = user + key
