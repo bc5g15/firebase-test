@@ -49,6 +49,7 @@ class GameState(ndb.Model):
     def send_small_update(self, token, tile):
         """
         Send the information of a single tile
+        The relevant user is always updated first
         :param token:
         :param tile:
         :return:
@@ -56,10 +57,15 @@ class GameState(ndb.Model):
         mdict = tile.to_dict()
         mdict["token"] = token
         message = json.dumps(mdict)
+        _send_firebase_message(
+            tile.type + self.key.id(), message=message
+        )
+
         for u in self.users:
-            _send_firebase_message(
-                u + self.key.id(), message=message
-            )
+            if not u == tile.type:
+                _send_firebase_message(
+                    u + self.key.id(), message=message
+                )
 
     def notify_user_position(self, user_id):
         logging.info("Do something...")
