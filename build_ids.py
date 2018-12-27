@@ -27,3 +27,8 @@ def new_game_id():
     output = next_game
     next_game += 1
     return output
+
+
+def update_user_id():
+    global next_user
+    next_user += 1

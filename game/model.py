@@ -46,6 +46,21 @@ class GameState(ndb.Model):
                 u + self.key.id(), message=message
             )
 
+    def send_small_update(self, token, tile):
+        """
+        Send the information of a single tile
+        :param token:
+        :param tile:
+        :return:
+        """
+        mdict = tile.to_dict()
+        mdict["token"] = token
+        message = json.dumps(mdict)
+        for u in self.users:
+            _send_firebase_message(
+                u + self.key.id(), message=message
+            )
+
     def notify_user_position(self, user_id):
         logging.info("Do something...")
         for x in self.tiles:
@@ -75,6 +90,16 @@ class GameState(ndb.Model):
             _send_firebase_message(
                 u + self.key.id(), message=message
             )
+
+        """
+        Now send the full state to the new user
+        """
+        mdict = self.to_dict()
+        mdict["token"] = "position"
+        message = json.dumps(mdict)
+        _send_firebase_message(
+            user.type + self.key.id(), message=message
+        )
 
     def add_user(self, user_id, row, col):
         """
@@ -110,6 +135,9 @@ class GameState(ndb.Model):
                 logging.info("Update")
                 self.tiles[x].row = int(new_row)
                 self.tiles[x].col = int(new_col)
+                self.put()
+                self.send_small_update("move", self.tiles[x])
+                return
 
         # for tile in self.tiles:
         #     logging.info(tile.type)
@@ -118,8 +146,7 @@ class GameState(ndb.Model):
         #         tile.row = new_row
         #         tile.col = new_col
 
-        self.put()
-        self.send_update("move")
+        # self.send_update("move")
 
     def list_users(self):
         return map(lambda x: x.type, self.tiles)

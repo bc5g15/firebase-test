@@ -120,6 +120,8 @@ def join_game():
     if user == 0:
         session["id"] = str(build_ids.new_user_id())
         user = session["id"]
+    else:
+        build_ids.update_user_id()
 
     if user in game.list_users():
         logging.info("User already present")
