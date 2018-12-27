@@ -17,7 +17,9 @@ class Ship {
         this.sprite.scale.y = 1.5 / dimention;
         this.sprite.anchor.set(0.5);
         this.calculatePosition(this.position);
+    }
 
+    render() {
         app.stage.addChild(this.sprite);
     }
 
@@ -30,7 +32,7 @@ class Ship {
     }
 
     moveLeft() {
-        if (!(this.position[0] === 0)) { 
+        if (!(this.position[0] === 0)) {
             this.moveGeneral(-1, 0);
         } else {
             console.log("Cant move left!");
@@ -38,7 +40,7 @@ class Ship {
     }
 
     moveRight() {
-        if (!(this.position[0] === (dimention - 1))) { 
+        if (!(this.position[0] === (dimention - 1))) {
             this.moveGeneral(1, 0);
         } else {
             console.log("Cant move right!");
@@ -46,7 +48,7 @@ class Ship {
     }
 
     moveUp() {
-        if (!(this.position[1] === 0)) { 
+        if (!(this.position[1] === 0)) {
             this.moveGeneral(0, -1);
         } else {
             console.log("Cant move up!");
@@ -54,7 +56,7 @@ class Ship {
     }
 
     moveDown() {
-        if (!(this.position[1] === (dimention - 1))) { 
+        if (!(this.position[1] === (dimention - 1))) {
             this.moveGeneral(0, 1);
         } else {
             console.log("Cant move down!");
@@ -71,6 +73,7 @@ class Ship {
         this.position[0] = x;
         this.position[1] = y;
 
-        console.log("New Position: " + this.position + ", Score: " + score);
-    }    
+        checkCollectedTreasure(this.position);
+        //console.log("New Position: " + this.position + ", Score: " + score);
+    }
 }

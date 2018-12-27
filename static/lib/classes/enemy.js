@@ -4,13 +4,13 @@ and coordinates to say which coordinates the ship is in for the current game sta
 */
 
 class Enemy {
-    constructor(app, id, position) {
+    constructor(app, id, coordinates) {
         this.app = app;
         this.id = id;
-        this.position = position; //coordinates
+        this.position = null; //coordinates
         this.sprite = null;
         this.health = 1000;
-        this.coordinates = [];
+        this.coordinates = coordinates;
     }
 
     initEnemy() {
@@ -20,22 +20,18 @@ class Enemy {
 
         this.sprite.anchor.set(0.5);
         this.sprite.rotation = Math.PI * 2 * Math.random();
-        this.calculatePosition(this.position);
+        this.calculatePosition();
         
         app.stage.addChild(this.sprite);
-        console.log("Enemy Coord: " + this.coordinates);
+        console.log("Enemy Coordinate: " + this.coordinates);
     }
 
     calculatePosition(pos) {
-        let x = pointArray[pos[0]].x;
-        let y = pointArray[dimention * pos[1]].y;
+
+        let x = pointArray[this.coordinates[0]].x;
+        let y = pointArray[(dimention) * this.coordinates[1]].y;
 
         this.sprite.position.set(x, y);
-        this.calculateCoords([x, y]);
-    }
-
-    //takes a physical position (x=276.222, y= 655.77777) for example, and returns its coordinates.
-    calculateCoords(pos){
-        this.coordinates = indexToGridCoord(getGridIndex(pos));
+        this.position = [x, y];
     }
 }

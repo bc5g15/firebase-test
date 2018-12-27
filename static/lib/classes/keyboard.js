@@ -103,6 +103,8 @@ function keyboardInit() {
         if (!(mouseposition.y > globalHeight * 0.8)) {
             let pos = getPositionOfCurrentSquare();
             moveGreenSquare(getGridIndex(pos));
+            //console.log("pos: " + pos);
+            //console.log("GETGRIDINDEX(pos): " + getGridIndex(pos));
         }
     });
 }

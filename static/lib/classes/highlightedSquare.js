@@ -32,11 +32,10 @@ var squareSpriteGreen;
 var indexClosest = 0;
 
 //creates the red square texture and sprite
-function createSquare(dimention, array) {
+function createSquare(dimention) {
     sizeX = (globalWidth / dimention) * 0.92;
     sizeY = ((globalHeight * 0.8) / dimention) * 0.9;
 
-    pointArray = array;
     calcStartPos();
 
     let square = new PIXI.Graphics();
