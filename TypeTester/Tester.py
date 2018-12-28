@@ -16,7 +16,7 @@ class Tester:
         return myout
 
     def retrieveText(self):
-        textfile = open("GText.txt", "r")
+        textfile = open("Short Text.txt", "r")
         if textfile.mode == 'r':
             text = textfile.read()  #Produces a list of lines in the text
         return text;
