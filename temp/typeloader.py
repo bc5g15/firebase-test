@@ -1,39 +1,62 @@
 from flask import Blueprint
 import json
-
+import random
 import logging
-
+#import Tester
 from temp.typemodel import TypeTask
 
 loader = Blueprint('loader', __name__, template_folder='templates')
-
+index = 1 #Global index and keylist variables store the number of keys and keys themselves respectively to allow gettask to randomly access one of the Typetasks
+keylist = []
 
 @loader.route("/loadtemp")
 def loadtemp():
+    global index
+    global keylist
     """
     This should only be run once!
     Loads the test file into the database
     So long as the data kind is in the database
     everything else should be fine
     """
-    index = 1
-    text = open('temp/tests.json', 'r').read()
+    #typetester = Tester.Tester()
+    #lineswithpoints = {}
+    #longeststrings = {}
+    #linespecialchars = {}
+    #text = typetester.retrieveText()
+    #text = typetester.addMarkers(text)
+    #text = text.replace("\n", " ")
+    #lines = text.split("<>")
+    #longestwords = typetester.longestWords(lines, longeststrings)
+    #lineratings = typetester.rateSpecialChars(lines, linespecialchars)
+    #for line in lines:
+        #line.rstrip("\n")
+        #linedifficulty = typetester.calculateLineComplexity(line, longeststrings, linespecialchars)
+        #lineswithpoints[line] = linedifficulty
+
+    #with open("Difficulties.json", 'w') as outfile:
+        #outfile.write(json.dumps(lineswithpoints))
+    #file text =
+    text = open('temp/Difficulties.json', 'r').read()
     records = json.loads(text)
 
     for item in records:
         logging.info(item)
         # mytext= item["text"]
         # mydifficulty = item["difficulty"]
-        tt = TypeTask(id=index, text=item["text"], difficulty=item["difficulty"])
-        tt.put()
+        tt = TypeTask(id=index, text=item["text"], difficulty=item["difficulty"]) #No headers "text" or "difficulty" at the moment
+        key = tt.put() #put() returns a key, so I have made sure to store this key in a list of keys that can be used to find and return TypeTasks later on
+        keylist.append(key)
         index += 1
 
-    return "Loaded values " + str(records) 
+    return "Loaded values " + str(records)
 
 
 @loader.route("/gettask")
 def get_task():
-    """
-    Returns a random typing task from the server
-    """
-    return "Nothing yet!"
+    global index
+    global keylist
+    typetaskindex = random.randint(0, index - 2) #Randomly generates a key index from 0 to the maximum value (index is one greater than the length of the list so 2 has to be subtracted from it)
+    typetaskkey = keylist[typetaskindex] #Retrieves the key from the list
+    typetask = typetaskkey.get() #Uses the key to get the corresponding TypeTask from the database
+    return str(typetask)
