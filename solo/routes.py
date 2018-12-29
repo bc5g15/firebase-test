@@ -39,3 +39,6 @@ def start():
     return render_template('entry.html', **template_values)
 
 
+@solo.route('/hello', methods=['GET'])
+def my_hello():
+    return "Nothing yet!"

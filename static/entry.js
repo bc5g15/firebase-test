@@ -16,5 +16,12 @@ function initEntry(uid, uname)
     // test.html("It works");
     // console.log("We should have tested");
     // $("#test").html("It works!");
+    $('#change-name').on('click', () => {
+        window.location.href = "/hello";
+        // $.get("/hello");
+        return false;
+    });
+
+    // console.log($.post("/hello"));
 
 }
