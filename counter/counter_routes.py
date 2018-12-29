@@ -11,6 +11,7 @@ import json
 import os
 import re
 import time
+import random
 import urllib
 
 import logging
@@ -86,6 +87,12 @@ def create_counter_session():
 
     return template_values
 
+def get_task():
+    global keylist
+    typetaskindex = random.randint(0, len(keylist) - 1) #Randomly generates a key index from 0 to the maximum value (index is one greater than the length of the list so 2 has to be subtracted from it)
+    typetaskkey = keylist[typetaskindex] #Retrieves the key from the list
+    typetask = typetaskkey.get() #Uses the key to get the corresponding TypeTask from the database
+    return str(typetask)
 
 @count.route('/count-lobby')
 def new_lobby():
