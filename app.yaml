@@ -9,7 +9,7 @@ handlers:
   static_dir: static
 
 - url: /.*
-  script: master_route.app
+  script: server.master_route.app
 #  login: required
 
 libraries:

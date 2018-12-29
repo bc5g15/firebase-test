@@ -1,16 +1,17 @@
 import logging
 import flask
+import os
 
-from firebase_interface import _send_firebase_message, create_custom_token
-from gaesessions import get_current_session
-from game.model import GameState, TileEntity
+from ..firebase_interface import _send_firebase_message, create_custom_token
+from ..gaesessions import get_current_session
+from model import GameState, TileEntity
 import urllib
 
-import build_ids
+from ..build_ids import *
 
 from flask import request
 
-r_game = flask.Blueprint('game', __name__, template_folder='templates')
+r_game = flask.Blueprint('game', __name__, template_folder=os.path.abspath('templates'))
 
 # game_id = 1
 # player_id = 1

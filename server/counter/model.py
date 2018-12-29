@@ -11,7 +11,7 @@ import urllib
 
 import logging
 
-from firebase_interface import _send_firebase_message
+from ..firebase_interface import _send_firebase_message
 
 # import flask
 # from flask import request

@@ -1,7 +1,7 @@
 import os.path
 
 from google.appengine.ext import vendor
-from gaesessions import SessionMiddleware
+from server.gaesessions import SessionMiddleware
 
 
 # Add any libraries installed in the "lib" folder.

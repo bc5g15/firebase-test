@@ -1,6 +1,6 @@
 from google.appengine.ext import ndb
 import json
-from firebase_interface import _send_firebase_message
+from ..firebase_interface import _send_firebase_message
 import logging
 import random
 

@@ -1,8 +1,9 @@
 from flask import Blueprint
 import logging
-from gaesessions import get_current_session
+from ..gaesessions import get_current_session
+import os
 
-sessdebug = Blueprint('Session Debug', __name__, template_folder='templates')
+sessdebug = Blueprint('Session Debug', __name__, template_folder=os.path.abspath('templates'))
 
 @sessdebug.route('/clearsession')
 def clear_session():

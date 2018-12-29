@@ -27,7 +27,7 @@ import urllib
 
 import logging
 
-from firebase_interface import _send_firebase_message
+from ..firebase_interface import _send_firebase_message
 
 from flask import request
 from google.appengine.ext import ndb

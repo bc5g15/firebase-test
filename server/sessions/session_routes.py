@@ -1,7 +1,8 @@
 from flask import Blueprint
-from gaesessions import get_current_session
+from ..gaesessions import get_current_session
+import os
 
-sess = Blueprint('sessions', __name__, template_folder='templates')
+sess = Blueprint('sessions', __name__, template_folder=os.path.abspath('templates'))
 
 
 @sess.route('/sets/<int:value>')

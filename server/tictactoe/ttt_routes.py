@@ -8,10 +8,11 @@ import urllib
 
 import logging
 
-from firebase_interface import _send_firebase_message, create_custom_token
+from ..firebase_interface import _send_firebase_message, create_custom_token
 
 from tictactoe_model import Game
 
+import os
 import flask
 from flask import request
 # from google.appengine.api import app_identity
@@ -20,7 +21,7 @@ from google.appengine.ext import ndb
 # import httplib2
 # from oauth2client.client import GoogleCredentials
 
-ttt = Blueprint('tictactoe', __name__, template_folder='templates')
+ttt = Blueprint('tictactoe', __name__, template_folder=os.path.abspath('templates'))
 
 # [START move_route]
 @ttt.route('/move', methods=['POST'])

@@ -1,8 +1,9 @@
+import os
 from flask import Blueprint, render_template
-from gaesessions import get_current_session
+from ..gaesessions import get_current_session
 import random
 
-solo = Blueprint('solo', __name__, template_folder='templates')
+solo = Blueprint('solo', __name__, template_folder=os.path.abspath('templates'))
 
 
 def create_id():

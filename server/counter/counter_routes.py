@@ -1,7 +1,8 @@
 from flask import Blueprint
-from counter.model import Counter
-from gaesessions import get_current_session
+from model import Counter
+from ..gaesessions import get_current_session
 
+import os
 import base64
 try:
     from functools import lru_cache
@@ -16,7 +17,7 @@ import urllib
 
 import logging
 
-from firebase_interface import _send_firebase_message, create_custom_token
+from ..firebase_interface import _send_firebase_message, create_custom_token
 
 import flask
 from flask import request
@@ -26,7 +27,7 @@ from flask import request
 # import httplib2
 # from oauth2client.client import GoogleCredentials
 
-count = Blueprint('counter', __name__, template_folder='templates')
+count = Blueprint('counter', __name__, template_folder=os.path.abspath('templates'))
 
 next_id = 1
 

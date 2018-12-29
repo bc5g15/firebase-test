@@ -2,9 +2,10 @@ from flask import Blueprint
 import json
 import random
 import logging
-from temp.typemodel import TypeTask
+import os
+from typemodel import TypeTask
 
-loader = Blueprint('loader', __name__, template_folder='templates')
+loader = Blueprint('loader', __name__, template_folder=os.path.abspath('templates'))
 keylist = []
 
 
