@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {%  include "_firebase_config.html" %}
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="static/entry.js"></script>
+    <script>
+        initEntry('{{ uid }}', '{{  uname }}');
+    </script>
+</head>
+<body>
+    <form>
+        <div id="user-id">(User ID)</div><br>
+        <div id="user-name">(User Name)</div>
+        <input type="text" id="uname"/> <br>
+        <button id="new-game">New Game</button><br>
+        Join Game: <input type="text" id="game-id"/>
+    </form>
+</body>
+</html>
