@@ -6,7 +6,7 @@ solo = Blueprint('solo', __name__, template_folder='templates')
 
 
 def create_id():
-    uid = random.randint(1, 1000)
+    uid = str(random.randint(1, 1000))
     uname = "Player" + str(uid)
 
     return uid, uname
