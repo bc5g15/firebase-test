@@ -6,12 +6,10 @@ import logging
 from temp.typemodel import TypeTask
 
 loader = Blueprint('loader', __name__, template_folder='templates')
-index = 1 #Global index and keylist variables store the number of keys and keys themselves respectively to allow gettask to randomly access one of the Typetasks
 keylist = []
 
 @loader.route("/loadtemp")
 def loadtemp():
-    global index
     global keylist
     """
     This should only be run once!
@@ -39,7 +37,7 @@ def loadtemp():
     #file text =
     text = open('temp/Difficulties.json', 'r').read()
     records = json.loads(text)
-
+    index = 1
     for item in records:
         logging.info(item)
         # mytext= item["text"]
@@ -54,9 +52,8 @@ def loadtemp():
 
 @loader.route("/gettask")
 def get_task():
-    global index
     global keylist
-    typetaskindex = random.randint(0, index - 2) #Randomly generates a key index from 0 to the maximum value (index is one greater than the length of the list so 2 has to be subtracted from it)
+    typetaskindex = random.randint(0, len(keylist) - 1) #Randomly generates a key index from 0 to the maximum value (index is one greater than the length of the list so 2 has to be subtracted from it)
     typetaskkey = keylist[typetaskindex] #Retrieves the key from the list
     typetask = typetaskkey.get() #Uses the key to get the corresponding TypeTask from the database
     return str(typetask)
