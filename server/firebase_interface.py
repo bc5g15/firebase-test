@@ -39,7 +39,7 @@ def _get_firebase_db_url():
     regex = re.compile(r'\bdatabaseURL\b.*?["\']([^"\']+)')
     cwd = os.path.dirname(__file__)
     try:
-        with open(os.path.join(cwd, 'templates', _FIREBASE_CONFIG)) as f:
+        with open(os.path.join(cwd, os.path.abspath('templates'), _FIREBASE_CONFIG)) as f:
             url = next(regex.search(line) for line in f if regex.search(line))
     except StopIteration:
         raise ValueError(
