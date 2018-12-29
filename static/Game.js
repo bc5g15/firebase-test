@@ -304,7 +304,7 @@ function init() {
     // createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
 
     //loads enemy ships from gamestate data
-    loadEnemies();
+    // loadEnemies();
 
     //initialises button and other data to display
     initLowerConsole();
@@ -317,16 +317,16 @@ function init() {
     //renders the grid lines and the circles ontop of the fog
     grid.drawGrid();
     grid.drawCircles();
-    myShip.render();
+    // myShip.render();
 
     //load treasure based on array of coordinates;
-    loadTreasure(testTreasureLocations);
+    // loadTreasure(testTreasureLocations);
 
     //create squares
     createSquare(dimention);
 
     //create green square to start around the ship
-    createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
+    // createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
 
     //calculate missile speed in utility function
     missileSpeed = calculateMissileSpeed(missileSpeedFactor);
