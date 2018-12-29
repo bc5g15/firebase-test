@@ -12,6 +12,7 @@
         "vars": "local",
         "args": "after-used"
       }],
+      "no-console": 0,
       "no-debugger": 2,
       "no-alert": 2,
       "key-spacing": [2, {
