@@ -31,7 +31,7 @@ def create_game_session():
     session = get_current_session()
     user = session.get("id", 0)
     if user == 0:
-        session["id"] = str(build_ids.new_user_id())
+        session["id"] = str(new_user_id())
         user = session["id"]
 
     # user = users.get_current_user()
@@ -120,10 +120,10 @@ def join_game():
     session = get_current_session()
     user = session.get("id", 0)
     if user == 0:
-        session["id"] = str(build_ids.new_user_id())
+        session["id"] = str(new_user_id())
         user = session["id"]
     else:
-        build_ids.update_user_id()
+        update_user_id()
 
     if user in game.list_users():
         logging.info("User already present")

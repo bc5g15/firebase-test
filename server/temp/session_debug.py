@@ -13,5 +13,5 @@ def clear_session():
     :return:
     """
     session = get_current_session()
-    session["id"] = 0
+    session["id"] = "0"
     return "Session Cleared"
