@@ -3,11 +3,12 @@ This class keeps track of the state of the players ship (SPECIFICALLY NOT USED F
 This class us used to rotate the ship and move it around the map.
 */
 import * as PIXI from 'pixi.js';
-import * as treasureTracker from './treasureTracker';
+import $ from 'jquery';
 
-export default class Ship {
-  constructor(app, gameBoard, position) {
+export default class NewShip {
+  constructor(app, id, gameBoard, position) {
     this.app = app;
+    this.id = id;
     this.gameBoard = gameBoard;
     this.position = position; //coordinates
     this.positionExact = null; //exact coordinates
@@ -20,13 +21,12 @@ export default class Ship {
     this.sprite.scale.y = 1.5 / this.gameBoard.dimension;
     this.sprite.anchor.set(0.5);
     this.calculatePosition(this.position);
-  }
 
-  render() {
     this.app.stage.addChild(this.sprite);
   }
 
   calculatePosition(pos) {
+    console.log(pos);
     let x = this.gameBoard.squareHighlighter.pointArray[pos[0]].x;
     let y = this.gameBoard.squareHighlighter.pointArray[
       this.gameBoard.dimension * pos[1]
@@ -72,19 +72,31 @@ export default class Ship {
     let x = this.position[0] + newX;
     let y = this.position[1] + newY;
 
-    this.calculatePosition([x, y]);
+    //create message using the jQuery
+    let params = {
+      id: this.id,
+      x: x,
+      y: y
+    };
 
-    this.position[0] = x;
-    this.position[1] = y;
+    $.post('/game/move', params);
 
-    treasureTracker.checkCollectedTreasure(this.gameBoard, this.position);
-    //console.log("New Position: " + this.position + ", Score: " + score);
+    // this.calculatePosition([x, y]);
+    //
+    // this.position[0] = x;
+    // this.position[1] = y;
+    //
+    // console.log("New Position: " + this.position + ", Score: " + score);
   }
 
   /*
     A new method that sets the position of a ship on the grid
-  */
+     */
   setPosition(newX, newY) {
+    console.log('Message in');
+    console.log(newX);
+    console.log(newY);
+
     this.calculatePosition([newX, newY]);
 
     this.position[0] = newX;

@@ -9,6 +9,7 @@ export default class GameState {
     this.costOfMovement = 0;
     this.treasureArray = [];
 
+    this.ships = {};
     this.enemyShips = [];
     this.destroyedShips = [];
 
