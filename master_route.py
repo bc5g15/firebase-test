@@ -31,12 +31,14 @@ import flask
 from counter.counter_routes import count
 from temp.typeloader import loader
 from sessions.session_routes import sess
+from solo.routes import solo
 
 app = flask.Flask(__name__)
 # app.register_blueprint(ttt)
 app.register_blueprint(count)
 app.register_blueprint(loader)
 app.register_blueprint(sess)
+app.register_blueprint(solo)
 
 
 @app.route("/game")

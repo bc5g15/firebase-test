@@ -27,9 +27,9 @@ def start():
     if uid == "0" or uname == "":
         (uid, uname) = create_id()
         session["id"] = uid
-        session.get["name"] = uname
-        assert session["id"] != "0"
-        assert session["uname"] != ""
+        session["name"] = uname
+        assert session["id"] != "0", "Bad id!"
+        assert session["name"] != "", "Bad name!"
 
     template_values = {
         'uid': uid,
