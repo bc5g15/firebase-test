@@ -1,11 +1,9 @@
 /*
-
 This class creates the white grid lines and stores an array of points that represent the
 physical centres of each grid square. This class will be used to get positions for ships
 and projectiles for the game. The array of points is comparable to the gamestate that we
 store for each game (position of ships in the game). THe gamestate and the array of
 points will be used to calculate the visuals and the positions of the ships.
-
 */
 
 class GridDrawer {
@@ -22,13 +20,15 @@ class GridDrawer {
 
     fill(){
 
+        //draws the grid in its entirity
         this.drawGridLines();
         this.drawPerimeterLine();
-        this.calculatePoints();
+        //this.calculatePoints();
     }
 
     calculatePoints() {
 
+        //function to calculate the physical center points for each square in the grid
         let squareX = globalWidth / this.dimention;
         let squareY = globalHeight * 0.8 / this.dimention;
         let halfSquareX = (globalWidth / this.dimention)/2;
@@ -37,23 +37,26 @@ class GridDrawer {
         for(let i = 0; i < this.dimention; i++){
             for(let j = 0; j < this.dimention; j++){                            
                 let point = new PIXI.Point(halfSquareX + (squareX * j), halfSquareY + (squareY * i))
-                this.points.push(point);
+                pointArray.push(point);
             }
         }
-
-        let circle = new PIXI.Graphics();
-
-        this.points.forEach(point => {
-            circle.lineStyle(0)
-                  .beginFill(0xFFFFFF, 0.2)
-                  .drawCircle(point.x, point.y, 3)
-                  .endFill();
-        });
-        
-        this.app.stage.addChild(circle);
-        
     }
 
+    drawCircles(){
+
+        //creates small circles at each point
+        let circle = new PIXI.Graphics();
+
+        pointArray.forEach(point => {
+            circle.lineStyle(0)
+                    .beginFill(0xFFFFFF, 0.2)
+                    .drawCircle(point.x, point.y, 3)
+                    .endFill();
+        });
+        
+        this.app.stage.addChild(circle);        
+    }
+    
     //draws gridlines based on the dimentionality provided
     drawGridLines() {
         let gridLines = [];

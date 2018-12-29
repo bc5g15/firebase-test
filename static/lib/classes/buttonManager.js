@@ -1,8 +1,14 @@
+/*
+The button manager adds the "fire button to the game and runs the "shoot" function
+to fire a missile from the players position to the target position.
+*/
+
 var button;
 var buttonDown;
 
 function initButtons() {
 
+    //texture loading
     textureButton = new PIXI.Texture.fromImage(
         "static/assets/Sprites/buttonFire.png"
     );
@@ -10,6 +16,7 @@ function initButtons() {
         "static/assets/Sprites/buttonFirePressed.png"
     );
 
+    //creating button and changing settings
     button = new PIXI.Sprite(textureButton);
     button.buttonMode = true;
     button.interactive = true;
@@ -19,11 +26,11 @@ function initButtons() {
     button.on("pointerdown", buttonPressed);
     button.on("pointerup", buttonReleased);
 
+    //adding button to the game container.
     app.stage.addChild(button);
 }
 
 function buttonPressed() {
-
     button.texture = textureButtonDown;
 
     let pos = getPositionOfGreenSquare();
@@ -33,6 +40,7 @@ function buttonPressed() {
         pos
     );
 
+    //determines if the player can afford to shoot based on targets distance
     if (canAfford(dist)) {
         shoot(
             rotateTo(
