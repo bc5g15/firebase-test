@@ -17,7 +17,7 @@ r_game = flask.Blueprint('game', __name__, template_folder=os.path.abspath('temp
 # player_id = 1
 
 
-def create_game_session(gkey):
+def create_game_session(gkey, newgame):
     """
     Creates or retrieves the counter and sets the session state
     :return:
@@ -39,7 +39,7 @@ def create_game_session(gkey):
     # key = request.args.get('g')
     key = gkey
     my_game = GameState.get_by_id(key)
-    if not my_game:
+    if newgame:
         # Create a new game
 
         my_game = GameState(id=key, tiles=[], users=[])
@@ -47,7 +47,7 @@ def create_game_session(gkey):
         my_game.put()
     else:
         if not my_game:
-            return 'No Such Game', 404
+            return {'success': False}
         if user not in my_game.user_ids():
             my_game.register_user(user, name)
             # my_game.add_user(user)
@@ -67,7 +67,8 @@ def create_game_session(gkey):
         'me': user,
         'game_key': key,
         'game_link': game_link,
-        'initial_message': urllib.unquote(my_game.to_json())
+        'initial_message': urllib.unquote(my_game.to_json()),
+        'success': False
     }
     # [END pass_token]
 
@@ -81,12 +82,17 @@ def start_game():
     if request.method == 'GET':
         # template_values["host"] = True
         game_id = new_game_id()
+        newgame = True
     else:
         game_id = request.form["pin"]
+        newgame = False
 
-    template_values = create_game_session(game_id)
+    template_values = create_game_session(game_id, newgame)
     if request.method == 'GET':
         template_values["host"] = True
+
+    if not template_values['success']:
+        return "No such game", 404
 
     return flask.render_template("game_index2.html", **template_values)
 
