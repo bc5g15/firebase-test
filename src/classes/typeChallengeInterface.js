@@ -30,7 +30,6 @@ window.onkeydown = e => {
 
 export default function typeChallengeInterface(c) {
   document.body.appendChild(app.view);
-
   challenge = c;
   showChallenge(challenge);
 }
@@ -39,18 +38,13 @@ function processInput(event) {
   if (event.key == 'Backspace') {
     removeLastChar();
     counter--;
-
-    console.log('backspace entered..... removing last entered char');
   } else if (event.key) {
     validateInput(event.key);
     counter++;
     totalTyped++;
   }
 
-  console.log('total: ', totalTyped);
-
   if (counter == challenge.length) {
-    console.log('challenge length: ', challenge.length);
     let msg = new PIXI.Text(
       'Challenge complete your accuracy was ' + correct / totalTyped * 100 + '%'
     );
@@ -67,36 +61,18 @@ function showChallenge(challenge) {
 }
 
 function validateInput(char) {
-  console.log('counter: ', counter);
-
   if (char != challenge.charAt(counter) && !finished) {
     // TODO: highlight wrong character
     input += char;
-    updateUserInput();
-    console.log('incorrect character entered');
+    userInputTxt.text = input;
   } else {
     input += char;
-    updateUserInput();
-
+    userInputTxt.text = input;
     correct++;
-
-    console.log('correct character entered');
   }
-
-  console.log('##################################################');
-  // console.log("counter: ", counter);
-  console.log('current char to type: ', challenge.charAt(counter));
-  console.log('char entered: ', char);
-  console.log('correct: ', correct);
-  console.log('##################################################');
-}
-
-function updateUserInput() {
-  userInputTxt.text = input;
 }
 
 function removeLastChar() {
   input = input.substr(0, input.length - 1);
-  updateUserInput();
-  console.log('INPUT AFTER REMOVE: ', input);
+  userInputTxt.text = input;
 }
