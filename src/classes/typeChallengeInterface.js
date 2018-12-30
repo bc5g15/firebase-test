@@ -7,7 +7,7 @@ const app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb });
 let finished = false;
 let input = '';
 let userInputTxt;
-let challenge = '';
+let challenge;
 let correct = 0;
 let totalTyped = 0;
 let counter = 0;
@@ -19,47 +19,80 @@ const txtStyle = new PIXI.TextStyle({
   fontWeight: 'bold'
 });
 
+window.onkeypress = e => {
+  processInput(e);
+};
 window.onkeydown = e => {
   if (e.key == 'Backspace') {
-    console.log('backspace entered..... removing last entered char');
-    counter--;
-    removeLastChar();
-  } else {
-    validateInput(e.key);
+    processInput(e);
   }
 };
 
-export default function typeChallengeInterface(challenge) {
+export default function typeChallengeInterface(c) {
   document.body.appendChild(app.view);
 
+  challenge = c;
   showChallenge(challenge);
 }
 
-function showChallenge(challenge) {
-  let richText = new PIXI.Text(challenge, txtStyle);
-  userInputTxt = new PIXI.Text(input, txtStyle);
-  userInputTxt.y = 50;
+function processInput(event) {
+  if (event.key == 'Backspace') {
+    removeLastChar();
+    counter--;
 
-  app.stage.addChild(richText, userInputTxt);
-}
+    console.log('backspace entered..... removing last entered char');
+  } else if (event.key) {
+    validateInput(event.key);
+    counter++;
+    totalTyped++;
+  }
 
-function validateInput(char) {
-  totalTyped++;
+  console.log('total: ', totalTyped);
 
-  if (char != challenge.charAt(counter)) {
-    console.log('wrong character entered: ', char);
-    // TODO: highlight wrong character
-    input += char;
-    updateUserInput();
-  } else {
-    correct++;
-    input += char;
-    updateUserInput();
+  if (counter == challenge.length) {
+    console.log('challenge length: ', challenge.length);
+    let msg = new PIXI.Text(
+      'Challenge complete your accuracy was ' + correct / totalTyped * 100 + '%'
+    );
+    msg.y = 70;
+    app.stage.addChild(msg);
   }
 }
 
+function showChallenge(challenge) {
+  userInputTxt = new PIXI.Text(input, txtStyle);
+  userInputTxt.y = 50;
+
+  app.stage.addChild(new PIXI.Text(challenge, txtStyle), userInputTxt);
+}
+
+function validateInput(char) {
+  console.log('counter: ', counter);
+
+  if (char != challenge.charAt(counter) && !finished) {
+    // TODO: highlight wrong character
+    input += char;
+    updateUserInput();
+    console.log('incorrect character entered');
+  } else {
+    input += char;
+    updateUserInput();
+
+    correct++;
+
+    console.log('correct character entered');
+  }
+
+  console.log('##################################################');
+  // console.log("counter: ", counter);
+  console.log('current char to type: ', challenge.charAt(counter));
+  console.log('char entered: ', char);
+  console.log('correct: ', correct);
+  console.log('##################################################');
+}
+
 function updateUserInput() {
-  userInputTxt.setText(input);
+  userInputTxt.text = input;
 }
 
 function removeLastChar() {

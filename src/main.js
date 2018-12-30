@@ -280,7 +280,7 @@ function gameLoop(delta) {
 }
 
 function init() {
-  typeChallengeInterface('test typing challenge');
+  typeChallengeInterface('test');
   // //setting up the view to render to
   // app.renderer.view.style.position = 'absolute';
   // app.renderer.view.style.display = 'block';
