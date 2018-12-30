@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from ..gaesessions import get_current_session
 import random
 
@@ -43,3 +43,12 @@ def start():
 @solo.route('/hello', methods=['GET'])
 def my_hello():
     return "Nothing yet!"
+
+
+@solo.route('/change-name', methods=['POST'])
+def set_username():
+    session = get_current_session()
+    session["name"] = request.form['name']
+
+    return start()
+

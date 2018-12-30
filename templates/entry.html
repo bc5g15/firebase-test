@@ -4,21 +4,25 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="static/entry.js"></script>
+{#    <script src="static/entry.js"></script>#}
 </head>
 <body>
-    <form>
-        <div id="user-id">(User ID)</div> <div id="user-name"></div><br>
-        <div>User Name</div>
-        <input type="text" id="uname"/>
-        <button id="change-name">Change Name</button>
-        <br>
-        <button id="new-game">New Game</button><br>
-        Join Game: <input type="text" id="game-id"/>
+    <strong>User ID</strong>: {{ uid }} <br>
+    <strong>Username</strong>: {{ uname }}
+    <form method="post" action="{{ url_for('solo.set_username') }}">
+        <label form="name">Name:</label>
+        <input type="text" name="name" value="{{ uname }}"><br />
+        <input type="submit" value="Change Name">
     </form>
+    <br>
 
-    <script>
-        initEntry('{{ uid }}', '{{  uname }}');
-    </script>
+{#    <form method="post" action="{{ url_for('') }}"#}
+
+    <button id="new-game">New Game</button><br>
+    Join Game: <input type="text" id="game-id"/>
+
+{#    <script>#}
+{#        initEntry('{{ uid }}', '{{  uname }}');#}
+{#    </script>#}
 </body>
 </html>
