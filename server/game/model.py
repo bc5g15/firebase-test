@@ -10,6 +10,17 @@ game state in the firebase database
 """
 
 
+class UserEntity(ndb.Model):
+    """
+    Store the name and ID of a user
+    """
+    name = ndb.StringProperty()
+    uid = ndb.StringProperty()
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
+
+
 class TileEntity(ndb.Model):
     """
     Stores the type and position of an item on a tile
@@ -27,7 +38,8 @@ class GameState(ndb.Model):
     Stores the state of the game
     """
     tiles = ndb.StructuredProperty(TileEntity, repeated=True)
-    users = ndb.StringProperty(repeated=True)
+    # users = ndb.StringProperty(repeated=True)
+    users = ndb.StructuredProperty(UserEntity, repeated=True)
 
     def to_json(self):
         return json.dumps(self.to_dict())
@@ -42,6 +54,7 @@ class GameState(ndb.Model):
         mdict["token"] = token
         message = json.dumps(mdict)
         for u in self.users:
+            u = u.uid
             _send_firebase_message(
                 u + self.key.id(), message=message
             )
@@ -62,6 +75,7 @@ class GameState(ndb.Model):
         )
 
         for u in self.users:
+            u = u.uid
             if not u == tile.type:
                 _send_firebase_message(
                     u + self.key.id(), message=message
@@ -93,6 +107,7 @@ class GameState(ndb.Model):
         mdict["token"] = "new_user"
         message = json.dumps(mdict)
         for u in self.users:
+            u = u.uid
             _send_firebase_message(
                 u + self.key.id(), message=message
             )
@@ -107,7 +122,11 @@ class GameState(ndb.Model):
             user.type + self.key.id(), message=message
         )
 
-    def add_user(self, user_id, row, col):
+    def register_user(self, user_id, user_name):
+        new_user = UserEntity(name=user_name, uid=user_id)
+        self.users.append(new_user)
+
+    def add_user_tile(self, user_id, row, col):
         """
         Add the user to the state and add a new location
         on the grid
@@ -116,8 +135,8 @@ class GameState(ndb.Model):
         :param col:
         :return:
         """
-        if user_id not in self.users:
-            self.users.append(user_id)
+        # if user_id not in self.users:
+        #     self.users.append(UserEntity(name=user_name, uid=user_id))
         new_user = TileEntity(type=user_id, row=row, col=col)
         self.tiles.append(new_user)
         self.put()

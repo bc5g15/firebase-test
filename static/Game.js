@@ -149,8 +149,21 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         $.post('/game/open');
     }
 
-    function onOpened() {
+    function refreshUsers(newState)
+    {
+        let userStr = "";
+        for(let x = 0; x<newState.users.length; x++)
+        {
+            userStr += newState.users[x].name + "<br>";
+        }
+        $("#users").html(userStr);
+    }
 
+    function onOpened() {
+        console.log("Opening Lobby");
+        handlers["add-user"] = joinLobby;
+        handlers["new-user"] = refreshUsers;
+        $.post('/game/lobby/open');
     }
 
     function joinLobby() {

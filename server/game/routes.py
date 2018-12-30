@@ -17,7 +17,7 @@ r_game = flask.Blueprint('game', __name__, template_folder=os.path.abspath('temp
 # player_id = 1
 
 
-def create_game_session():
+def create_game_session(gkey):
     """
     Creates or retrieves the counter and sets the session state
     :return:
@@ -28,7 +28,8 @@ def create_game_session():
 
     # Check if a session already exists, create it if it doesn't
     session = get_current_session()
-    user = session.get("id", 0)
+    user = session.get("id", "0")
+    name = session.get("name", "0")
     if user == "0":
         session["id"] = str(new_user_id())
         user = session["id"]
@@ -39,9 +40,10 @@ def create_game_session():
 
     if not key:
         # Create a new game
-        key = session["id"]
+        key = gkey
 
-        my_game = GameState(id=key, tiles=[], users=[user])
+        my_game = GameState(id=key, tiles=[], users=[])
+        my_game.register_user(user, name)
         my_game.put()
     else:
         my_game = GameState.get_by_id(key)
@@ -76,7 +78,9 @@ def create_game_session():
 @r_game.route("/game")
 def start_game():
     logging.info("Main Game start")
-    template_values = create_game_session()
+    new_game = new_game_id()
+    template_values = create_game_session(new_game)
+    template_values["host"] = True
     return flask.render_template("game_index2.html", **template_values)
 
 
@@ -92,6 +96,20 @@ def open_game():
     if not game:
         return 'Game not found', 404
     game.send_update("open")
+    return ''
+
+
+@r_game.route("/game/lobby/open", methods=['POST'])
+def open_game_lobby():
+    """
+    Acknowledge the lobby has opened.
+    :return:
+    """
+    logging.info("Opening lobby")
+    game = GameState.get_by_id(request.args.get('g'))
+    if not game:
+        return 'Game not fount', 404
+    game.send_update("new-user")
     return ''
 
 
