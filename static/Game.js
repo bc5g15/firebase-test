@@ -127,68 +127,9 @@ function initGame(gameKey, me, token, channelId, initialMessage)
             console.log("Unrecognised token: " + newState.token);
         }
         return;
-
-        // if (newState.token === "open")
-        // {
-        //     if(!state.started) {
-        //         $.post("/game/join");
-        //         state.started = true;
-        //     }
-        // }
-        // else if(newState.token === "position") {
-        //     /*
-        //     Returns my own position if I rejoin the game
-        //     Some of this is repeated. Should extract the new
-        //     user conditionals
-        //      */
-        //     updateFullGameState(newState);
-        //     // let tiles = newState.tiles;
-        //     // console.log(tiles);
-        //     // for(let x=0; x<tiles.length; x++) {
-        //     //     let tile = tiles[x];
-        //     //     console.log(tile);
-        //     //     ships[tile.type] = new NewShip(app, tile.type, [tile.col, tile.row]);
-        //     //     // myShip = new NewShip(app, newState.type, [newState.col, newState.row]);
-        //     //     // ships[newState.type] = myShip;
-        //     //     ships[tile.type].initShip();
-        //     //     if(tile.type === state.me) {
-        //     //         myShip = ships[tile.type];
-        //     //         createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
-        //     //     }
-        //     // }
-        // }
-        // else if(newState.token === "new_user") {
-        //     console.log("New Ship");
-        //     // Declare shipbuilding code in the listener
-        //     // updateFullGameState(newState);
-        //     updateSingleShip(newState);
-        //
-        //
-        // }
-        // else if(newState.token === "move")
-        // {
-        //     console.log("Got Move Response");
-        //     // console.log(newState);
-        //     // console.log(newState.tiles);
-        //     // console.log(newState.tiles[0]);
-        //     // updateSingleShip(newState);
-        //     moveShip(newState);
-        //     // for(let x=0; x<newState.tiles.length; x++)
-        //     // {
-        //     //     let tile = newState.tiles[x];
-        //     //     ships[tile.type].setPosition(tile.col, tile.row);
-        //     // }
-        //
-        //     // let tile = newState.tiles[0];
-        //     // console.log(tile.row);
-        //     // console.log(tile.col);
-        //
-        //     // myShip.setPosition(tile.col, tile.row)
-        //
-        // }
     }
 
-    function onOpened() {
+    function startGame() {
         console.log("Opening Game");
         console.log("Who am I?");
         console.log(state.me);
@@ -208,6 +149,14 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         $.post('/game/open');
     }
 
+    function onOpened() {
+
+    }
+
+    function joinLobby() {
+
+    }
+
     function openChannel() {
         // [START auth_login]
         // sign into Firebase with the token passed from the server
@@ -223,8 +172,6 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         // add a listener to the path that fires any time the
         // value of the data changes
         channel.on('value', function(data) {
-            // console.log("Something happened!");
-            // console.log(data.val());
             onMessage(data.val());
         });
         // [END add_listener]

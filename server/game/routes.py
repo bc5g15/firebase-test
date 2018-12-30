@@ -4,7 +4,7 @@ import os
 
 from ..firebase_interface import _send_firebase_message, create_custom_token
 from ..gaesessions import get_current_session
-from model import GameState, TileEntity
+from model import GameState
 import urllib
 
 from ..build_ids import *
@@ -24,13 +24,12 @@ def create_game_session():
     returns template values that can be passed to the render_template
     method
     """
-    global game_id
     logging.info("Create a new session for a game")
 
     # Check if a session already exists, create it if it doesn't
     session = get_current_session()
     user = session.get("id", 0)
-    if user == 0:
+    if user == "0":
         session["id"] = str(new_user_id())
         user = session["id"]
 
@@ -41,10 +40,6 @@ def create_game_session():
     if not key:
         # Create a new game
         key = session["id"]
-
-        # ships = [
-        #     TileEntity(type=user, row=0, col=0)
-        # ]
 
         my_game = GameState(id=key, tiles=[], users=[user])
         my_game.put()
