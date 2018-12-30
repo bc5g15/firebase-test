@@ -179,6 +179,9 @@ class GameState(ndb.Model):
     def full_tiles(self):
         return map(lambda x: (x.row, x.col), self.tiles)
 
+    def user_ids(self):
+        return map(lambda x: x.uid, self.users)
+
     def random_empty_position(self):
         done = False
         nrow = 0

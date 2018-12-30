@@ -36,21 +36,20 @@ def create_game_session(gkey):
 
     # user = users.get_current_user()
 
-    key = request.args.get('g')
-
-    if not key:
+    # key = request.args.get('g')
+    key = gkey
+    my_game = GameState.get_by_id(key)
+    if not my_game:
         # Create a new game
-        key = gkey
 
         my_game = GameState(id=key, tiles=[], users=[])
         my_game.register_user(user, name)
         my_game.put()
     else:
-        my_game = GameState.get_by_id(key)
         if not my_game:
             return 'No Such Game', 404
-        if user not in my_game.users:
-            my_game.users.append(user)
+        if user not in my_game.user_ids():
+            my_game.register_user(user, name)
             # my_game.add_user(user)
             my_game.put()
 
@@ -75,12 +74,20 @@ def create_game_session(gkey):
     return template_values
 
 
-@r_game.route("/game")
+@r_game.route("/game", methods=['GET', 'POST'])
 def start_game():
     logging.info("Main Game start")
-    new_game = new_game_id()
-    template_values = create_game_session(new_game)
-    template_values["host"] = True
+
+    if request.method == 'GET':
+        # template_values["host"] = True
+        game_id = new_game_id()
+    else:
+        game_id = request.form["pin"]
+
+    template_values = create_game_session(game_id)
+    if request.method == 'GET':
+        template_values["host"] = True
+
     return flask.render_template("game_index2.html", **template_values)
 
 
@@ -111,6 +118,13 @@ def open_game_lobby():
         return 'Game not fount', 404
     game.send_update("new-user")
     return ''
+
+
+@r_game.route("/game/lobby/join", methods=['POST'])
+def lobby_join():
+    pin = request.form['pin']
+    template_values = create_game_session(pin)
+    return flask.render_template("game_index2.html", **template_values)
 
 
 @r_game.route("/game/join", methods=['POST'])
