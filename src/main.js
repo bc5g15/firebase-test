@@ -14,6 +14,7 @@ import GridDrawer from './classes/grid';
 import Ocean from './classes/ocean';
 import Ship from './classes/ship';
 import NewShip from './classes/newShip';
+import typeChallengeInterface from './classes/typeChallengeInterface';
 // import FogOfWar from "./classes/fogOfWar";
 import Sound, { setLaunchSound, setExplodeSound } from './classes/sound';
 import * as lowerConsole from './classes/lowerConsole';
@@ -279,73 +280,74 @@ function gameLoop(delta) {
 }
 
 function init() {
-  //setting up the view to render to
-  app.renderer.view.style.position = 'absolute';
-  app.renderer.view.style.display = 'block';
-  app.renderer.autoResize = true;
-  //app.renderer.resize(window.innerWidth, window.innerHeight);
-  app.stage.interactive = true;
-  document.body.appendChild(app.view);
-
-  let sizeGridSquareX = GLOBAL_WIDTH / dimension;
-  let sizeGridSquareY = GLOBAL_HEIGHT * 0.8 / dimension;
-
-  //caching sprite and loading sounds
-  loader.add('missileSprite', 'static/assets/Sprites/missile.png');
-  setExplodeSound(new Sound('static/assets/Sounds/explode.mp3'));
-  setLaunchSound(new Sound('static/assets/Sounds/launch.mp3'));
-
-  //visuals
-  ocean = new Ocean(app);
-  ocean.init();
-
-  ///dealing with grids and squares;
-  grid = new GridDrawer(app, dimension, 2);
-  grid.calculatePoints();
-
-  //creates ship
-  myShip = new Ship(app, gameBoard, [0, 0]);
-  myShip.initShip();
-
-  // initialise keyboard input
-  keyboardInit(app, mousePosition, gameBoard, myShip);
-
-  //loads enemy ships from game state data
-  enemyTracker.loadEnemies();
-
-  // initialises button and other data to display
-  lowerConsole.initLowerConsole(app);
-
-  //create fog of
-  //fog = new FogOfWar(app);
-  //fog.init();
-  //fogMask = fog.fogMask;
-
-  //renders the grid lines and the circles on top of the fog
-  grid.drawGrid();
-  grid.drawCircles();
-  myShip.render();
-
-  //load treasure based on array of coordinates;
-  treasureTracker.loadTreasure(gameBoard, testTreasureLocations);
-
-  //create squares
-  gameBoard.squareHighlighter.createSquare(dimension);
-
-  //create green square to start around the ship
-  gameBoard.squareHighlighter.createGreenSquare(
-    myShip.sprite.position.x,
-    myShip.sprite.position.y
-  );
-
-  //calculate missile speed in utility function
-  gameBoard.missileSpeed = util.calculateMissileSpeed(
-    gameBoard.missileSpeedFactor,
-    gameBoard,
-    sizeGridSquareX,
-    sizeGridSquareY
-  );
-
-  //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
-  app.ticker.add(delta => gameLoop(delta));
+  typeChallengeInterface('test typing challenge');
+  // //setting up the view to render to
+  // app.renderer.view.style.position = 'absolute';
+  // app.renderer.view.style.display = 'block';
+  // app.renderer.autoResize = true;
+  // //app.renderer.resize(window.innerWidth, window.innerHeight);
+  // app.stage.interactive = true;
+  // document.body.appendChild(app.view);
+  //
+  // let sizeGridSquareX = GLOBAL_WIDTH / dimension;
+  // let sizeGridSquareY = GLOBAL_HEIGHT * 0.8 / dimension;
+  //
+  // //caching sprite and loading sounds
+  // loader.add('missileSprite', 'static/assets/Sprites/missile.png');
+  // setExplodeSound(new Sound('static/assets/Sounds/explode.mp3'));
+  // setLaunchSound(new Sound('static/assets/Sounds/launch.mp3'));
+  //
+  // //visuals
+  // ocean = new Ocean(app);
+  // ocean.init();
+  //
+  // ///dealing with grids and squares;
+  // grid = new GridDrawer(app, dimension, 2);
+  // grid.calculatePoints();
+  //
+  // //creates ship
+  // myShip = new Ship(app, gameBoard, [0, 0]);
+  // myShip.initShip();
+  //
+  // // initialise keyboard input
+  // keyboardInit(app, mousePosition, gameBoard, myShip);
+  //
+  // //loads enemy ships from game state data
+  // enemyTracker.loadEnemies();
+  //
+  // // initialises button and other data to display
+  // lowerConsole.initLowerConsole(app);
+  //
+  // //create fog of
+  // //fog = new FogOfWar(app);
+  // //fog.init();
+  // //fogMask = fog.fogMask;
+  //
+  // //renders the grid lines and the circles on top of the fog
+  // grid.drawGrid();
+  // grid.drawCircles();
+  // myShip.render();
+  //
+  // //load treasure based on array of coordinates;
+  // treasureTracker.loadTreasure(gameBoard, testTreasureLocations);
+  //
+  // //create squares
+  // gameBoard.squareHighlighter.createSquare(dimension);
+  //
+  // //create green square to start around the ship
+  // gameBoard.squareHighlighter.createGreenSquare(
+  //   myShip.sprite.position.x,
+  //   myShip.sprite.position.y
+  // );
+  //
+  // //calculate missile speed in utility function
+  // gameBoard.missileSpeed = util.calculateMissileSpeed(
+  //   gameBoard.missileSpeedFactor,
+  //   gameBoard,
+  //   sizeGridSquareX,
+  //   sizeGridSquareY
+  // );
+  //
+  // //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
+  // app.ticker.add(delta => gameLoop(delta));
 }
