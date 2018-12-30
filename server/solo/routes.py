@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from ..gaesessions import get_current_session
 import random
 
@@ -50,5 +50,9 @@ def set_username():
     session = get_current_session()
     session["name"] = request.form['name']
 
-    return start()
+    return redirect(url_for('solo.start'))
 
+
+@solo.route('/solo-join-game', methods=['POST'])
+def solo_join_game():
+    return redirect(url_for('solo.my_hello'))
