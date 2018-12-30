@@ -6,10 +6,10 @@ const app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb });
 
 let finished = false;
 let input = '';
+let userInputTxt;
 let challenge = '';
 let correct = 0;
 let totalTyped = 0;
-let accuracy = 0;
 let counter = 0;
 
 const txtStyle = new PIXI.TextStyle({
@@ -21,23 +21,26 @@ const txtStyle = new PIXI.TextStyle({
 
 window.onkeydown = e => {
   if (e.key == 'Backspace') {
+    console.log('backspace entered..... removing last entered char');
     counter--;
+    removeLastChar();
+  } else {
+    validateInput(e.key);
   }
-  validateInput(e.key);
 };
 
 export default function typeChallengeInterface(challenge) {
-  // this.challenge = c;
-  let challengeArr = challenge.split('');
-
   document.body.appendChild(app.view);
 
   showChallenge(challenge);
 }
 
 function showChallenge(challenge) {
-  var richText = new PIXI.Text(challenge, txtStyle);
-  app.stage.addChild(richText);
+  let richText = new PIXI.Text(challenge, txtStyle);
+  userInputTxt = new PIXI.Text(input, txtStyle);
+  userInputTxt.y = 50;
+
+  app.stage.addChild(richText, userInputTxt);
 }
 
 function validateInput(char) {
@@ -46,20 +49,21 @@ function validateInput(char) {
   if (char != challenge.charAt(counter)) {
     console.log('wrong character entered: ', char);
     // TODO: highlight wrong character
+    input += char;
+    updateUserInput();
+  } else {
+    correct++;
+    input += char;
+    updateUserInput();
   }
-
-  updateUserInput(char);
 }
 
-function updateUserInput(char) {
-  input += char;
-  let txt = new PIXI.Text(input, txtStyle);
-  txt.y = 50;
-  app.stage.addChild(txt);
-
-  console.log('key pressed: ', char);
+function updateUserInput() {
+  userInputTxt.setText(input);
 }
 
-function adjustAccuracy() {
-  accuracy = correct / challenge.length;
+function removeLastChar() {
+  input = input.substr(0, input.length - 1);
+  updateUserInput();
+  console.log('INPUT AFTER REMOVE: ', input);
 }
