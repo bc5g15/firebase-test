@@ -42,11 +42,15 @@ def create_game_session(gkey, newgame):
     if newgame:
         # Create a new game
 
-        my_game = GameState(id=key, tiles=[], users=[])
+        my_game = GameState(id=key, tiles=[], users=[], started=False)
         my_game.register_user(user, name)
         my_game.put()
     else:
         if not my_game:
+            return {'success': False}
+        if my_game.started:
+            # We are not allowed to join a game in progress
+            logging.info("Game already started")
             return {'success': False}
         if user not in my_game.user_ids():
             my_game.register_user(user, name)
@@ -68,7 +72,7 @@ def create_game_session(gkey, newgame):
         'game_key': key,
         'game_link': game_link,
         'initial_message': urllib.unquote(my_game.to_json()),
-        'success': False
+        'success': True
     }
     # [END pass_token]
 
@@ -133,6 +137,15 @@ def lobby_join():
     return flask.render_template("game_index2.html", **template_values)
 
 
+@r_game.route("/game/lobby/start", methods=['POST'])
+def lobby_start():
+    game = GameState.get_by_id(request.args.get('g'))
+    if not game:
+        return 'Game not found', 404
+    game.send_update("start-game")
+    return ''
+
+
 @r_game.route("/game/join", methods=['POST'])
 def join_game():
     """
@@ -165,7 +178,7 @@ def join_game():
 
     # Create a position and stick the user in
     pos = game.random_empty_position()
-    game.add_user(session["id"], pos[0], pos[1])
+    game.add_user_tile(session["id"], pos[0], pos[1])
     logging.info("Attempting join")
     return ''
 

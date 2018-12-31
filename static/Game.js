@@ -113,6 +113,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
 
     let channel = null;
 
+    //Variable for storing event handlers
     let handlers = {};
 
     function onMessage(newState)
@@ -161,8 +162,8 @@ function initGame(gameKey, me, token, channelId, initialMessage)
 
     function onOpened() {
         console.log("Opening Lobby");
-        handlers["add-user"] = joinLobby;
         handlers["new-user"] = refreshUsers;
+        handlers["start-game"] = startGame;
         $.post('/game/lobby/open');
     }
 
@@ -199,6 +200,11 @@ function initGame(gameKey, me, token, channelId, initialMessage)
           else
             opts.url += '?g=' + state.gameKey;
         });
+
+        $('#start-game').click(() => {
+            $('#start-game').hide();
+            startGame();
+        })
 
         openChannel();
 
@@ -299,6 +305,6 @@ function init() {
 function gameLoop(delta) {
     ocean.update(delta);
     updateMissiles(delta);
-    updateSquare(mouseposition);
+    // updateSquare(mouseposition);
     updateDestroyedShips();
 }

@@ -40,6 +40,7 @@ class GameState(ndb.Model):
     tiles = ndb.StructuredProperty(TileEntity, repeated=True)
     # users = ndb.StringProperty(repeated=True)
     users = ndb.StructuredProperty(UserEntity, repeated=True)
+    started = ndb.BooleanProperty()
 
     def to_json(self):
         return json.dumps(self.to_dict())

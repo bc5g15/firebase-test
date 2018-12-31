@@ -98,13 +98,13 @@ function keyboardInit() {
     };
 
     //this function sets the location of the green square when the mouse is clicked
-    app.stage.on("mousedown", function(e) {
-
-        if (!(mouseposition.y > globalHeight * 0.8)) {
-            let pos = getPositionOfCurrentSquare();
-            moveGreenSquare(getGridIndex(pos));
-            //console.log("pos: " + pos);
-            //console.log("GETGRIDINDEX(pos): " + getGridIndex(pos));
-        }
-    });
+    // app.stage.on("mousedown", function(e) {
+    //
+    //     if (!(mouseposition.y > globalHeight * 0.8)) {
+    //         let pos = getPositionOfCurrentSquare();
+    //         moveGreenSquare(getGridIndex(pos));
+    //         //console.log("pos: " + pos);
+    //         //console.log("GETGRIDINDEX(pos): " + getGridIndex(pos));
+    //     }
+    // });
 }
