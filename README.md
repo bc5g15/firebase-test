@@ -1,49 +1,27 @@
-# Tic Tac Toe, using Firebase, on App Engine Standard
+# Battleship Game
 
-[![Open in Cloud Shell][shell_img]][shell_link]
+## Building
+To get set up, run the following commands and download a copy of the [GAE admin token](https://drive.google.com/file/d/1Fa89M5BX7gVD9jkjJv8TCsiFsLFyg_qJ/view?usp=sharing) to your project working directory:
+```
+.\setup
+```
+```
+npm install
+```
+These commands will install the necessary Python and JavaScript dependencies for development and runtime of the application.
 
-[shell_img]: http://gstatic.com/cloudssh/images/open-btn.png
-[shell_link]: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=appengine/standard/firebase/firetactoe/README.md
+## Testing frontend
+To just run the frontend of the game for testing, run the following command:
+```
+npm start
+```
+This will open a browser window at `localhost:8080`, this will render a local version of the game which will have no connection to a backend. This version supports hot reloading of front end files (auto refresh on file changes).
 
-This sample shows how to use the [Firebase](https://firebase.google.com/)
-realtime database to implement a simple Tic Tac Toe game on [Google App Engine
-Standard](https://cloud.google.com/appengine).
-
-## Setup
-
-Make sure you have the [Google Cloud SDK](https://cloud.google.com/sdk/)
-installed. You'll need this to test and deploy your App Engine app.
-
-### Authentication
-
-* Create a project in the [Firebase
-  console](https://firebase.google.com/console)
-* In the Overview section, click 'Add Firebase to your web app' and replace the
-  contents of the file
-  [`templates/_firebase_config.html`](templates/_firebase_config.html) with the
-  given snippet. This provides credentials for the javascript client.
-* For running the sample locally, you'll need to download a service account to
-  provide credentials that would normally be provided automatically in the App
-  Engine environment. Click the gear icon in the Firebase Console and select
-  'Permissions'; then go to the 'Service accounts' tab. Download a new or
-  existing App Engine service account credentials file. Then set the environment
-  variable `GOOGLE_APPLICATION_CREDENTIALS` to the path to this file:
-
-      export GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials.json
-
-  This allows the server to create unique secure tokens for each user for
-  Firebase to validate.
-
-### Install dependencies
-
-Before running or deploying this application, install the dependencies using
-[pip](http://pip.readthedocs.io/en/stable/):
-
-    pip install -t lib -r requirements.txt
-
-## Running the sample
-
-    dev_appserver.py .
-
-For more information on running or deploying the sample, see the [App Engine
-Standard README](../../README.md).
+## Testing full server
+To test the full server (frontend and backend), run the following commands:
+```
+npm run build
+```
+```
+.\run
+```
