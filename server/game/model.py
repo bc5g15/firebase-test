@@ -33,6 +33,20 @@ class TileEntity(ndb.Model):
         return json.dumps(self.to_dict())
 
 
+class Ship(TileEntity): # Ship, target and treasure are all extensions of TileEntity to represent that they all have
+    # type, row and col yet have their own different attributes - different hitpoint numbers in ship and target and
+    # value in target
+    hitpoints = ndb.IntegerProperty()
+
+
+class Target(TileEntity):
+    hitpoints = ndb.IntegerProperty()
+
+
+class Treasure(TileEntity):
+    value = ndb.IntegerProperty()
+
+
 class GameState(ndb.Model):
     """
     Stores the state of the game
@@ -138,7 +152,7 @@ class GameState(ndb.Model):
         """
         # if user_id not in self.users:
         #     self.users.append(UserEntity(name=user_name, uid=user_id))
-        new_user = TileEntity(type=user_id, row=row, col=col)
+        new_user = Ship(type=user_id, row=row, col=col, hitpoints=3)
         self.tiles.append(new_user)
         self.put()
         self.notify_add_user(new_user)
@@ -173,6 +187,22 @@ class GameState(ndb.Model):
         #         tile.col = new_col
 
         # self.send_update("move")
+
+    def hit(self, user_id):
+        for x in xrange(len(self.tiles)):
+            if self.tiles[x].type == user_id:
+                if self.tiles[x].hitpoints > 1:  # Reduces hitpoints by 1 if not on 1 hitpoint left
+                    self.tiles[x].hitpoints = self.tiles[x].hitpoints - 1;
+                    self.put()
+                    self.send_small_update("hit", self.tiles[x])
+                    return
+                elif self.tiles[x].hitpoints == 1:  # Destroys ship if it has 1 hitpoint left
+                    self.tiles[x].hitpoints = 0;
+                    self.put()
+                    self.send_small_update("destroyed", self.tiles[x])
+                    return
+                else:  # Does nothing if a missile hits the wreck of a player's sunken ship - that player's already out!
+                    return
 
     def list_users(self):
         return map(lambda x: x.type, self.tiles)

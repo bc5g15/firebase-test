@@ -184,6 +184,10 @@ def join_game():
 
 
 @r_game.route("/game/move", methods=['POST'])
+def resolve_damage():
+    game = GameState.get_by_id(request.args.get('g'))
+
+@r_game.route("/game/move", methods=['POST'])
 def game_move():
     """
     Handle the moving logic from the game
