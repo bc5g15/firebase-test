@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import * as PIXI from 'pixi.js';
-
+import injector from 'pixi-multistyle-text-esnext';
+injector(PIXI);
 const loader = PIXI.loader;
 const app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb });
 
@@ -15,7 +16,6 @@ let counter = 0;
 const txtStyle = new PIXI.TextStyle({
   fontFamily: 'Arial',
   fontSize: 20,
-  fontStyle: 'italic',
   fontWeight: 'bold'
 });
 
@@ -48,13 +48,23 @@ function processInput(event) {
     let msg = new PIXI.Text(
       'Challenge complete your accuracy was ' + correct / totalTyped * 100 + '%'
     );
-    msg.y = 70;
+    msg.y = 100;
     app.stage.addChild(msg);
   }
 }
 
 function showChallenge(challenge) {
-  userInputTxt = new PIXI.Text(input, txtStyle);
+  userInputTxt = new PIXI.MultiStyleText(input, {
+    default: {
+      fontFamily: 'Arial',
+      fontSize: '20px',
+      fill: '#cccccc',
+      align: 'center'
+    },
+    incorrect: {
+      fill: '#ff8888'
+    }
+  });
   userInputTxt.y = 50;
 
   app.stage.addChild(new PIXI.Text(challenge, txtStyle), userInputTxt);
@@ -62,8 +72,7 @@ function showChallenge(challenge) {
 
 function validateInput(char) {
   if (char != challenge.charAt(counter) && !finished) {
-    // TODO: highlight wrong character
-    input += char;
+    input += '<incorrect>' + char + '</incorrect>';
     userInputTxt.text = input;
   } else {
     input += char;
