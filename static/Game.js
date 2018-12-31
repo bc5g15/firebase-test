@@ -24,11 +24,11 @@ var app = new PIXI.Application({
     backgroundColor: 0x000000
 });
 
-//currently the dimention represents the grid dimention, this will be retrieved from the server in the actual final product
+//currently the dimension represents the grid dimension, this will be retrieved from the server in the actual final product
 let dimention = 9;
 var mouseposition = app.renderer.plugins.interaction.mouse.global;
 
-//initializing variables to be used in the game
+//initialising variables to be used in the game
 var gameState = testGameState();
 let myShip;
 // Allow for multiple ships
@@ -42,15 +42,15 @@ var testTreasureLocations = [[1,1],[2,2],[3,3],[4,4]];
 
 //var start;  //timing stuff, check the missile controller
 
-//initialize grid class to draw grid
+//initialise grid class to draw grid
 var grid = new GridDrawer(app, dimention, 2, globalWidth, app.height);
 
-//initializes ocean and fog of war classes
+//initialises ocean and fog of war classes
 var ocean = null;
 var fog = null;
 var fogMask = new PIXI.Graphics();
 
-//initializes variables regarding the player
+//initialises variables regarding the player
 id = 000;
 score = 20000;
 health = 1000;
@@ -72,7 +72,7 @@ function updateFullGameState(newState)
         console.log(tile);
         if(!(tile.type in ships))
         {
-            ships[tile.type] = new NewShip(app, tile.type, [tile.col, tile.row]);
+            ships[tile.type] = new NewShip(app, tile.type, [tile.col, tile.row], tile.hitpoints);
             ships[tile.type].initShip();
             if (tile.type === state.me) {
                 console.log("Restting myself");
@@ -85,7 +85,7 @@ function updateFullGameState(newState)
 
 function updateSingleShip(newState)
 {
-    let newShip = new NewShip(app, newState.type, [newState.col, newState.row]);
+    let newShip = new NewShip(app, newState.type, [newState.col, newState.row], newState.hitpoints);
     ships[newState.type] = newShip;
     newShip.initShip();
     if (newState.type === state.me) {
@@ -214,7 +214,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
     setTimeout(initialize, 100);
 }
 
-//initializes the game
+//initialises the game
 // init();
 
 /*
