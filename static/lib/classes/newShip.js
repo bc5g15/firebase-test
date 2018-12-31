@@ -4,10 +4,11 @@ This class us used to rotate the ship and move it around the map.
 */
 
 class NewShip {
-    constructor(app, id, position) {
+    constructor(app, id, position, hitpoints) {
         this.app = app;
         this.id = id;
         this.position = position; //coordinates
+        this.hitpoints = hitpoints;
         this.positionExact = null; //exact coordinates
         this.sprite = null;
     }

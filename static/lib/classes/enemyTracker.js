@@ -29,13 +29,19 @@ function checkEnemyHit(coord){
     //Uncomment block to test hit detection.
     enemyShips.forEach(enemy => {  
 
-        if(enemy.coordinates[0] === coord[0] && enemy.coordinates[1] === coord[1]){
+        if(enemy.coordinates[0] === coord[0] && enemy.coordinates[1] === coord[1] && enemy.hitpoints > 0){
 
             console.log("Target Hit!");
-            enemy.sprite.texture = destroyedTexture;
-            enemy.sprite.alpha = 0.65;
-            destroyedShips.push(enemy);
-            enemyShips.splice(enemyShips.indexOf(enemy), 1);
+            if(enemy.hitpoints === 1){ //Changed this to reflect NPC enemy hitpoints
+                enemy.hitpoints = 0;
+                enemy.sprite.texture = destroyedTexture;
+                enemy.sprite.alpha = 0.65;
+                destroyedShips.push(enemy);
+                enemyShips.splice(enemyShips.indexOf(enemy), 1);
+            }else{
+                enemy.hitpoints = enemy.hitpoints - 1;
+            }
+
         }       
     });
     console.log("Length of destroyed ships: " + destroyedShips.length);
