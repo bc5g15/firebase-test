@@ -10,6 +10,7 @@ import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
 
 export default class ButtonManager {
   constructor(app, gameBoard, myShip) {
+    this.app = app;
     this.gameBoard = gameBoard;
     this.myShip = myShip;
 
@@ -26,11 +27,11 @@ export default class ButtonManager {
     let button = new PIXI.Sprite(this.textureButton);
     button.buttonMode = true;
     button.interactive = true;
-    button.anchor.set(0.5);
-    button.x = GLOBAL_WIDTH * 0.75;
-    button.y = GLOBAL_HEIGHT * 0.9;
-    button.on('pointerdown', this.buttonPressed);
-    button.on('pointerup', this.buttonReleased);
+    button.anchor.set(0, 0.5);
+    button.x = GLOBAL_WIDTH;
+    button.y = GLOBAL_HEIGHT * 0.5;
+    button.on('pointerdown', this.buttonPressed.bind(this));
+    button.on('pointerup', this.buttonReleased.bind(this));
     this.button = button;
 
     //adding button to the game container.
@@ -38,6 +39,7 @@ export default class ButtonManager {
   }
 
   buttonPressed() {
+    console.log(this.myShip);
     this.button.texture = this.textureButtonDown;
 
     let pos = this.gameBoard.squareHighlighter.getPositionOfGreenSquare();
@@ -53,12 +55,12 @@ export default class ButtonManager {
         util.rotateTo(
           pos[0],
           pos[1],
-          this.gameBoard.myShip.positionExact[0],
-          this.gameBoard.myShip.positionExact[1]
+          this.myShip.positionExact[0],
+          this.myShip.positionExact[1]
         ),
         {
-          x: this.gameBoard.myShip.positionExact[0],
-          y: this.gameBoard.myShip.positionExact[1]
+          x: this.myShip.positionExact[0],
+          y: this.myShip.positionExact[1]
         },
         this.gameBoard
       );

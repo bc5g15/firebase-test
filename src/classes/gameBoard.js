@@ -24,6 +24,7 @@ export default class GameState {
 
     this.mousePosition = mousePosition;
 
+    this.gameState = [];
     this.squareHighlighter = new SquareHighlighter(app, this);
   }
 }

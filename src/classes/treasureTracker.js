@@ -26,7 +26,7 @@ export function checkCollectedTreasure(gameBoard, position) {
       console.log('Treasure Collected');
       chest.collectTreasure();
       gameBoard.treasureArray.splice(chest, 1);
-      addTreasureToScore();
+      addTreasureToScore(gameBoard);
     }
   });
 }

@@ -86,7 +86,10 @@ function checkForHit(gameBoard) {
 //checks if an enemy exists at destruction location. Removes missile from missile array and stage
 function destroyMissile(gameBoard, missile) {
   console.log('TargetCoord: ' + gameBoard.missiles[missile].targetCoord);
-  enemyTracker.checkEnemyHit(gameBoard.missiles[missile].targetCoord);
+  enemyTracker.checkEnemyHit(
+    gameBoard,
+    gameBoard.missiles[missile].targetCoord
+  );
   gameBoard.app.stage.removeChild(gameBoard.missiles[missile].sprite);
   gameBoard.missiles.splice(missile, 1);
   explode();

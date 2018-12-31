@@ -300,7 +300,7 @@ function init() {
   ocean.init();
 
   ///dealing with grids and squares;
-  grid = new GridDrawer(app, dimension, 2);
+  grid = new GridDrawer(app, gameBoard, 2);
   grid.calculatePoints();
 
   //creates ship
@@ -311,10 +311,10 @@ function init() {
   keyboardInit(app, mousePosition, gameBoard, myShip);
 
   //loads enemy ships from game state data
-  enemyTracker.loadEnemies();
+  enemyTracker.loadEnemies(app, gameBoard);
 
   // initialises button and other data to display
-  lowerConsole.initLowerConsole(app);
+  lowerConsole.initLowerConsole(app, gameBoard, myShip);
 
   //create fog of
   //fog = new FogOfWar(app);

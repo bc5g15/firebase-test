@@ -41,6 +41,12 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, 'static'),
+    proxy: {
+      '/static': {
+        target: 'http://localhost:8080',
+        pathRewrite: { '^/static': '' }
+      }
+    },
     compress: true,
     port: 8080
   },

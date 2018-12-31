@@ -6,10 +6,11 @@ the user.
 
 import * as PIXI from 'pixi.js';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
+import ButtonManager from './buttonManager';
 
 let lowerConsole;
 
-export function initLowerConsole(app) {
+export function initLowerConsole(app, gameBoard, myShip) {
   lowerConsole = new PIXI.Graphics();
   lowerConsole.beginFill(0xd3d3d3, 0.55);
   lowerConsole.lineStyle(0, 0x000000, 0.5);
@@ -18,5 +19,5 @@ export function initLowerConsole(app) {
   app.stage.addChild(lowerConsole);
 
   // idk where this is --karl
-  // initButtons();
+  new ButtonManager(app, gameBoard, myShip);
 }

@@ -14,7 +14,7 @@ export function loadEnemies(app, gameBoard) {
   //enemy has form of [id, [x, y]] where [x, y] is the index of the gameState array
   //enemy ships have constructor Enemy(app, id, position)
   gameBoard.gameState.forEach(ship => {
-    let enemy = new Enemy(app, ship[0], ship[1]);
+    let enemy = new Enemy(app, gameBoard, ship[0], ship[1]);
     gameBoard.enemyShips.push(enemy);
   });
 

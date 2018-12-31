@@ -50,11 +50,13 @@ export default class SquareHighlighter {
     square.beginFill(0xff0000, 0.4);
     square.drawRect(0, 0, this.sizeX, this.sizeY);
     square.endFill();
+    this.square = square;
 
     let squareTexture = square.generateCanvasTexture();
     let squareSprite = new PIXI.Sprite(squareTexture);
     squareSprite.anchor.set(0.5);
     squareSprite.position.set(this.position[0], this.position[1]);
+    this.squareSprite = squareSprite;
 
     this.app.stage.addChild(squareSprite);
   }
@@ -70,6 +72,7 @@ export default class SquareHighlighter {
     let squareSpriteGreen = new PIXI.Sprite(squareTextureGreen);
     squareSpriteGreen.anchor.set(0.5);
     squareSpriteGreen.position.set(x, y);
+    this.squareSpriteGreen = squareSpriteGreen;
 
     this.app.stage.addChild(squareSpriteGreen);
   }

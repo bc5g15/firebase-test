@@ -102,7 +102,9 @@ export default function keyboardInit(app, mousePosition, gameBoard, myShip) {
   app.stage.on('mousedown', () => {
     if (!(mousePosition.y > GLOBAL_HEIGHT * 0.8)) {
       let pos = gameBoard.squareHighlighter.getPositionOfCurrentSquare();
-      gameBoard.squareHighlighter.moveGreenSquare(gameBoard.getGridIndex(pos));
+      gameBoard.squareHighlighter.moveGreenSquare(
+        gameBoard.squareHighlighter.getGridIndex(pos)
+      );
       //console.log("pos: " + pos);
       //console.log("GETGRIDINDEX(pos): " + getGridIndex(pos));
     }
