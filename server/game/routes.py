@@ -183,9 +183,13 @@ def join_game():
     return ''
 
 
-@r_game.route("/game/move", methods=['POST'])
+@r_game.route("/game/hit", methods=['POST'])
 def resolve_damage():
     game = GameState.get_by_id(request.args.get('g'))
+    userid = request.form.get('id')
+    game.hit(userid)
+    return ''
+
 
 @r_game.route("/game/move", methods=['POST'])
 def game_move():

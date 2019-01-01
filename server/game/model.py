@@ -28,6 +28,7 @@ class TileEntity(ndb.Model):
     type = ndb.StringProperty()
     row = ndb.IntegerProperty()
     col = ndb.IntegerProperty()
+    hitpoints = ndb.IntegerProperty()
 
     def to_json(self):
         return json.dumps(self.to_dict())
@@ -35,12 +36,13 @@ class TileEntity(ndb.Model):
 
 class Ship(TileEntity): # Ship, target and treasure are all extensions of TileEntity to represent that they all have
     # type, row and col yet have their own different attributes - different hitpoint numbers in ship and target and
-    # value in target
+    # value in treasure and target
     hitpoints = ndb.IntegerProperty()
 
 
 class Target(TileEntity):
     hitpoints = ndb.IntegerProperty()
+    value = ndb.IntegerProperty()
 
 
 class Treasure(TileEntity):
@@ -152,7 +154,7 @@ class GameState(ndb.Model):
         """
         # if user_id not in self.users:
         #     self.users.append(UserEntity(name=user_name, uid=user_id))
-        new_user = Ship(type=user_id, row=row, col=col, hitpoints=3)
+        new_user = TileEntity(type=user_id, row=row, col=col, hitpoints=3)
         self.tiles.append(new_user)
         self.put()
         self.notify_add_user(new_user)
