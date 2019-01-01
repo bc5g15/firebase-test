@@ -2,7 +2,7 @@
 The missile controller is used to maintain a store and track all the missiles the user has fired
 This is where the shoot function is called when the fire button is pressed. Each missile has a sprite
 to render the missile. It also contains the target which is the physical x and y coordinates for the
-green square (remember the green square represents the current target location). The misisle object 
+green square (remember the green square represents the current target location). The missile object
 stores a targetCoord variable which is the coordinates of the target (ie [3,6] for example. This is 
 mainly used for console logging and displaying data to the user). The target varable is an array of
 the physical x and y coordinates that the missile is attempting to hit. Every frame, the updateMissile() 
@@ -58,7 +58,7 @@ function updateMissiles() {
     checkForHit();
 }
 
-//checks for hits by calculating the physcial distance to target. threshould variable is used
+//checks for hits by calculating the physcial distance to target. Threshold variable is used
 //to determine the distance required to determine a hit
 function checkForHit() {
 

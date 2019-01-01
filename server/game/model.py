@@ -10,6 +10,17 @@ game state in the firebase database
 """
 
 
+class UserEntity(ndb.Model):
+    """
+    Store the name and ID of a user
+    """
+    name = ndb.StringProperty()
+    uid = ndb.StringProperty()
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
+
+
 class TileEntity(ndb.Model):
     """
     Stores the type and position of an item on a tile
@@ -17,9 +28,25 @@ class TileEntity(ndb.Model):
     type = ndb.StringProperty()
     row = ndb.IntegerProperty()
     col = ndb.IntegerProperty()
+    hitpoints = ndb.IntegerProperty()
 
     def to_json(self):
         return json.dumps(self.to_dict())
+
+
+class Ship(TileEntity): # Ship, target and treasure are all extensions of TileEntity to represent that they all have
+    # type, row and col yet have their own different attributes - different hitpoint numbers in ship and target and
+    # value in treasure and target
+    hitpoints = ndb.IntegerProperty()
+
+
+class Target(TileEntity):
+    hitpoints = ndb.IntegerProperty()
+    value = ndb.IntegerProperty()
+
+
+class Treasure(TileEntity):
+    value = ndb.IntegerProperty()
 
 
 class GameState(ndb.Model):
@@ -27,7 +54,9 @@ class GameState(ndb.Model):
     Stores the state of the game
     """
     tiles = ndb.StructuredProperty(TileEntity, repeated=True)
-    users = ndb.StringProperty(repeated=True)
+    # users = ndb.StringProperty(repeated=True)
+    users = ndb.StructuredProperty(UserEntity, repeated=True)
+    started = ndb.BooleanProperty()
 
     def to_json(self):
         return json.dumps(self.to_dict())
@@ -42,6 +71,7 @@ class GameState(ndb.Model):
         mdict["token"] = token
         message = json.dumps(mdict)
         for u in self.users:
+            u = u.uid
             _send_firebase_message(
                 u + self.key.id(), message=message
             )
@@ -62,6 +92,7 @@ class GameState(ndb.Model):
         )
 
         for u in self.users:
+            u = u.uid
             if not u == tile.type:
                 _send_firebase_message(
                     u + self.key.id(), message=message
@@ -93,6 +124,7 @@ class GameState(ndb.Model):
         mdict["token"] = "new_user"
         message = json.dumps(mdict)
         for u in self.users:
+            u = u.uid
             _send_firebase_message(
                 u + self.key.id(), message=message
             )
@@ -107,7 +139,11 @@ class GameState(ndb.Model):
             user.type + self.key.id(), message=message
         )
 
-    def add_user(self, user_id, row, col):
+    def register_user(self, user_id, user_name):
+        new_user = UserEntity(name=user_name, uid=user_id)
+        self.users.append(new_user)
+
+    def add_user_tile(self, user_id, row, col):
         """
         Add the user to the state and add a new location
         on the grid
@@ -116,9 +152,9 @@ class GameState(ndb.Model):
         :param col:
         :return:
         """
-        if user_id not in self.users:
-            self.users.append(user_id)
-        new_user = TileEntity(type=user_id, row=row, col=col)
+        # if user_id not in self.users:
+        #     self.users.append(UserEntity(name=user_name, uid=user_id))
+        new_user = TileEntity(type=user_id, row=row, col=col, hitpoints=3)
         self.tiles.append(new_user)
         self.put()
         self.notify_add_user(new_user)
@@ -154,11 +190,30 @@ class GameState(ndb.Model):
 
         # self.send_update("move")
 
+    def hit(self, user_id):
+        for x in xrange(len(self.tiles)):
+            if self.tiles[x].type == user_id:
+                if self.tiles[x].hitpoints > 1:  # Reduces hitpoints by 1 if not on 1 hitpoint left
+                    self.tiles[x].hitpoints = self.tiles[x].hitpoints - 1;
+                    self.put()
+                    self.send_small_update("hit", self.tiles[x])
+                    return
+                elif self.tiles[x].hitpoints == 1:  # Destroys ship if it has 1 hitpoint left
+                    self.tiles[x].hitpoints = 0;
+                    self.put()
+                    self.send_small_update("destroyed", self.tiles[x])
+                    return
+                else:  # Does nothing if a missile hits the wreck of a player's sunken ship - that player's already out!
+                    return
+
     def list_users(self):
         return map(lambda x: x.type, self.tiles)
 
     def full_tiles(self):
         return map(lambda x: (x.row, x.col), self.tiles)
+
+    def user_ids(self):
+        return map(lambda x: x.uid, self.users)
 
     def random_empty_position(self):
         done = False

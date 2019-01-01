@@ -7,7 +7,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
     </head>
-
+    <link rel="stylesheet" type="text/css" href="static/main.css" />
     <script src="static/lib/pixi.min.js"></script>
     <!-- import javascript game files here -->
     <body>
@@ -34,5 +34,15 @@
         <div id="this-game" float="top">
             Quick link to this game: <span id="this-game-link"><a href="{{ game_link }}">{{ game_link }}</a></span>
         </div>
+        <div id="pin" float="top">
+            <h1>Join the game with this PIN: {{ game_key }}</h1>
+        </div>
+            <div id="userList">Users in Lobby:
+        <hr />
+        <div id="users"></div>
+        {%  if host %}
+            <button id="start-game">Start!</button>
+        {% endif %}
+      </div>
     </body>
 </html>

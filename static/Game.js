@@ -24,11 +24,11 @@ var app = new PIXI.Application({
     backgroundColor: 0x000000
 });
 
-//currently the dimention represents the grid dimention, this will be retrieved from the server in the actual final product
+//currently the dimension represents the grid dimension, this will be retrieved from the server in the actual final product
 let dimention = 9;
 var mouseposition = app.renderer.plugins.interaction.mouse.global;
 
-//initializing variables to be used in the game
+//initialising variables to be used in the game
 var gameState = testGameState();
 let myShip;
 // Allow for multiple ships
@@ -42,15 +42,15 @@ var testTreasureLocations = [[1,1],[2,2],[3,3],[4,4]];
 
 //var start;  //timing stuff, check the missile controller
 
-//initialize grid class to draw grid
+//initialise grid class to draw grid
 var grid = new GridDrawer(app, dimention, 2, globalWidth, app.height);
 
-//initializes ocean and fog of war classes
+//initialises ocean and fog of war classes
 var ocean = null;
 var fog = null;
 var fogMask = new PIXI.Graphics();
 
-//initializes variables regarding the player
+//initialises variables regarding the player
 id = 000;
 score = 20000;
 health = 1000;
@@ -72,7 +72,7 @@ function updateFullGameState(newState)
         console.log(tile);
         if(!(tile.type in ships))
         {
-            ships[tile.type] = new NewShip(app, tile.type, [tile.col, tile.row]);
+            ships[tile.type] = new NewShip(app, tile.type, [tile.col, tile.row], tile.hitpoints);
             ships[tile.type].initShip();
             if (tile.type === state.me) {
                 console.log("Restting myself");
@@ -85,7 +85,7 @@ function updateFullGameState(newState)
 
 function updateSingleShip(newState)
 {
-    let newShip = new NewShip(app, newState.type, [newState.col, newState.row]);
+    let newShip = new NewShip(app, newState.type, [newState.col, newState.row], newState.hitpoints);
     ships[newState.type] = newShip;
     newShip.initShip();
     if (newState.type === state.me) {
@@ -98,6 +98,20 @@ function updateSingleShip(newState)
 function moveShip(newState)
 {
     ships[newState.type].setPosition(newState.col, newState.row);
+}
+
+function resolveHit(newState)
+{
+    //Explosion
+}
+
+function destroyShip(newState)
+{
+    //Explosion
+    ships[newState.type].sprite = PIXI.Sprite.fromImage("static/assets/Sprites/shipDestroyed.png"); //Changes the ship's
+    // image to represent it being destroyed
+    ships[newState.type].isDestroyed = true;
+
 }
 
 function initGame(gameKey, me, token, channelId, initialMessage)
@@ -113,6 +127,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
 
     let channel = null;
 
+    //Variable for storing event handlers
     let handlers = {};
 
     function onMessage(newState)
@@ -127,68 +142,9 @@ function initGame(gameKey, me, token, channelId, initialMessage)
             console.log("Unrecognised token: " + newState.token);
         }
         return;
-
-        // if (newState.token === "open")
-        // {
-        //     if(!state.started) {
-        //         $.post("/game/join");
-        //         state.started = true;
-        //     }
-        // }
-        // else if(newState.token === "position") {
-        //     /*
-        //     Returns my own position if I rejoin the game
-        //     Some of this is repeated. Should extract the new
-        //     user conditionals
-        //      */
-        //     updateFullGameState(newState);
-        //     // let tiles = newState.tiles;
-        //     // console.log(tiles);
-        //     // for(let x=0; x<tiles.length; x++) {
-        //     //     let tile = tiles[x];
-        //     //     console.log(tile);
-        //     //     ships[tile.type] = new NewShip(app, tile.type, [tile.col, tile.row]);
-        //     //     // myShip = new NewShip(app, newState.type, [newState.col, newState.row]);
-        //     //     // ships[newState.type] = myShip;
-        //     //     ships[tile.type].initShip();
-        //     //     if(tile.type === state.me) {
-        //     //         myShip = ships[tile.type];
-        //     //         createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
-        //     //     }
-        //     // }
-        // }
-        // else if(newState.token === "new_user") {
-        //     console.log("New Ship");
-        //     // Declare shipbuilding code in the listener
-        //     // updateFullGameState(newState);
-        //     updateSingleShip(newState);
-        //
-        //
-        // }
-        // else if(newState.token === "move")
-        // {
-        //     console.log("Got Move Response");
-        //     // console.log(newState);
-        //     // console.log(newState.tiles);
-        //     // console.log(newState.tiles[0]);
-        //     // updateSingleShip(newState);
-        //     moveShip(newState);
-        //     // for(let x=0; x<newState.tiles.length; x++)
-        //     // {
-        //     //     let tile = newState.tiles[x];
-        //     //     ships[tile.type].setPosition(tile.col, tile.row);
-        //     // }
-        //
-        //     // let tile = newState.tiles[0];
-        //     // console.log(tile.row);
-        //     // console.log(tile.col);
-        //
-        //     // myShip.setPosition(tile.col, tile.row)
-        //
-        // }
     }
 
-    function onOpened() {
+    function startGame() {
         console.log("Opening Game");
         console.log("Who am I?");
         console.log(state.me);
@@ -198,6 +154,8 @@ function initGame(gameKey, me, token, channelId, initialMessage)
 
                 //Add the new handlers
                 handlers["move"] = moveShip;
+                handlers["hit"] = resolveHit;
+                handlers["destroyed"] = destroyShip;
                 handlers["new_user"] = updateSingleShip;
                 handlers["position"] = updateFullGameState;
                 $.post("/game/join");
@@ -206,6 +164,27 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         };
         init();
         $.post('/game/open');
+    }
+
+    function refreshUsers(newState)
+    {
+        let userStr = "";
+        for(let x = 0; x<newState.users.length; x++)
+        {
+            userStr += newState.users[x].name + "<br>";
+        }
+        $("#users").html(userStr);
+    }
+
+    function onOpened() {
+        console.log("Opening Lobby");
+        handlers["new-user"] = refreshUsers;
+        handlers["start-game"] = startGame;
+        $.post('/game/lobby/open');
+    }
+
+    function joinLobby() {
+
     }
 
     function openChannel() {
@@ -223,8 +202,6 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         // add a listener to the path that fires any time the
         // value of the data changes
         channel.on('value', function(data) {
-            // console.log("Something happened!");
-            // console.log(data.val());
             onMessage(data.val());
         });
         // [END add_listener]
@@ -240,6 +217,12 @@ function initGame(gameKey, me, token, channelId, initialMessage)
             opts.url += '?g=' + state.gameKey;
         });
 
+        $('#start-game').click(() => {
+            $('#start-game').hide();
+            // startGame();
+            $.post('game/lobby/start');
+        })
+
         openChannel();
 
         onMessage(initialMessage)
@@ -248,7 +231,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
     setTimeout(initialize, 100);
 }
 
-//initializes the game
+//initialises the game
 // init();
 
 /*
@@ -339,6 +322,6 @@ function init() {
 function gameLoop(delta) {
     ocean.update(delta);
     updateMissiles(delta);
-    updateSquare(mouseposition);
+    // updateSquare(mouseposition);
     updateDestroyedShips();
 }
