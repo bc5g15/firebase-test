@@ -8,9 +8,10 @@ class NewShip {
         this.app = app;
         this.id = id;
         this.position = position; //coordinates
-        this.hitpoints = hitpoints;
+        //this.hitpoints = hitpoints; Don't really need this now that backend hitpoints have been engineered
         this.positionExact = null; //exact coordinates
         this.sprite = null;
+        this.isDestroyed = null; //Boolean that makes sure destroyed ships can't move
     }
 
     initShip() {
@@ -19,6 +20,7 @@ class NewShip {
         this.sprite.scale.y = 1.5 / dimention;
         this.sprite.anchor.set(0.5);
         this.calculatePosition(this.position);
+        this.isDestroyed = false;
 
         app.stage.addChild(this.sprite);
     }
@@ -33,7 +35,7 @@ class NewShip {
     }
 
     moveLeft() {
-        if (!(this.position[0] === 0)) { 
+        if (this.isDestroyed == false && !(this.position[0] === 0)) {
             this.moveGeneral(-1, 0);
         } else {
             console.log("Cant move left!");
@@ -41,7 +43,7 @@ class NewShip {
     }
 
     moveRight() {
-        if (!(this.position[0] === (dimention - 1))) { 
+        if (this.isDestroyed == false && !(this.position[0] === (dimention - 1))) {
             this.moveGeneral(1, 0);
         } else {
             console.log("Cant move right!");
@@ -49,7 +51,7 @@ class NewShip {
     }
 
     moveUp() {
-        if (!(this.position[1] === 0)) { 
+        if (this.isDestroyed == false && !(this.position[1] === 0)) {
             this.moveGeneral(0, -1);
         } else {
             console.log("Cant move up!");
@@ -57,7 +59,7 @@ class NewShip {
     }
 
     moveDown() {
-        if (!(this.position[1] === (dimention - 1))) { 
+        if (this.isDestroyed == false && !(this.position[1] === (dimention - 1))) {
             this.moveGeneral(0, 1);
         } else {
             console.log("Cant move down!");
