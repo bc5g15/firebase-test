@@ -100,6 +100,20 @@ function moveShip(newState)
     ships[newState.type].setPosition(newState.col, newState.row);
 }
 
+function resolveHit(newState)
+{
+    //Explosion
+}
+
+function destroyShip(newState)
+{
+    //Explosion
+    ships[newState.type].sprite = PIXI.Sprite.fromImage("static/assets/Sprites/shipDestroyed.png"); //Changes the ship's
+    // image to represent it being destroyed
+    ships[newState.type].isDestroyed = true;
+
+}
+
 function initGame(gameKey, me, token, channelId, initialMessage)
 {
     console.log("Insert the game creation code here!");
@@ -140,6 +154,8 @@ function initGame(gameKey, me, token, channelId, initialMessage)
 
                 //Add the new handlers
                 handlers["move"] = moveShip;
+                handlers["hit"] = resolveHit;
+                handlers["destroyed"] = destroyShip;
                 handlers["new_user"] = updateSingleShip;
                 handlers["position"] = updateFullGameState;
                 $.post("/game/join");
