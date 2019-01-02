@@ -6,7 +6,7 @@ export default class Explosion {
   constructor(app, pos) {
     let sheet =
       PIXI.loader.resources['static/assets/Sprites/explosion.json'].spritesheet;
-    console.log(sheet);
+
     let anim = new PIXI.extras.AnimatedSprite(sheet.animations['explosion']);
 
     anim.x = pos[0];
