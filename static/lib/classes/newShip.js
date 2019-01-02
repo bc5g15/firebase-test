@@ -8,10 +8,14 @@ class NewShip {
         this.app = app;
         this.id = id;
         this.position = position; //coordinates
-        //this.hitpoints = hitpoints; Don't really need this now that backend hitpoints have been engineered
+        this.hitpoints = hitpoints;
         this.positionExact = null; //exact coordinates
         this.sprite = null;
         this.isDestroyed = null; //Boolean that makes sure destroyed ships can't move
+        this.enemyShips = []; //Gives each ship a list of all the other ships in the game, which are its enemies.
+        // Whenever a player ship is destroyed, all other ships remove it from their enemyShips list. When the
+        // enemyShips array of a particular ship is emptied, i.e. all other ships are destroyed, the game end sequence
+        // will be triggered.
     }
 
     initShip() {
@@ -77,9 +81,9 @@ class NewShip {
             x: x,
             y: y
         }
-
-        $.post('/game/move', params)
-
+        if (this.isDestroyed == false) {
+            $.post('/game/move', params)
+        }
         // this.calculatePosition([x, y]);
         //
         // this.position[0] = x;

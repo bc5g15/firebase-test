@@ -220,7 +220,7 @@ function initGame(gameKey, me, token, channelId, initialMessage)
         $('#start-game').click(() => {
             $('#start-game').hide();
             // startGame();
-            $.post('game/lobby/start');
+            $.post('/game/lobby/start');
         })
 
         openChannel();
