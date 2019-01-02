@@ -74,6 +74,7 @@ export default class Game {
   }
 
   init() {
+    console.log('Game init called');
     this.app.renderer.view.style.position = 'absolute';
     this.app.renderer.view.style.display = 'block';
     this.app.renderer.autoResize = true;
