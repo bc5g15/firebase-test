@@ -11,7 +11,7 @@ const DIMENSION = 9;
 
 // Called via HTML and jinja
 export function initGame(gameKey, me, token, channelId, initialMessage) {
-  console.log('Insert the game creation code here!');
+  console.log('Starting production server version!');
   let state = {
     gameKey: gameKey,
     me: me,
@@ -23,6 +23,7 @@ export function initGame(gameKey, me, token, channelId, initialMessage) {
 
 // Only run if we use webpack-dev-server
 if (process.env.NODE_ENV !== 'production') {
+  console.log('Starting dev server version!');
   // Initializing variables to be used in the game
   let game = new Game(DIMENSION);
   game.gameState = testGameState();
