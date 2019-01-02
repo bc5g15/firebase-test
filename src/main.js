@@ -7,23 +7,9 @@ import * as PIXI from 'pixi.js';
 import $ from 'jquery';
 import * as firebase from 'firebase';
 
-import * as util from './classes/utility';
-import { GLOBAL_HEIGHT, GLOBAL_WIDTH } from './constants';
 import { testGameState } from './classes/test';
-import GridDrawer from './classes/grid';
-import Ocean from './classes/ocean';
 import Ship from './classes/ship';
-import NewShip from './classes/newShip';
-// import FogOfWar from "./classes/fogOfWar";
-import Sound, { setLaunchSound, setExplodeSound } from './classes/sound';
-import * as lowerConsole from './classes/lowerConsole';
-import * as missileControl from './classes/missileController';
-import * as treasureTracker from './classes/treasureTracker';
-import * as enemyTracker from './classes/enemyTracker';
-import GameState from './classes/gameBoard';
-import keyboardInit from './classes/keyboard';
-
-const loader = PIXI.loader;
+import Game from './classes/game';
 
 // initialise firebase
 let config = {
@@ -36,38 +22,13 @@ let config = {
 };
 firebase.initializeApp(config);
 
-//initialize new pixi application
-const app = new PIXI.Application({
-  width: GLOBAL_HEIGHT, // default: 800
-  height: GLOBAL_WIDTH, // default: 600
-  antialias: true, // default: false
-  transparent: false, // default: false
-  resolution: 1, // default: 1
-  backgroundColor: 0x000000
-});
-
-const dimension = 9;
-
-let mousePosition = app.renderer.plugins.interaction.mouse.global;
+const DIMENSION = 9;
 
 //initializing variables to be used in the game
-let gameBoard = new GameState(app, dimension, mousePosition);
-gameBoard.gameState = testGameState();
+let game = new Game(DIMENSION);
+game.gameState = testGameState();
 
-let myShip;
-let testTreasureLocations = [[1, 1], [2, 2], [3, 3], [4, 4]];
-
-//var start;  //timing stuff, check the missile controller
-
-//initialize grid class to draw grid
-let grid = new GridDrawer(app, gameBoard, 2);
-
-//initializes ocean and fog of war classes
-let ocean;
-// let fog;
-
-let state = {};
-let myId;
+game.init();
 
 function updateFullGameState(newState) {
   let tiles = newState.tiles;
@@ -75,16 +36,16 @@ function updateFullGameState(newState) {
   for (let x = 0; x < tiles.length; x++) {
     let tile = tiles[x];
     console.log(tile);
-    if (!(tile.type in gameBoard.ships)) {
-      gameBoard.ships[tile.type] = new NewShip(app, tile.type, gameBoard, [
+    if (!(tile.type in game.ships)) {
+      game.ships[tile.type] = new Ship(app, tile.type, game, [
         tile.col,
         tile.row
       ]);
-      gameBoard.ships[tile.type].initShip();
+      game.ships[tile.type].initShip();
       if (tile.type === state.me) {
         console.log('Resetting myself');
-        myShip = gameBoard.ships[tile.type];
-        gameBoard.squareHighlighter.createGreenSquare(
+        myShip = game.ships[tile.type];
+        game.squareHighlighter._createTargetSquare(
           myShip.sprite.position.x,
           myShip.sprite.position.y
         );
@@ -94,16 +55,16 @@ function updateFullGameState(newState) {
 }
 
 function updateSingleShip(newState) {
-  let newShip = new NewShip(app, newState.type, gameBoard, [
+  let newShip = new Ship(app, newState.type, game, [
     newState.col,
     newState.row
   ]);
-  gameBoard.ships[newState.type] = newShip;
+  game.ships[newState.type] = newShip;
   newShip.initShip();
   if (newState.type === state.me) {
     console.log('Resetting myself');
     myShip = newShip;
-    gameBoard.squareHighlighter.createGreenSquare(
+    game.squareHighlighter._createTargetSquare(
       myShip.sprite.position.x,
       myShip.sprite.position.y
     );
@@ -111,7 +72,20 @@ function updateSingleShip(newState) {
 }
 
 function moveShip(newState) {
-  gameBoard.ships[newState.type].setPosition(newState.col, newState.row);
+  game.ships[newState.type].setPosition(newState.col, newState.row);
+}
+
+function resolveHit(newState) {
+  //Explosion
+}
+
+function destroyShip(newState) {
+  //Explosion
+  ships[newState.type].sprite = PIXI.Sprite.fromImage(
+    'static/assets/Sprites/shipDestroyed.png'
+  ); //Changes the ship's
+  // image to represent it being destroyed
+  ships[newState.type].isDestroyed = true;
 }
 
 function initGame(gameKey, me, token, channelId, initialMessage) {
@@ -259,7 +233,7 @@ function initGame(gameKey, me, token, channelId, initialMessage) {
 }
 
 //initializes the game
-init();
+// init();
 
 /*
 This init function starts by setting some stuff for pixi.js, boilerplate stuff
@@ -269,83 +243,3 @@ and a few other things. Lastly, the app.ticker adds specific functions into pixi
 inbuilt ticker. This is set to 60fps. The gameLoop() function is added to the ticker
 so that the gameLoop function is run 60 times per second.
 */
-
-//main game loop
-function gameLoop(delta) {
-  ocean.update(delta);
-  missileControl.updateMissiles(gameBoard);
-  gameBoard.squareHighlighter.updateSquare(mousePosition);
-  enemyTracker.updateDestroyedShips(gameBoard);
-}
-
-function init() {
-  //setting up the view to render to
-  app.renderer.view.style.position = 'absolute';
-  app.renderer.view.style.display = 'block';
-  app.renderer.autoResize = true;
-  //app.renderer.resize(window.innerWidth, window.innerHeight);
-  app.stage.interactive = true;
-  document.body.appendChild(app.view);
-
-  let sizeGridSquareX = GLOBAL_WIDTH / dimension;
-  let sizeGridSquareY = GLOBAL_HEIGHT * 0.8 / dimension;
-
-  //caching sprite and loading sounds
-  loader.add('missileSprite', 'static/assets/Sprites/missile.png');
-  setExplodeSound(new Sound('static/assets/Sounds/explode.mp3'));
-  setLaunchSound(new Sound('static/assets/Sounds/launch.mp3'));
-
-  //visuals
-  ocean = new Ocean(app);
-  ocean.init();
-
-  ///dealing with grids and squares;
-  grid = new GridDrawer(app, gameBoard, 2);
-  grid.calculatePoints();
-
-  //creates ship
-  myShip = new Ship(app, gameBoard, [0, 0]);
-  myShip.initShip();
-
-  // initialise keyboard input
-  keyboardInit(app, mousePosition, gameBoard, myShip);
-
-  //loads enemy ships from game state data
-  enemyTracker.loadEnemies(app, gameBoard);
-
-  // initialises button and other data to display
-  lowerConsole.initLowerConsole(app, gameBoard, myShip);
-
-  //create fog of
-  //fog = new FogOfWar(app);
-  //fog.init();
-  //fogMask = fog.fogMask;
-
-  //renders the grid lines and the circles on top of the fog
-  grid.drawGrid();
-  grid.drawCircles();
-  myShip.render();
-
-  //load treasure based on array of coordinates;
-  treasureTracker.loadTreasure(gameBoard, testTreasureLocations);
-
-  //create squares
-  gameBoard.squareHighlighter.createSquare(dimension);
-
-  //create green square to start around the ship
-  gameBoard.squareHighlighter.createGreenSquare(
-    myShip.sprite.position.x,
-    myShip.sprite.position.y
-  );
-
-  //calculate missile speed in utility function
-  gameBoard.missileSpeed = util.calculateMissileSpeed(
-    gameBoard.missileSpeedFactor,
-    gameBoard,
-    sizeGridSquareX,
-    sizeGridSquareY
-  );
-
-  //adds gameLoop function to update with the PIXI.js ticker (set to 60 fps)
-  app.ticker.add(delta => gameLoop(delta));
-}

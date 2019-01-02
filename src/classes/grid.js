@@ -6,48 +6,72 @@ store for each game (position of ships in the game). THe game state and the arra
 points will be used to calculate the visuals and the positions of the ships.
 */
 import * as PIXI from 'pixi.js';
+import * as util from './utility';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
 
-export default class GridDrawer {
-  constructor(app, gameBoard, lineWidth) {
-    this.gameBoard = gameBoard;
-    this.width = lineWidth;
+const LINE_WIDTH = 2;
+const LINE_COLOR = 0xffffff;
+
+export default class GameGrid {
+  constructor(app, dimension) {
+    this.dimension = dimension;
     this.app = app;
-    this.colour = 0xffffff;
 
-    this.points = []; //this is the array of points that represents the centre of all squares in the grid
+    // Map boardPosition -> PIXI.Point
+    this.pointArray = [];
+
+    // Build up point array
+    this._calculatePoints();
   }
 
-  fill() {
-    //draws the grid in its entirety
-    this.drawGridLines();
-    this.drawPerimeterLine();
-    //this.calculatePoints();
-  }
-
-  calculatePoints() {
+  // Calculates the PIXI.Points for a given board dimension
+  _calculatePoints() {
     //function to calculate the physical center points for each square in the grid
-    let squareX = GLOBAL_WIDTH / this.gameBoard.dimension;
-    let squareY = GLOBAL_HEIGHT * 0.8 / this.gameBoard.dimension;
-    let halfSquareX = GLOBAL_WIDTH / this.gameBoard.dimension / 2;
-    let halfSquareY = GLOBAL_HEIGHT * 0.8 / this.gameBoard.dimension / 2;
+    let squareX = GLOBAL_WIDTH / this.dimension;
+    let squareY = GLOBAL_HEIGHT * 0.8 / this.dimension;
+    let halfSquareX = GLOBAL_WIDTH / this.dimension / 2;
+    let halfSquareY = GLOBAL_HEIGHT * 0.8 / this.dimension / 2;
 
-    for (let i = 0; i < this.gameBoard.dimension; i++) {
-      for (let j = 0; j < this.gameBoard.dimension; j++) {
+    for (let i = 0; i < this.dimension; i++) {
+      for (let j = 0; j < this.dimension; j++) {
         let point = new PIXI.Point(
           halfSquareX + squareX * j,
           halfSquareY + squareY * i
         );
-        this.gameBoard.squareHighlighter.pointArray.push(point);
+        this.pointArray.push(point);
       }
     }
   }
 
+  // Return the PIXI.Point (position) from the grid index
+  getPointFromIndex(index) {
+    return this.pointArray[index];
+  }
+
+  // Returns the closest grid square (in the form of an index to be used with the pointArray[]) to the point argument
+  // this function is probably best put in the utilities script file.
+  getIndexFromPoint(point) {
+    let indexNum = -1;
+    let minDist = Number.MAX_SAFE_INTEGER;
+    for (let i = 0; i < this.pointArray.length; i++) {
+      let dist = util.calculateDistance(point, [
+        this.pointArray[i].x,
+        this.pointArray[i].y
+      ]);
+      if (dist < minDist) {
+        minDist = dist;
+        indexNum = i;
+      }
+    }
+
+    return indexNum;
+  }
+
   drawCircles() {
-    //creates small circles at each point
+    // Creates small circles at each point
     let circle = new PIXI.Graphics();
 
-    this.gameBoard.squareHighlighter.pointArray.forEach(point => {
+    this.pointArray.forEach(point => {
       circle
         .lineStyle(0)
         .beginFill(0xffffff, 0.2)
@@ -58,39 +82,29 @@ export default class GridDrawer {
     this.app.stage.addChild(circle);
   }
 
-  //draws grid lines based on the dimensionality provided
+  // Draws grid lines based on the dimensionality provided
   drawGridLines() {
-    let gridLines = [];
     let line = new PIXI.Graphics();
 
-    for (let i = 1; i < this.gameBoard.dimension; i++) {
+    // Vertical lines
+    for (let i = 1; i < this.dimension; i++) {
       line
-        .lineStyle(this.width, this.colour, 0.1)
-        .moveTo(GLOBAL_WIDTH * i / this.gameBoard.dimension, 0)
-        .lineTo(
-          GLOBAL_WIDTH * i / this.gameBoard.dimension,
-          GLOBAL_HEIGHT * 0.8
-        );
+        .lineStyle(LINE_WIDTH, LINE_COLOR, 0.1)
+        .moveTo(GLOBAL_WIDTH * i / this.dimension, 0)
+        .lineTo(GLOBAL_WIDTH * i / this.dimension, GLOBAL_HEIGHT * 0.8);
 
       this.app.stage.addChild(line);
     }
 
-    //add horizontal lines
-    for (let i = 0; i < this.gameBoard.dimension; i++) {
+    // Horizontal lines
+    for (let i = 0; i < this.dimension; i++) {
       line
-        .lineStyle(this.width, this.colour, 0.1)
-        .moveTo(0, GLOBAL_HEIGHT * 0.8 * i / this.gameBoard.dimension)
-        .lineTo(
-          GLOBAL_WIDTH,
-          GLOBAL_HEIGHT * 0.8 * i / this.gameBoard.dimension
-        );
+        .lineStyle(LINE_WIDTH, LINE_COLOR, 0.1)
+        .moveTo(0, GLOBAL_HEIGHT * 0.8 * i / this.dimension)
+        .lineTo(GLOBAL_WIDTH, GLOBAL_HEIGHT * 0.8 * i / this.dimension);
 
       this.app.stage.addChild(line);
     }
-
-    gridLines.forEach(line => {
-      this.app.stage.addChild(line);
-    });
   }
 
   //draws perimeter rectangle
@@ -103,18 +117,9 @@ export default class GridDrawer {
     this.app.stage.addChild(perimeter);
   }
 
-  getPointArray() {
-    return this.points;
-  }
-
-  setPointsArray(newPoints) {
-    this.points = newPoints;
-  }
-
   drawGrid() {
     this.drawPerimeterLine();
     this.drawGridLines();
-    this.calculatePoints();
   }
 }
 

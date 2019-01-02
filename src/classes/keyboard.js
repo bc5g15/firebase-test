@@ -101,9 +101,8 @@ export default function keyboardInit(app, mousePosition, gameBoard, myShip) {
   //this function sets the location of the green square when the mouse is clicked
   app.stage.on('mousedown', () => {
     if (!(mousePosition.y > GLOBAL_HEIGHT * 0.8)) {
-      let pos = gameBoard.squareHighlighter.getPositionOfCurrentSquare();
-      gameBoard.squareHighlighter.moveGreenSquare(
-        gameBoard.squareHighlighter.getGridIndex(pos)
+      gameBoard.squareHighlighter.positionTarget(
+        gameBoard.squareHighlighter.hoverIndex
       );
       //console.log("pos: " + pos);
       //console.log("GETGRIDINDEX(pos): " + getGridIndex(pos));

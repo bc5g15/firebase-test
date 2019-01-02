@@ -16,23 +16,21 @@ called passing the target coordinates as an argument.
 
 import * as PIXI from 'pixi.js';
 import * as util from './utility';
-import * as enemyTracker from './enemyTracker';
-import { launch, explode } from './sound';
+import * as enemy from './enemy';
+import { playLaunchSound, playExplodeSound } from './sound';
 
-let frameCount = 0;
-
+// Creates missile and stores it in the array of missiles.
 export function shoot(rotation, startPosition, gameBoard) {
-  //creates missile and stores it in the array of missiles.
-  let target = gameBoard.squareHighlighter.getPositionOfGreenSquare();
+  let target = gameBoard.squareHighlighter.targetSquare.position;
 
-  var missile = {
+  let missile = {
     sprite: new PIXI.Sprite.fromImage('static/assets/Sprites/missile.png'),
     targetCoord: util.indexToGridCoord(
-      gameBoard.squareHighlighter.getGridIndex(target)
+      gameBoard.squareHighlighter.targetIndex,
+      gameBoard.dimension
     ),
-    target: [target[0], target[1]]
+    target: [target.x, target.y]
   };
-
   console.log('Missile Coord: ' + missile.targetCoord);
 
   missile.sprite.position.x = startPosition.x;
@@ -42,20 +40,21 @@ export function shoot(rotation, startPosition, gameBoard) {
   missile.sprite.scale.y = 0.75;
   missile.sprite.anchor.set(0.5);
 
+  // Add to app
   gameBoard.app.stage.addChild(missile.sprite);
+
+  // Add to tick function
   gameBoard.missiles.push(missile);
 
-  //start = new Date().getTime();
-
-  launch();
+  // Play sound
+  playLaunchSound();
 }
 
-//run every tick, updates missile positions and checks for hits
+// Runs every tick, updates missile positions and checks for hits
 export function updateMissiles(gameBoard) {
-  frameCount++;
-  gameBoard.missileCount += 0.005;
-  for (var len = gameBoard.missiles.length - 1; len >= 0; len--) {
-    var m = gameBoard.missiles[len].sprite;
+  for (let len = gameBoard.missiles.length - 1; len >= 0; --len) {
+    console.log('update');
+    let m = gameBoard.missiles[len].sprite;
     m.position.x += Math.cos(m.rotation) * gameBoard.missileSpeed;
     m.position.y += Math.sin(m.rotation) * gameBoard.missileSpeed;
   }
@@ -63,8 +62,8 @@ export function updateMissiles(gameBoard) {
   checkForHit(gameBoard);
 }
 
-//checks for hits by calculating the physical distance to target. threshold variable is used
-//to determine the distance required to determine a hit
+// Checks for hits by calculating the physical distance to target. threshold variable is used
+// to determine the distance required to determine a hit
 function checkForHit(gameBoard) {
   let threshold = 20;
 
@@ -77,6 +76,7 @@ function checkForHit(gameBoard) {
       [position.x, position.y]
     );
 
+    // Destroy if we're close enough
     if (distToTarget < threshold) {
       destroyMissile(gameBoard, m);
     }
@@ -86,11 +86,11 @@ function checkForHit(gameBoard) {
 //checks if an enemy exists at destruction location. Removes missile from missile array and stage
 function destroyMissile(gameBoard, missile) {
   console.log('TargetCoord: ' + gameBoard.missiles[missile].targetCoord);
-  enemyTracker.checkEnemyHit(
-    gameBoard,
-    gameBoard.missiles[missile].targetCoord
-  );
+
+  enemy.checkEnemyHit(gameBoard, gameBoard.missiles[missile].targetCoord);
+
   gameBoard.app.stage.removeChild(gameBoard.missiles[missile].sprite);
   gameBoard.missiles.splice(missile, 1);
-  explode();
+
+  playExplodeSound();
 }

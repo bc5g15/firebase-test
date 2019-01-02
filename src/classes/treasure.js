@@ -1,42 +1,74 @@
 import * as PIXI from 'pixi.js';
-import * as util from './utility';
 
 export default class Treasure {
   constructor(app, gameBoard, coordinates) {
     this.app = app;
-    this.position = null;
-    this.sprite = null;
     this.gameBoard = gameBoard;
+
     this.coordinates = coordinates;
   }
 
   initTreasure() {
-    this.sprite = PIXI.Sprite.fromImage('static/assets/Sprites/treasure.png');
-    this.sprite.scale.x = 1.5 / this.gameBoard.dimension;
-    this.sprite.scale.y = 1.5 / this.gameBoard.dimension;
-    this.sprite.anchor.set(0.5);
-    this.calculatePosition(this.coordinates);
+    let sprite = PIXI.Sprite.fromImage('static/assets/Sprites/treasure.png');
+    sprite.scale.x = 1.5 / this.gameBoard.dimension;
+    sprite.scale.y = 1.5 / this.gameBoard.dimension;
+    sprite.anchor.set(0.5);
+    this.sprite = sprite;
 
-    this.app.stage.addChild(this.sprite);
+    this._calculatePosition(this.coordinates);
+
+    this.app.stage.addChild(sprite);
   }
 
-  calculatePosition(coord) {
-    let x = this.gameBoard.squareHighlighter.pointArray[coord[0]].x;
-    let y = this.gameBoard.squareHighlighter.pointArray[
+  _calculatePosition(coord) {
+    let x = this.gameBoard.gameGrid.getPointFromIndex(coord[0]).x;
+    let y = this.gameBoard.gameGrid.getPointFromIndex(
       this.gameBoard.dimension * coord[1]
-    ].y;
+    ).y;
 
     this.sprite.position.set(x, y);
-    this.positionExact = [x, y];
-  }
-
-  calculateCoords(pos) {
-    this.coordinates = util.indexToGridCoord(
-      this.gameBoard.squareHighlighter.getGridIndex(pos)
-    );
   }
 
   collectTreasure() {
     this.app.stage.removeChild(this.sprite);
   }
+}
+
+// Initialise treasure
+export function initAllTreasure(gameBoard, treasureLocations) {
+  // treasureLocations is an array of coordinates for the treasures
+  treasureLocations.forEach(location => {
+    let coord = [location[0], location[1]];
+    // console.log("Treasure Coordinate: " + coord);
+    let treasure = new Treasure(gameBoard.app, gameBoard, coord);
+    gameBoard.treasureArray.push(treasure);
+  });
+
+  // init each Treasure
+  gameBoard.treasureArray.forEach(chest => {
+    chest.initTreasure();
+  });
+}
+
+// Called each time ship is moved
+export function checkCollectedTreasure(gameBoard, position) {
+  gameBoard.treasureArray.forEach(chest => {
+    let x = position[0];
+    let y = position[1];
+
+    let sx = chest.coordinates[0];
+    let sy = chest.coordinates[1];
+
+    if (x === sx && y === sy) {
+      console.log('Treasure Collected');
+      chest.collectTreasure();
+      gameBoard.treasureArray.splice(chest, 1);
+      addTreasureToScore(gameBoard);
+    }
+  });
+}
+
+export function addTreasureToScore(gameBoard) {
+  gameBoard.score += 200;
+  console.log('Treasure score: ' + gameBoard.score);
 }

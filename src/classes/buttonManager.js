@@ -8,7 +8,7 @@ import * as util from './utility';
 import * as missileControl from './missileController';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
 
-export default class ButtonManager {
+export default class FireButton {
   constructor(app, gameBoard, myShip) {
     this.app = app;
     this.gameBoard = gameBoard;
@@ -27,9 +27,9 @@ export default class ButtonManager {
     let button = new PIXI.Sprite(this.textureButton);
     button.buttonMode = true;
     button.interactive = true;
-    button.anchor.set(0, 0.5);
-    button.x = GLOBAL_WIDTH;
-    button.y = GLOBAL_HEIGHT * 0.5;
+    button.anchor.set(0.5);
+    button.x = GLOBAL_WIDTH * 0.75;
+    button.y = GLOBAL_HEIGHT * 0.9;
     button.on('pointerdown', this.buttonPressed.bind(this));
     button.on('pointerup', this.buttonReleased.bind(this));
     this.button = button;
@@ -42,25 +42,21 @@ export default class ButtonManager {
     console.log(this.myShip);
     this.button.texture = this.textureButtonDown;
 
-    let pos = this.gameBoard.squareHighlighter.getPositionOfGreenSquare();
+    let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
+    let shipPos = [
+      this.myShip.sprite.position.x,
+      this.myShip.sprite.position.y
+    ];
     // let coords = getGridIndex(pos);
-    let dist = util.calculateDistance(
-      [this.myShip.positionExact[0], this.myShip.positionExact[1]],
-      pos
-    );
+    let dist = util.calculateDistance(shipPos, pos);
 
     //determines if the player can afford to shoot based on targets distance
     if (util.canAfford(this.gameBoard)) {
       missileControl.shoot(
-        util.rotateTo(
-          pos[0],
-          pos[1],
-          this.myShip.positionExact[0],
-          this.myShip.positionExact[1]
-        ),
+        util.rotateTo(pos[0], pos[1], shipPos[0], shipPos[1]),
         {
-          x: this.myShip.positionExact[0],
-          y: this.myShip.positionExact[1]
+          x: shipPos[0],
+          y: shipPos[1]
         },
         this.gameBoard
       );

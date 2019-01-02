@@ -1,9 +1,8 @@
-//creates the sounds used by the missiles
+import * as PIXI from 'pixi.js';
 
 let launchSound;
 let explodeSound;
-
-export default class Sound {
+class Sound {
   constructor(src) {
     this.sound = document.createElement('audio');
     this.sound.src = src;
@@ -22,18 +21,15 @@ export default class Sound {
   }
 }
 
-export function setLaunchSound(sound) {
-  launchSound = sound;
-}
+PIXI.loader.add('missileSprite', 'static/assets/Sprites/missile.png');
 
-export function setExplodeSound(sound) {
-  explodeSound = sound;
-}
+explodeSound = new Sound('static/assets/Sounds/explode.mp3');
+launchSound = new Sound('static/assets/Sounds/launch.mp3');
 
-export function launch() {
+export function playLaunchSound() {
   launchSound.play();
 }
 
-export function explode() {
+export function playExplodeSound() {
   explodeSound.play();
 }
