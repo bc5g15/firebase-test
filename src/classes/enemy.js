@@ -17,6 +17,7 @@ export default class Enemy {
     this.position = null; //coordinates
     this.sprite = null;
     this.health = 1000;
+    this.hitpoints = 3;
     this.coordinates = coordinates;
   }
 

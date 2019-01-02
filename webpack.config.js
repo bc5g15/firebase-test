@@ -7,7 +7,9 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'static')
+    path: path.resolve(__dirname, 'static'),
+    libraryTarget: 'var',
+    library: 'Battleships'
   },
   module: {
     rules: [
@@ -50,5 +52,5 @@ module.exports = {
     compress: true,
     port: 8080
   },
-  devtool: DEBUG ? 'cheap-module-source-map' : false
+  devtool: 'source-map'
 };
