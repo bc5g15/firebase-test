@@ -89,6 +89,14 @@ export default class typingChallenge {
     return this.correct / this.totalTyped * 100;
   }
 
+  isComplete() {
+    return new Promise(function(resolve, reject) {
+      if (this.finished) {
+        resolve();
+      }
+    });
+  }
+
   removeLastChar() {
     this.input = this.input.substr(0, this.input.length - 1);
     this.userInputTxt.text = this.input;

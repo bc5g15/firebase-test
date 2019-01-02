@@ -55,4 +55,4 @@ def set_username():
 
 @solo.route('/solo-join-game', methods=['POST'])
 def solo_join_game():
-    return redirect(url_for('solo.my_hello'))
+    return redirect(url_for('game.start_game'), code=307)

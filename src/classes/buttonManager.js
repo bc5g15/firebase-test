@@ -8,8 +8,9 @@ import * as util from './utility';
 import * as missileControl from './missileController';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
 
-export default class ButtonManager {
+export default class FireButton {
   constructor(app, gameBoard, myShip) {
+    this.app = app;
     this.gameBoard = gameBoard;
     this.myShip = myShip;
 
@@ -29,8 +30,8 @@ export default class ButtonManager {
     button.anchor.set(0.5);
     button.x = GLOBAL_WIDTH * 0.75;
     button.y = GLOBAL_HEIGHT * 0.9;
-    button.on('pointerdown', this.buttonPressed);
-    button.on('pointerup', this.buttonReleased);
+    button.on('pointerdown', this.buttonPressed.bind(this));
+    button.on('pointerup', this.buttonReleased.bind(this));
     this.button = button;
 
     //adding button to the game container.
@@ -38,27 +39,24 @@ export default class ButtonManager {
   }
 
   buttonPressed() {
+    console.log(this.myShip);
     this.button.texture = this.textureButtonDown;
 
-    let pos = this.gameBoard.squareHighlighter.getPositionOfGreenSquare();
+    let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
+    let shipPos = [
+      this.myShip.sprite.position.x,
+      this.myShip.sprite.position.y
+    ];
     // let coords = getGridIndex(pos);
-    let dist = util.calculateDistance(
-      [this.myShip.positionExact[0], this.myShip.positionExact[1]],
-      pos
-    );
+    let dist = util.calculateDistance(shipPos, pos);
 
     //determines if the player can afford to shoot based on targets distance
     if (util.canAfford(this.gameBoard)) {
       missileControl.shoot(
-        util.rotateTo(
-          pos[0],
-          pos[1],
-          this.gameBoard.myShip.positionExact[0],
-          this.gameBoard.myShip.positionExact[1]
-        ),
+        util.rotateTo(pos[0], pos[1], shipPos[0], shipPos[1]),
         {
-          x: this.gameBoard.myShip.positionExact[0],
-          y: this.gameBoard.myShip.positionExact[1]
+          x: shipPos[0],
+          y: shipPos[1]
         },
         this.gameBoard
       );
