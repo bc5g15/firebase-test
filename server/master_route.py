@@ -27,16 +27,12 @@
 import flask
 
 
-# from tictactoe.ttt_routes import ttt
-from counter.counter_routes import count
 from temp.typeloader import loader
 from solo.routes import solo
 from game.routes import r_game
 from temp.session_debug import sessdebug
 
 app = flask.Flask(__name__)
-# app.register_blueprint(ttt)
-app.register_blueprint(count)
 app.register_blueprint(loader)
 app.register_blueprint(solo)
 app.register_blueprint(r_game)
