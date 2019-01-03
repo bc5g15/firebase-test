@@ -3,16 +3,16 @@
     <head>
         <meta charset="utf-8" />
         <title>App</title>
-         {% include "_firebase_config.html" %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+         {% include "_firebase_config.html" %} <!-- Comment this -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> <!-- Comment this -->
 
     </head>
     <link rel="stylesheet" type="text/css" href="static/main.css" />
     <script src="static/lib/pixi.min.js"></script>
     <!-- import javascript game files here -->
     <body>
-        <script src="static/lib/classes/grid.js"></script>
-        <script src="static/lib/classes/ocean.js"></script>
+        <script src="static/lib/classes/grid.js"></script> <!-- Comment from here -->
+        <script src="static/lib/classes/ocean.js"></script> 
         <script src="static/lib/classes/ship.js"></script>
         <script src="static/lib/classes/newShip.js"></script>
         <script src="static/lib/classes/utility.js"></script>
@@ -25,12 +25,18 @@
         <script src="static/lib/classes/test.js"></script>
         <script src="static/lib/classes/enemyTracker.js"></script>
         <script src="static/lib/classes/enemy.js"></script>
-        <script src="static/Game.js"></script>
-        <script>
-          initGame('{{ game_key }}', '{{ me }}', '{{ token }}', '{{ channel_id }}',
+        <script src="static/Game.js"></script> <!-- to here -->
+        <!-- <script src="static/bundle.js"></script> --> <!-- Uncomment this and next script tag -->
+        <!-- <script>
+          Battleships.initGame('{{ game_key }}', '{{ me }}', '{{ token }}', '{{ channel_id }}',
               {# use the |safe flag to get unescaped json to render #}
               {{ initial_message|safe }});
-        </script>
+        </script> -->
+        <script>
+            initGame('{{ game_key }}', '{{ me }}', '{{ token }}', '{{ channel_id }}',
+                {# use the |safe flag to get unescaped json to render #}
+                {{ initial_message|safe }});
+          </script>
         <div id="this-game" float="top">
             Quick link to this game: <span id="this-game-link"><a href="{{ game_link }}">{{ game_link }}</a></span>
         </div>

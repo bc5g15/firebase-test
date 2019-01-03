@@ -80,8 +80,9 @@ export default class SquareHighlighter {
   // Calculates the square that the index of the mouse is closest to. This is used to move the hover
   // square across the grid.
   updateSquare(mousePosition) {
-    let x = mousePosition.x;
-    let y = mousePosition.y;
+    let x = mousePosition.x || 0;
+    let y = mousePosition.y || 0;
+
     // Move square to grid closest to mouse position
     this.positionHover(this.gameGrid.getIndexFromPoint([x, y]));
   }

@@ -18,6 +18,7 @@ import * as PIXI from 'pixi.js';
 import * as util from './utility';
 import * as enemy from './enemy';
 import { playLaunchSound, playExplodeSound } from './sound';
+import Explosion from './explosion';
 
 // Creates missile and stores it in the array of missiles.
 export function shoot(rotation, startPosition, gameBoard) {
@@ -89,8 +90,9 @@ function destroyMissile(gameBoard, missile) {
 
   enemy.checkEnemyHit(gameBoard, gameBoard.missiles[missile].targetCoord);
 
+  new Explosion(gameBoard.app, gameBoard.missiles[missile].target);
+  playExplodeSound();
+
   gameBoard.app.stage.removeChild(gameBoard.missiles[missile].sprite);
   gameBoard.missiles.splice(missile, 1);
-
-  playExplodeSound();
 }
