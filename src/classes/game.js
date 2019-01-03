@@ -58,16 +58,24 @@ export default class Game {
     this.gameGrid = new GameGrid(app, dimension);
     this.gameGrid.drawGrid();
 
-    this.myShip = new Ship(app, this, 0, [0, 0]);
-    this.myShip.initShip();
+    // Only run if we use webpack-dev-server
+    if (process.env.NODE_ENV !== 'production') {
+      this.myShip = new Ship(app, this, 0, [0, 0]);
+      this.myShip.initShip();
+    }
 
     this.squareHighlighter = new SquareHighlighter(app, this.gameGrid);
-    this.squareHighlighter.positionTarget(
-      this.gameGrid.getIndexFromPoint([
-        this.myShip.sprite.position.x,
-        this.myShip.sprite.position.y
-      ])
-    );
+    // Only run if we use webpack-dev-server
+    if (process.env.NODE_ENV !== 'production') {
+      this.squareHighlighter.positionTarget(
+        this.gameGrid.getIndexFromPoint([
+          this.myShip.sprite.position.x,
+          this.myShip.sprite.position.y
+        ])
+      );
+    } else {
+      this.squareHighlighter.positionTarget(0);
+    }
 
     // initialises button and other data to display
     this.lowerConsole = new LowerConsole(app, this, this.myShip);
@@ -83,7 +91,7 @@ export default class Game {
     document.body.appendChild(this.app.view);
 
     // initialise keyboard input
-    keyboardInit(this.app, this.mousePosition, this, this.myShip);
+    keyboardInit(this.app, this.mousePosition, this);
 
     // loads enemy ships from game state data
     enemy.loadEnemies(this.app, this);

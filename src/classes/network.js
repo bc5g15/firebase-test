@@ -58,8 +58,8 @@ export default class Communicator {
         $.post('/game/join');
       }
     };
-    this.game.init();
     $.post('/game/open');
+    this.game.init();
   }
 
   refreshUsers(newState) {

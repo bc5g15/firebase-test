@@ -9,10 +9,9 @@ import * as missileControl from './missileController';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
 
 export default class FireButton {
-  constructor(app, gameBoard, myShip) {
+  constructor(app, gameBoard) {
     this.app = app;
     this.gameBoard = gameBoard;
-    this.myShip = myShip;
 
     //texture loading
     this.textureButton = new PIXI.Texture.fromImage(
@@ -39,13 +38,12 @@ export default class FireButton {
   }
 
   buttonPressed() {
-    console.log(this.myShip);
     this.button.texture = this.textureButtonDown;
 
     let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
     let shipPos = [
-      this.myShip.sprite.position.x,
-      this.myShip.sprite.position.y
+      this.gameBoard.myShip.sprite.position.x,
+      this.gameBoard.myShip.sprite.position.y
     ];
     // let coords = getGridIndex(pos);
     let dist = util.calculateDistance(shipPos, pos);
