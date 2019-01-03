@@ -2,10 +2,10 @@ body{
     background-color:#333;
     text-align:center;
     padding-top:10%;
+    font-family:sans-serif;
 }
 
 h1,h2,h3{
-    font-family:sans-serif;
     color:#f8f8f8;
 }
 
@@ -18,25 +18,19 @@ h1,h2,h3{
 
 
 .form{
-    font-family:sans-serif;
     color:#f8f8f8;
     font-size:12pt;
     padding:10px;
 }
 
 .form.text-box{
-    border-radius:15px;
     color:#000;
 }
 
 .form.label{
-    font-size:13pt;
+    font-size:14pt;
 }
 
-a{
-    font-family:sans-serif;
-
-}
 
 #start-button, #change-button, #join-button, .form.text-box{
     padding:10px;

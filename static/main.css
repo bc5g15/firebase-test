@@ -1,8 +1,11 @@
 body {
-  font-family: 'Helvetica';
+  font-family: sans-serif;
   background-color:#333;
+  padding-top:10%;
+  text-align:center;
+  color:#f8f8f8;
 }
-
+/*
 h2, div, p {
   color:#f8f8f8;
 }
@@ -125,4 +128,34 @@ div.m.c{
   right:0;
   border:2px solid #f8f8f8;
 
+}
+*/
+
+#users {
+  border-bottom: 2px solid #f8f8f8;
+}
+
+#userList{
+  border:2px solid #f8f8f8;
+}
+
+#userList, #pin{
+    max-width:50%;
+    display:inline-block;
+    margin:5%;
+    vertical-align:top;
+}
+
+
+#start-game{
+    padding:10px;
+    font-size:12pt;
+    border-radius:15px;
+    border:0;
+    background-color:#00CC11;
+    color:#f8f8f8;
+}
+
+#start-game:hover{
+    background-color:#00A00D;
 }
