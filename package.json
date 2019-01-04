@@ -7,13 +7,11 @@
     "start": "webpack-dev-server --mode development",
     "webpack": "webpack --mode development",
     "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
     "format":
       "find app -name '*.js' | xargs -I{} ./node_modules/.bin/prettier --write --single-quote {}",
-    "prewebpack": "npm run clean",
     "precommit": "lint-staged",
-    "clean": "rm -rf ./build && mkdir ./build",
-    "lint": "eslint ./app/**/*.js",
-    "reactman": "reactman --config ./templates/reactman.config.js"
+    "lint": "eslint ./src/**/*.js"
   },
   "author": "TeamB",
   "license": "MIT",
