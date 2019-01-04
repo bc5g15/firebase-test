@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 import injector from 'pixi-multistyle-text-esnext';
 
 export default class TypingChallenge {
-  constructor(app, callback, chal) {
+  constructor(app, firingCB, chal) {
     injector(PIXI);
 
     const txtStyle = new PIXI.TextStyle({
@@ -23,7 +23,7 @@ export default class TypingChallenge {
     this.app = app;
     this.chalContainer = new PIXI.Container();
     this.inputContainer = new PIXI.Container();
-    this.callBack = callback;
+    this.firingCB = firingCB;
     this.challenge = chal;
     console.log('challenge in constructor: ', this.challenge);
     this.finished = false;
@@ -74,10 +74,11 @@ export default class TypingChallenge {
             '% accuracy'
         );
       } else {
-        this.callBack();
+        this.firingCB();
       }
       this.app.stage.removeChild(this.chalContainer);
       this.app.stage.removeChild(this.inputContainer);
+      console.log('removing typing challenge containers');
     }
   }
 
@@ -120,16 +121,6 @@ export default class TypingChallenge {
 
   calculateAccuracy() {
     return this.correct / this.totalTyped * 100;
-  }
-
-  isComplete() {
-    let isFinished = this.finished;
-    return new Promise(function(resolve, reject) {
-      console.log('inside promise isFinished: ', isFinished);
-      if (isFinished) {
-        resolve();
-      }
-    });
   }
 
   removeLastChar() {

@@ -45,7 +45,7 @@ export default class FireButton {
     let typingChal = new TypingChallenge(
       this.app,
       this.fireMissile,
-      'test typing! challenge.'
+      'test longer! challenge.'
     );
     typingChal.showChallenge();
     this.button.texture = this.textureButtonDown;
@@ -85,5 +85,6 @@ export default class FireButton {
 
   buttonReleased() {
     this.button.texture = this.textureButton;
+    this.button.interactive = !this.button.interactive;
   }
 }
