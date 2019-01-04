@@ -54,12 +54,13 @@ export function checkEnemyHit(coord){
     gameState.forEach(ship => {
         if(ship.coordinates[0] === coord[0] && ship.coordinates[1] === coord[1] && ship.hitpoints > 0){
             console.log("Target Hit!");
+            console.log(ship.hitpoints);
             if(ship.hitpoints === 1){
+                console.log("Abandon ship!");
                 ship.hitpoints = 0;
                 ship.sprite.texture = destroyedTexture;
                 ship.sprite.alpha = 0.65;
                 destroyedShips.push(ship);
-
             }else{
                 ship.hitpoints = ship.hitpoints - 1;
             }

@@ -11,10 +11,9 @@ export default class Ship {
     this.app = app;
     this.gameBoard = gameBoard;
     this.id = id;
-
+    this.hitpoints = hitpoints;
     this.position = position; //coordinates
-    //this.hitpoints = hitpoints; Don't really need this now that backend hitpoints have been engineered
-
+    this.enemyShips = [];
     this.sprite = null;
     this.isDestroyed = false; //Boolean that makes sure destroyed ships can't move
   }
