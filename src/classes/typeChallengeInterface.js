@@ -3,14 +3,9 @@ import * as PIXI from 'pixi.js';
 import injector from 'pixi-multistyle-text-esnext';
 
 export default class TypingChallenge {
-  constructor(app, firingCB, chal) {
+  constructor(app, firingCB, btnToggleCB, chal) {
     injector(PIXI);
 
-    const txtStyle = new PIXI.TextStyle({
-      fontFamily: 'Arial',
-      fontSize: 20,
-      fontWeight: 'bold'
-    });
     let bg = new PIXI.Graphics();
     bg.beginFill(0x00000);
     bg.lineStyle(2, 0xffffff);
@@ -24,12 +19,11 @@ export default class TypingChallenge {
     this.chalContainer = new PIXI.Container();
     this.inputContainer = new PIXI.Container();
     this.firingCB = firingCB;
+    this.btnToggleCB = btnToggleCB;
     this.challenge = chal;
-    console.log('challenge in constructor: ', this.challenge);
     this.finished = false;
     this.input = '';
     this.sanitisedInput = '';
-    this.userInput;
     this.correct = 0;
     this.totalTyped = 0;
     this.counter = 0;
@@ -59,8 +53,6 @@ export default class TypingChallenge {
       this.counter++;
       this.totalTyped++;
     }
-    console.log('current length of input: ', this.sanitisedInput.length);
-    console.log('length of challenge: ', this.challenge.length);
 
     if (this.sanitisedInput.length == this.challenge.length) {
       let tmp = this.calculateAccuracy();
@@ -69,7 +61,6 @@ export default class TypingChallenge {
       );
 
       msg.y = 100;
-      // this.chalContainer.addChild(msg);
       alert("you're accuracy was " + tmp + '%');
       this.finished = true;
 
@@ -82,10 +73,12 @@ export default class TypingChallenge {
       }
       this.app.stage.removeChild(this.chalContainer);
       this.app.stage.removeChild(this.inputContainer);
+      this.btnToggleCB();
     }
   }
 
   showChallenge() {
+    this.btnToggleCB();
     this.userInputTxt = new PIXI.MultiStyleText(this.input, {
       default: {
         fontFamily: 'Arial',

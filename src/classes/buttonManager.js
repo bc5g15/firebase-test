@@ -24,6 +24,7 @@ export default class FireButton {
       'static/assets/Sprites/buttonFirePressed.png'
     );
     this.fireMissile = this.fireMissile.bind(this);
+    this.toggleButton = this.toggleButton.bind(this);
 
     //creating button and changing settings
     let button = new PIXI.Sprite(this.textureButton);
@@ -40,11 +41,17 @@ export default class FireButton {
     app.stage.addChild(button);
   }
 
+  toggleButton() {
+    this.button.texture = this.textureButton;
+    this.button.interactive = !this.button.interactive;
+  }
+
   renderChallenge() {
     console.log('rendering challenge before firing');
     let typingChal = new TypingChallenge(
       this.app,
       this.fireMissile,
+      this.toggleButton,
       'test longer! challenge.'
     );
     typingChal.showChallenge();
@@ -79,12 +86,9 @@ export default class FireButton {
     } else {
       console.log('Not enough points to perform action!');
     }
-
-    this.button.interactive = true;
   }
 
   buttonReleased() {
     this.button.texture = this.textureButton;
-    this.button.interactive = !this.button.interactive;
   }
 }
