@@ -28,6 +28,7 @@ export default class TypingChallenge {
     console.log('challenge in constructor: ', this.challenge);
     this.finished = false;
     this.input = '';
+    this.sanitisedInput = '';
     this.userInput;
     this.correct = 0;
     this.totalTyped = 0;
@@ -50,35 +51,37 @@ export default class TypingChallenge {
   }
 
   processInput(event) {
-    if (event.key == 'Backspace') {
+    if (event.key == 'Backspace' && this.input.length > 0) {
       this.removeLastChar();
       this.counter--;
-    } else if (event.key) {
+    } else if (event.key != 'Backspace') {
       this.validateInput(event.key);
       this.counter++;
       this.totalTyped++;
     }
+    console.log('current length of input: ', this.sanitisedInput.length);
+    console.log('length of challenge: ', this.challenge.length);
 
-    if (this.counter == this.challenge.length) {
+    if (this.sanitisedInput.length == this.challenge.length) {
+      let tmp = this.calculateAccuracy();
       let msg = new PIXI.Text(
-        'Challenge complete your accuracy was ' + this.calculateAccuracy() + '%'
+        'Challenge complete your accuracy was ' + tmp + '%'
       );
 
       msg.y = 100;
-      this.chalContainer.addChild(msg);
+      // this.chalContainer.addChild(msg);
+      alert("you're accuracy was " + tmp + '%');
       this.finished = true;
-      if (this.calculateAccuracy() < 0.5) {
+
+      if (tmp < 50) {
         alert(
-          'cannot fire, accuracy was below 50%, you had ' +
-            this.calculateAccuracy() +
-            '% accuracy'
+          'cannot fire, accuracy was below 50%, you had ' + tmp + '% accuracy'
         );
       } else {
         this.firingCB();
       }
       this.app.stage.removeChild(this.chalContainer);
       this.app.stage.removeChild(this.inputContainer);
-      console.log('removing typing challenge containers');
     }
   }
 
@@ -111,15 +114,19 @@ export default class TypingChallenge {
   validateInput(char) {
     if (char != this.challenge.charAt(this.counter) && !this.finished) {
       this.input += '<w>' + char + '</w>';
+      this.sanitisedInput += char;
       this.userInputTxt.text = this.input;
     } else {
       this.input += char;
+      this.sanitisedInput += char;
       this.userInputTxt.text = this.input;
       this.correct++;
     }
   }
 
   calculateAccuracy() {
+    console.log('correct letters: ', this.correct);
+    console.log('total typed: ', this.totalTyped);
     return this.correct / this.totalTyped * 100;
   }
 
@@ -132,7 +139,12 @@ export default class TypingChallenge {
         this.input.substr(0, this.input.length - 1)
       );
       this.input = this.input.substr(0, this.input.length - 1);
+      this.correct--;
     }
+    this.sanitisedInput = this.sanitisedInput.substr(
+      0,
+      this.sanitisedInput.length - 1
+    );
     this.userInputTxt.text = this.input;
   }
 }
