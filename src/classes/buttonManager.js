@@ -6,7 +6,8 @@ to fire a missile from the players position to the target position.
 import * as PIXI from 'pixi.js';
 import * as util from './utility';
 import * as missileControl from './missileController';
-import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
+import TypingChallenge from './typeChallengeInterface';
+import { GLOBAL_HEIGHT, GLOBAL_WIDTH } from '../constants';
 
 export default class FireButton {
   constructor(app, gameBoard, myShip) {
@@ -22,6 +23,7 @@ export default class FireButton {
     this.textureButtonDown = new PIXI.Texture.fromImage(
       'static/assets/Sprites/buttonFirePressed.png'
     );
+    this.fireMissile = this.fireMissile.bind(this);
 
     //creating button and changing settings
     let button = new PIXI.Sprite(this.textureButton);
@@ -30,7 +32,7 @@ export default class FireButton {
     button.anchor.set(0.5);
     button.x = GLOBAL_WIDTH * 0.75;
     button.y = GLOBAL_HEIGHT * 0.9;
-    button.on('pointerdown', this.buttonPressed.bind(this));
+    button.on('pointerdown', this.renderChallenge.bind(this));
     button.on('pointerup', this.buttonReleased.bind(this));
     this.button = button;
 
@@ -38,9 +40,19 @@ export default class FireButton {
     app.stage.addChild(button);
   }
 
-  buttonPressed() {
-    console.log(this.myShip);
+  renderChallenge() {
+    console.log('rendering challenge before firing');
+    let typingChal = new TypingChallenge(
+      this.app,
+      this.fireMissile,
+      'test typing! challenge.'
+    );
+    typingChal.showChallenge();
     this.button.texture = this.textureButtonDown;
+  }
+
+  fireMissile() {
+    console.log(this.myShip);
 
     let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
     let shipPos = [
@@ -67,6 +79,8 @@ export default class FireButton {
     } else {
       console.log('Not enough points to perform action!');
     }
+
+    this.button.interactive = true;
   }
 
   buttonReleased() {
