@@ -110,8 +110,7 @@ export default class TypingChallenge {
       } else {
         this.firingCB();
       }
-      this.app.stage.removeChild(this.chalContainer);
-      this.app.stage.removeChild(this.inputContainer);
+      this.app.stage.removeChild(this.scaleCont);
       this.btnToggleCB();
     }
   }
