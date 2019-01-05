@@ -51,7 +51,9 @@ export default class TypingChallenge {
     this.inputContainer.addChild(this.bg2);
 
     window.onkeypress = e => {
-      this.processInput(e);
+      if (e.key != 'Enter') {
+        this.processInput(e);
+      }
     };
     window.onkeydown = e => {
       if (e.key == 'Backspace') {
