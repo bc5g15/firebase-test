@@ -134,6 +134,11 @@ export default class TypingChallenge {
       this.userInputTxt.text = this.input;
       this.correct++;
     }
+    // Extremly primative moving experiment
+    if (this.counter >= 5) {
+      // this.inputContainer.position.x -= 10;
+      this.chalContainer.position.x -= 10;
+    }
   }
 
   calculateAccuracy() {
