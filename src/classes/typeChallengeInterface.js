@@ -1,20 +1,32 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,no-alert */
 import * as PIXI from 'pixi.js';
+import Timer from 'easytimer.js';
 import injector from 'pixi-multistyle-text-esnext';
 
 export default class TypingChallenge {
   constructor(app, firingCB, btnToggleCB, chal) {
     injector(PIXI);
 
-    let bg = new PIXI.Graphics();
-    bg.beginFill(0x00000);
-    bg.lineStyle(2, 0xffffff);
-    bg.drawRect(0, 0, 800, 770);
-    let bg2 = new PIXI.Graphics();
-    bg2.beginFill(0x000000);
-    bg2.lineStyle(2, 0xffffff);
-    bg2.drawRect(0, 400, 800, 770 / 2);
+    this.bg = new PIXI.Graphics();
+    this.bg.beginFill(0xe74c3c);
+    this.bg.lineStyle(2, 0xffffff);
+    this.bg.drawRect(0, 0, 800, 770);
+    this.bg2 = new PIXI.Graphics();
+    this.bg2.beginFill(0x000000);
+    this.bg2.lineStyle(2, 0xffffff);
+    this.bg2.drawRect(0, 400, 800, 770 / 2);
 
+    this.textStyle = {
+      default: {
+        fontFamily: 'Arial',
+        fontSize: '20px',
+        fill: '#cccccc',
+        align: 'center'
+      },
+      w: {
+        fill: '#ff8888'
+      }
+    };
     this.app = app;
     this.chalContainer = new PIXI.Container();
     this.inputContainer = new PIXI.Container();
@@ -29,9 +41,14 @@ export default class TypingChallenge {
     this.counter = 0;
 
     this.app.stage.addChild(this.chalContainer, this.inputContainer);
-    this.chalContainer.addChild(bg);
-    this.inputContainer.addChild(bg2);
+
     this.inputContainer.position.y = this.chalContainer.position.y / 2;
+
+    this.challengeTimer = this.challengeTimer.bind(this);
+    this.handleChallengeSize = this.handleChallengeSize.bind(this);
+
+    this.chalContainer.addChild(this.bg);
+    this.inputContainer.addChild(this.bg2);
 
     window.onkeypress = e => {
       this.processInput(e);
@@ -42,6 +59,21 @@ export default class TypingChallenge {
       }
     };
     document.body.appendChild(app.view);
+  }
+
+  challengeTimer() {
+    let totalTime = 500 / this.challenge.length;
+
+    let timer = new Timer();
+    timer.start({ countdown: true, startValues: { seconds: totalTime } });
+
+    timer.addEventListener('secondsUpdated', this.handleChallengeSize(timer));
+  }
+
+  handleChallengeSize(timer) {
+    console.log(timer.getTimeValues());
+
+    this.bg.transform.localTransform.scale(0, 0);
   }
 
   processInput(event) {
@@ -78,27 +110,11 @@ export default class TypingChallenge {
   }
 
   showChallenge() {
+    this.challengeTimer();
     this.btnToggleCB();
-    this.userInputTxt = new PIXI.MultiStyleText(this.input, {
-      default: {
-        fontFamily: 'Arial',
-        fontSize: '20px',
-        fill: '#cccccc',
-        align: 'center'
-      },
-      w: {
-        fill: '#ff8888'
-      }
-    });
+    this.userInputTxt = new PIXI.MultiStyleText(this.input, this.textStyle);
     this.userInputTxt.y = 400;
-    let tmp = new PIXI.MultiStyleText(this.challenge, {
-      default: {
-        fontFamily: 'Arial',
-        fontSize: '20px',
-        fill: '#cccccc',
-        align: 'center'
-      }
-    });
+    let tmp = new PIXI.MultiStyleText(this.challenge, this.textStyle);
 
     this.chalContainer.addChild(tmp);
     this.inputContainer.addChild(this.userInputTxt);
