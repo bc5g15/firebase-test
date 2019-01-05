@@ -25,6 +25,7 @@ export default class Ocean {
 
     this.tilingSprite.anchor.set(0.25, 0.25);
     this.app.stage.addChild(this.tilingSprite);
+    this.app.stage.setChildIndex(this.tilingSprite, 0);
   }
 
   // Function used to update ocean position and scale to simulate ocean movement

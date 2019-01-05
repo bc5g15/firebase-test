@@ -60,7 +60,7 @@ export default class Game {
 
     // Only run if we use webpack-dev-server
     if (process.env.NODE_ENV !== 'production') {
-      this.myShip = new Ship(app, this, 0, [0, 0]);
+      this.myShip = new Ship(app, this, 0, [0, 0]);//Changed to always create a new myShip
       this.myShip.initShip();
     }
 
@@ -91,7 +91,7 @@ export default class Game {
     document.body.appendChild(this.app.view);
 
     // initialise keyboard input
-    keyboardInit(this.app, this.mousePosition, this);
+    keyboardInit(this.app, this.mousePosition, this, this.myShip);
 
     // loads enemy ships from game state data
     enemy.loadEnemies(this.app, this);

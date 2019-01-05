@@ -169,6 +169,7 @@ export default class Communicator {
     //Explosion
   }
 
+
   destroyShip(newState) {
     //Explosion
     this.game.ships[newState.type].sprite = PIXI.Sprite.fromImage(
