@@ -137,6 +137,7 @@ export default class TypingChallenge {
     // Extremly primative moving experiment
     if (this.counter >= 5) {
       // this.inputContainer.position.x -= 10;
+      this.userInputTxt.text = '\n' + this.userInputTxt.text;
       this.chalContainer.position.x -= 10;
     }
   }
