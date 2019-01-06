@@ -9,8 +9,8 @@ handlers:
   static_dir: static
 
 - url: /.*
-  script: firetactoe.app
-  login: required
+  script: server.master_route.app
+#  login: required
 
 libraries:
 - name: jinja2

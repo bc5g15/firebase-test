@@ -5,3 +5,5 @@
 *.pyc
 
 firebase-test-222916-firebase-adminsdk-slzkf-826b7cb679.json
+
+node_modules/
