@@ -4,6 +4,8 @@ import random
 import logging
 import os
 from typemodel import TypeTask
+from ..firebase_interface import _send_firebase_message
+from flask import request
 
 loader = Blueprint('loader', __name__, template_folder=os.path.abspath('templates'))
 keylist = []
@@ -35,7 +37,7 @@ def loadtemp():
     return "Loaded values " + str(records)
 
 
-def retrieve_task():  # Non-route version of get_task to be imported by other functions
+def retrieve_task(self, userid):  # Non-route version of get_task to be imported by other functions
     global keylist
     typetaskindex = random.randint(0, len(keylist) - 1)  # Randomly generates a key index from 0 to the maximum value
     # (index is one greater than the length of the list so 2 has to be subtracted from it)
@@ -44,11 +46,16 @@ def retrieve_task():  # Non-route version of get_task to be imported by other fu
     return typetask
 
 
-@loader.route("/gettask")
+@loader.route("/gettask", methods=["POST"])
 def get_task():
     global keylist
     typetaskindex = random.randint(0, len(keylist) - 1)  # Randomly generates a key index from 0 to the maximum value
     # (index is one greater than the length of the list so 2 has to be subtracted from it)
     typetaskkey = keylist[typetaskindex]  # Retrieves the key from the list
     typetask = typetaskkey.get()  # Uses the key to get the corresponding TypeTask from the database
-    return str(typetask)
+    userid = request.form.get('id')
+    mdict = typetask.toDict()
+    mdict["token"] = "typechallenge"
+    message = json.dumps(mdict)
+    _send_firebase_message(userid + typetask.key.id(), message = message);
+    return ''
