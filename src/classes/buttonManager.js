@@ -6,8 +6,8 @@ to fire a missile from the players position to the target position.
 import * as PIXI from 'pixi.js';
 import * as util from './utility';
 import * as missileControl from './missileController';
-import TypingChallenge from './typeChallengeInterface';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
+import $ from "jquery";
 
 export default class FireButton {
   constructor(app, gameBoard) {
@@ -47,13 +47,10 @@ export default class FireButton {
 
   renderChallenge() {
     console.log('rendering challenge before firing');
-    let typingChal = new TypingChallenge(
-      this.app,
-      this.fireMissile,
-      this.toggleButton,
-      'test' // Just using test text for now
-    );
-    typingChal.showChallenge();
+    let param = {
+      id: this.state.me
+    }
+    $.post("/gettask", param)
     this.button.texture = this.textureButtonDown;
   }
 
@@ -80,7 +77,7 @@ export default class FireButton {
       );
 
       console.log(
-        'Score after Shot: ' + this.gameBoard.score + ', Distance: ' + dist
+        'Score after Shot: ' + this.gameBoard.challengedifficulty + ', Distance: ' + dist
       );
     } else {
       console.log('Not enough points to perform action!');
@@ -88,33 +85,33 @@ export default class FireButton {
   }
 
   //buttonPressed() {
-  //this.button.texture = this.textureButtonDown;
+    //this.button.texture = this.textureButtonDown;
 
-  // let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
-  //let shipPos = [
-  // this.gameBoard.myShip.sprite.position.x,
-  // this.gameBoard.myShip.sprite.position.y
-  // ];
-  // let coords = getGridIndex(pos);
-  // let dist = util.calculateDistance(shipPos, pos);
+   // let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
+    //let shipPos = [
+     // this.gameBoard.myShip.sprite.position.x,
+     // this.gameBoard.myShip.sprite.position.y
+   // ];
+    // let coords = getGridIndex(pos);
+   // let dist = util.calculateDistance(shipPos, pos);
 
-  //determines if the player can afford to shoot based on targets distance
-  //if (util.canAfford(this.gameBoard)) {
-  // missileControl.shoot(
-  //    util.rotateTo(pos[0], pos[1], shipPos[0], shipPos[1]),
-  //     {
-  //      x: shipPos[0],
-  //      y: shipPos[1]
-  //    },
-  //    this.gameBoard
-  //  );
+    //determines if the player can afford to shoot based on targets distance
+    //if (util.canAfford(this.gameBoard)) {
+     // missileControl.shoot(
+    //    util.rotateTo(pos[0], pos[1], shipPos[0], shipPos[1]),
+   //     {
+    //      x: shipPos[0],
+    //      y: shipPos[1]
+    //    },
+    //    this.gameBoard
+    //  );
 
-  //  console.log(
-  //    'Score after Shot: ' + this.gameBoard.score + ', Distance: ' + dist
-  //  );
-  // } else {
-  //   console.log('Not enough points to perform action!');
-  // }
+    //  console.log(
+    //    'Score after Shot: ' + this.gameBoard.score + ', Distance: ' + dist
+    //  );
+   // } else {
+   //   console.log('Not enough points to perform action!');
+   // }
   //}
 
   buttonReleased() {

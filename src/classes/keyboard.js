@@ -56,7 +56,7 @@ function keyboard(value) {
   return key;
 }
 
-export default function keyboardInit(app, mousePosition, gameBoard) {
+export default function keyboardInit(app, mousePosition, gameBoard) { //Changed to take myShip as a parameter
   let left = keyboard('ArrowLeft'),
     up = keyboard('ArrowUp'),
     right = keyboard('ArrowRight'),

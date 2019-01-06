@@ -11,14 +11,14 @@ export default class NewShip {
     this.id = id;
     this.gameBoard = gameBoard;
     this.position = position; //coordinates
-    this.hitpoints = hitpoints;
+      this.hitpoints = hitpoints;
     this.positionExact = null; //exact coordinates
     this.sprite = null;
     this.isDestroyed = null; //Boolean that makes sure destroyed ships can't move
-    this.enemyShips = []; //Gives each ship a list of all the other ships in the game, which are its enemies.
-    // Whenever a player ship is destroyed, all other ships remove it from their enemyShips list. When the
-    // enemyShips array of a particular ship is emptied, i.e. all other ships are destroyed, the game end sequence
-    // will be triggered.
+      this.enemyShips = []; //Gives each ship a list of all the other ships in the game, which are its enemies.
+        // Whenever a player ship is destroyed, all other ships remove it from their enemyShips list. When the
+        // enemyShips array of a particular ship is emptied, i.e. all other ships are destroyed, the game end sequence
+        // will be triggered.
   }
 
   initShip() {
@@ -52,10 +52,7 @@ export default class NewShip {
   }
 
   moveRight() {
-    if (
-      this.isDestroyed == false &&
-      !(this.position[0] === this.gameBoard.dimension - 1)
-    ) {
+    if (this.isDestroyed == false && !(this.position[0] === this.gameBoard.dimension - 1)) {
       this.moveGeneral(1, 0);
     } else {
       console.log('Cant move right!');
@@ -71,10 +68,7 @@ export default class NewShip {
   }
 
   moveDown() {
-    if (
-      this.isDestroyed == false &&
-      !(this.position[1] === this.gameBoard.dimension - 1)
-    ) {
+    if (this.isDestroyed == false && !(this.position[1] === this.gameBoard.dimension - 1)) {
       this.moveGeneral(0, 1);
     } else {
       console.log('Cant move down!');

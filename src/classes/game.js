@@ -41,6 +41,9 @@ export default class Game {
     this.score = 20000;
     this.health = 1000;
 
+    this.challengetext = null;
+    this.challengedifficulty = null;
+
     this.missiles = [];
     this.missileCount = 0;
     this.missileSpeedFactor = 4;
@@ -60,7 +63,7 @@ export default class Game {
 
     // Only run if we use webpack-dev-server
     if (process.env.NODE_ENV !== 'production') {
-      this.myShip = new Ship(app, this, 0, [0, 0]); //Changed to always create a new myShip
+      this.myShip = new Ship(app, this, 0, [0, 0]);//Changed to always create a new myShip
       this.myShip.initShip();
     }
 
