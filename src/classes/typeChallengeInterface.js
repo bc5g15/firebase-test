@@ -7,14 +7,19 @@ export default class TypingChallenge {
   constructor(app, firingCB, btnToggleCB, chal) {
     injector(PIXI);
 
+    this.globals = require('../constants.js');
     this.bg = new PIXI.Graphics();
-    this.bg.beginFill(0xe74c3c);
+    this.bg.beginFill(0x333333);
     this.bg.lineStyle(2, 0xffffff);
-    this.bg.drawRect(0, 0, 800, 400);
+    this.bg.drawRect(0, 0, 800, 375);
     this.bg2 = new PIXI.Graphics();
     this.bg2.beginFill(0x000000);
     this.bg2.lineStyle(2, 0xffffff);
-    this.bg2.drawRect(0, 400, 800, 400);
+    this.bg2.drawRect(0, 375, 800, 400);
+    this.bg3 = new PIXI.Graphics();
+    this.bg3.beginFill(0x00cc11);
+    this.bg3.lineStyle(2, 0xffffff);
+    this.bg3.drawRect(0, 750, 800, 25);
 
     this.textStyle = {
       default: {
@@ -30,7 +35,7 @@ export default class TypingChallenge {
     this.app = app;
     this.chalContainer = new PIXI.Container();
     this.inputContainer = new PIXI.Container();
-    this.scaleCont = new PIXI.Container();
+    this.barCont = new PIXI.Container();
     this.firingCB = firingCB;
     this.btnToggleCB = btnToggleCB;
     this.challenge = chal;
@@ -41,9 +46,9 @@ export default class TypingChallenge {
     this.totalTyped = 0;
     this.counter = 0;
 
-    this.app.stage.addChild(this.scaleCont);
-    this.scaleCont.addChild(this.chalContainer, this.inputContainer);
+    this.app.stage.addChild(this.chalContainer, this.inputContainer);
 
+    this.app.stage.addChild(this.barCont);
     this.inputContainer.position.y = this.chalContainer.position.y / 2;
 
     this.challengeTimer = this.challengeTimer.bind(this);
@@ -51,6 +56,7 @@ export default class TypingChallenge {
 
     this.chalContainer.addChild(this.bg);
     this.inputContainer.addChild(this.bg2);
+    this.barCont.addChild(this.bg3);
 
     window.onkeypress = e => {
       if (e.key != 'Enter') {
@@ -66,8 +72,8 @@ export default class TypingChallenge {
   }
 
   challengeTimer() {
-    let totalTime = 500 / this.challenge.length;
-
+    let totalTime = this.challenge.length * 1.5;
+    console.log('Total Time: ' + totalTime);
     let timer = new Timer();
     timer.start({
       countdown: true,
@@ -81,16 +87,18 @@ export default class TypingChallenge {
 
     timer.addEventListener('targetAchieved', () => {
       console.error('time limit reached');
+      this.hideChallenge();
       this.btnToggleCB();
     });
   }
 
   handleChallengeSize(timer, totalTime) {
     let scale = timer.getTimeValues().seconds / totalTime;
-
-    let trans = 400 * (1 - scale);
-    this.scaleCont.position.set(trans, trans);
-    this.scaleCont.scale.set(scale);
+    console.log('Scale: ' + scale);
+    //let trans = (this.globals.returnWidth()/2) * (1 - scale);
+    //console.log("Global Width: " + this.globals.returnWidth() + " // Transform: " + trans);
+    //this.scaleCont.position.set(trans, trans);
+    this.barCont.scale.x = scale;
   }
 
   processInput(event) {
@@ -120,9 +128,15 @@ export default class TypingChallenge {
       } else {
         this.firingCB();
       }
-      this.app.stage.removeChild(this.scaleCont);
+      this.hideChallenge();
       this.btnToggleCB();
     }
+  }
+
+  hideChallenge() {
+    this.app.stage.removeChild(this.barCont);
+    this.app.stage.removeChild(this.chalContainer);
+    this.app.stage.removeChild(this.inputContainer);
   }
 
   showChallenge() {
