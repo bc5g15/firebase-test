@@ -1,25 +1,32 @@
 /* 
-This class keeps track of the state of the players ship (SPECIFICALLY NOT USED FOR ENEMY SHIPS)
-This class us used to rotate the ship and move it around the map.
+  This class keeps track of the state of the players ship
+  This class us used to rotate the ship and move it around the map.
 */
 
 import * as PIXI from 'pixi.js';
 import $ from 'jquery';
 
 export default class Ship {
-  constructor(app, gameBoard, id, position, hitpoints) {
+  constructor(app, gameBoard, id, position, hitpoints, enemy) {
     this.app = app;
     this.gameBoard = gameBoard;
     this.id = id;
     this.hitpoints = hitpoints;
+
+    // Whether we control it
+    this.enemy = enemy;
     this.position = position; //coordinates
-    this.enemyShips = [];
+
     this.sprite = null;
     this.isDestroyed = false; //Boolean that makes sure destroyed ships can't move
   }
 
   initShip() {
-    this.sprite = PIXI.Sprite.fromImage('static/assets/Sprites/ship.png');
+    this.sprite = PIXI.Sprite.fromImage(
+      this.enemy
+        ? 'static/assets/Sprites/enemyShip.png'
+        : 'static/assets/Sprites/ship.png'
+    );
     this.sprite.scale.x = 1.5 / this.gameBoard.dimension;
     this.sprite.scale.y = 1.5 / this.gameBoard.dimension;
     this.sprite.anchor.set(0.5);
