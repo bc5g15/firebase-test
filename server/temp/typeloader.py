@@ -28,17 +28,21 @@ def loadtemp():
     text = open('server/temp/Difficulties.json', 'r').read()
     records = json.loads(text)
     num_entries = len(records)
+    output = []
     index = 1
     for item in records:
-        tt = TypeTask(id=index, text=item["text"].strip(), difficulty=item["difficulty"])
+        # Forcibly remove untypable UTF-8 characters
+        my_in = item["text"].strip().encode("ascii", "ignore")
+        tt = TypeTask(id=index, text=my_in, difficulty=item["difficulty"])
         key = tt.put()  # put() returns a key, so I have made sure to store this key in a list of keys that can be used
         #  to find and return TypeTasks later on
         keylist.append(key)
+        output.append(my_in)
         index += 1
         if index > MAX_ENTRIES:
             break
 
-    return "Loaded values " + str(records)
+    return "Loaded values " + str(output)
 
 
 def retrieve_task(self, userid):  # Non-route version of get_task to be imported by other functions
