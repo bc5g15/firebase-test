@@ -30,7 +30,7 @@ def loadtemp():
     num_entries = len(records)
     index = 1
     for item in records:
-        tt = TypeTask(id=index, text=item["text"], difficulty=item["difficulty"])
+        tt = TypeTask(id=index, text=item["text"].strip(), difficulty=item["difficulty"])
         key = tt.put()  # put() returns a key, so I have made sure to store this key in a list of keys that can be used
         #  to find and return TypeTasks later on
         keylist.append(key)
