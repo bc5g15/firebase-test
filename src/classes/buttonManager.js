@@ -22,8 +22,6 @@ export default class FireButton {
     this.textureButtonDown = new PIXI.Texture.fromImage(
       'static/assets/Sprites/buttonFirePressed.png'
     );
-    this.fireMissile = this.fireMissile.bind(this);
-    this.toggleButton = this.toggleButton.bind(this);
 
     //creating button and changing settings
     let button = new PIXI.Sprite(this.textureButton);
@@ -47,14 +45,31 @@ export default class FireButton {
 
   renderChallenge() {
     console.log('rendering challenge before firing');
-    let typingChal = new TypingChallenge(
-      this.app,
-      this.fireMissile,
-      this.toggleButton,
-      'test' // Just using test text for now
-    );
-    typingChal.showChallenge();
     this.button.texture = this.textureButtonDown;
+
+    if (this.canShoot()) {
+      let typingChal = new TypingChallenge(
+        this.app,
+        this.fireMissile.bind(this),
+        this.toggleButton.bind(this),
+        'test' // Just using test text for now
+      );
+      typingChal.showChallenge();
+    }
+  }
+
+  // Can we shoot given target position?
+  canShoot() {
+    let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
+    let shipPos = [
+      this.gameBoard.myShip.sprite.position.x,
+      this.gameBoard.myShip.sprite.position.y
+    ];
+
+    return (
+      util.calculateDistance(shipPos, pos) != 0 &&
+      !this.gameBoard.myShip.isDestroyed
+    );
   }
 
   fireMissile() {
@@ -65,8 +80,11 @@ export default class FireButton {
       this.gameBoard.myShip.sprite.position.x,
       this.gameBoard.myShip.sprite.position.y
     ];
-    // let coords = getGridIndex(pos);
+
     let dist = util.calculateDistance(shipPos, pos);
+    if (dist == 0) {
+      return;
+    }
 
     //determines if the player can afford to shoot based on targets distance
     if (util.canAfford(this.gameBoard)) {

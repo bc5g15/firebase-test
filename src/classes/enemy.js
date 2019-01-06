@@ -63,7 +63,7 @@ export function loadEnemies(app, gameBoard, debugEnemies) {
   //I've kept the original enemy code here in case we want NPC enemies as well in which case we can incorporate
   // this in with the player ship code
 
-  // Only run if we use webpack-dev-server
+  // Load custom state of enemies
   if (debugEnemies) {
     debugEnemies.forEach(ship => {
       let enemy = new Ship(app, gameBoard, ship[0], ship[1], 3, true);

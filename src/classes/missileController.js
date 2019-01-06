@@ -49,6 +49,7 @@ export function shoot(rotation, startPosition, gameBoard) {
 
   // Play sound
   playLaunchSound();
+  return true;
 }
 
 // Runs every tick, updates missile positions and checks for hits
