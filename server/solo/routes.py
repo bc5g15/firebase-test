@@ -7,6 +7,10 @@ solo = Blueprint('solo', __name__, template_folder=os.path.abspath('templates'))
 
 
 def create_id():
+    """
+    Create a random-ish user ID
+    :return:
+    """
     uid = str(random.randint(1, 1000))
     uname = "Player" + str(uid)
 
@@ -38,11 +42,6 @@ def start():
     }
 
     return render_template('entry.html', **template_values)
-
-
-@solo.route('/hello', methods=['GET'])
-def my_hello():
-    return "Nothing yet!"
 
 
 @solo.route('/change-name', methods=['POST'])

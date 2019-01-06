@@ -5,6 +5,7 @@ import os
 
 sessdebug = Blueprint('Session Debug', __name__, template_folder=os.path.abspath('templates'))
 
+
 @sessdebug.route('/clearsession')
 def clear_session():
     """

@@ -13,9 +13,6 @@ from flask import request
 
 r_game = flask.Blueprint('game', __name__, template_folder=os.path.abspath('templates'))
 
-# game_id = 1
-# player_id = 1
-
 
 def create_game_session(gkey, newgame):
     """
@@ -93,10 +90,13 @@ def create_game_session(gkey, newgame):
 
 @r_game.route("/game", methods=['GET', 'POST'])
 def start_game():
+    """
+    Start a new game, or join a game with a given ID
+    :return:
+    """
     logging.info("Main Game start")
 
     if request.method == 'GET':
-        # template_values["host"] = True
         game_id = new_game_id()
         newgame = True
     else:
@@ -145,7 +145,7 @@ def open_game_lobby():
 @r_game.route("/game/lobby/join", methods=['POST'])
 def lobby_join():
     pin = request.form['pin']
-    template_values = create_game_session(pin)
+    template_values = create_game_session(pin, False)
     return flask.render_template("game_index2.html", **template_values)
 
 
