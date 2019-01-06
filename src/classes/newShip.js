@@ -6,13 +6,19 @@ import * as PIXI from 'pixi.js';
 import $ from 'jquery';
 
 export default class NewShip {
-  constructor(app, id, gameBoard, position) {
+  constructor(app, id, gameBoard, position, hitpoints) {
     this.app = app;
     this.id = id;
     this.gameBoard = gameBoard;
     this.position = position; //coordinates
+      this.hitpoints = hitpoints;
     this.positionExact = null; //exact coordinates
     this.sprite = null;
+    this.isDestroyed = null; //Boolean that makes sure destroyed ships can't move
+      this.enemyShips = []; //Gives each ship a list of all the other ships in the game, which are its enemies.
+        // Whenever a player ship is destroyed, all other ships remove it from their enemyShips list. When the
+        // enemyShips array of a particular ship is emptied, i.e. all other ships are destroyed, the game end sequence
+        // will be triggered.
   }
 
   initShip() {
@@ -21,6 +27,7 @@ export default class NewShip {
     this.sprite.scale.y = 1.5 / this.gameBoard.dimension;
     this.sprite.anchor.set(0.5);
     this.calculatePosition(this.position);
+    this.isDestroyed = false;
 
     this.app.stage.addChild(this.sprite);
   }
@@ -37,7 +44,7 @@ export default class NewShip {
   }
 
   moveLeft() {
-    if (!(this.position[0] === 0)) {
+    if (this.isDestroyed == false && !(this.position[0] === 0)) {
       this.moveGeneral(-1, 0);
     } else {
       console.log('Cant move left!');
@@ -45,7 +52,7 @@ export default class NewShip {
   }
 
   moveRight() {
-    if (!(this.position[0] === this.gameBoard.dimension - 1)) {
+    if (this.isDestroyed == false && !(this.position[0] === this.gameBoard.dimension - 1)) {
       this.moveGeneral(1, 0);
     } else {
       console.log('Cant move right!');
@@ -53,7 +60,7 @@ export default class NewShip {
   }
 
   moveUp() {
-    if (!(this.position[1] === 0)) {
+    if (this.isDestroyed == false && !(this.position[1] === 0)) {
       this.moveGeneral(0, -1);
     } else {
       console.log('Cant move up!');
@@ -61,7 +68,7 @@ export default class NewShip {
   }
 
   moveDown() {
-    if (!(this.position[1] === this.gameBoard.dimension - 1)) {
+    if (this.isDestroyed == false && !(this.position[1] === this.gameBoard.dimension - 1)) {
       this.moveGeneral(0, 1);
     } else {
       console.log('Cant move down!');

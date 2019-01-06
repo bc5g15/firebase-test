@@ -2,16 +2,20 @@
 This class keeps track of the state of the players ship (SPECIFICALLY NOT USED FOR ENEMY SHIPS)
 This class us used to rotate the ship and move it around the map.
 */
+
 import * as PIXI from 'pixi.js';
-import * as treasureTracker from './treasureTracker';
+import $ from 'jquery';
 
 export default class Ship {
-  constructor(app, gameBoard, position) {
+  constructor(app, gameBoard, id, position, hitpoints) {
     this.app = app;
     this.gameBoard = gameBoard;
+    this.id = id;
+    this.hitpoints = hitpoints;
     this.position = position; //coordinates
-    this.positionExact = null; //exact coordinates
+    this.enemyShips = [];
     this.sprite = null;
+    this.isDestroyed = false; //Boolean that makes sure destroyed ships can't move
   }
 
   initShip() {
@@ -19,25 +23,24 @@ export default class Ship {
     this.sprite.scale.x = 1.5 / this.gameBoard.dimension;
     this.sprite.scale.y = 1.5 / this.gameBoard.dimension;
     this.sprite.anchor.set(0.5);
-    this.calculatePosition(this.position);
-  }
 
-  render() {
+    this.updatePositionFromCoords(this.position);
+
     this.app.stage.addChild(this.sprite);
   }
 
-  calculatePosition(pos) {
-    let x = this.gameBoard.squareHighlighter.pointArray[pos[0]].x;
-    let y = this.gameBoard.squareHighlighter.pointArray[
+  // Sets the position of the sprite according to 2D coordinates
+  updatePositionFromCoords(pos) {
+    let x = this.gameBoard.gameGrid.getPointFromIndex(pos[0]).x;
+    let y = this.gameBoard.gameGrid.getPointFromIndex(
       this.gameBoard.dimension * pos[1]
-    ].y;
+    ).y;
 
     this.sprite.position.set(x, y);
-    this.positionExact = [x, y];
   }
 
   moveLeft() {
-    if (!(this.position[0] === 0)) {
+    if (this.isDestroyed == false && !(this.position[0] === 0)) {
       this.moveGeneral(-1, 0);
     } else {
       console.log('Cant move left!');
@@ -45,7 +48,10 @@ export default class Ship {
   }
 
   moveRight() {
-    if (!(this.position[0] === this.gameBoard.dimension - 1)) {
+    if (
+      this.isDestroyed == false &&
+      !(this.position[0] === this.gameBoard.dimension - 1)
+    ) {
       this.moveGeneral(1, 0);
     } else {
       console.log('Cant move right!');
@@ -53,7 +59,7 @@ export default class Ship {
   }
 
   moveUp() {
-    if (!(this.position[1] === 0)) {
+    if (this.isDestroyed == false && !(this.position[1] === 0)) {
       this.moveGeneral(0, -1);
     } else {
       console.log('Cant move up!');
@@ -61,31 +67,47 @@ export default class Ship {
   }
 
   moveDown() {
-    if (!(this.position[1] === this.gameBoard.dimension - 1)) {
+    if (
+      this.isDestroyed == false &&
+      !(this.position[1] === this.gameBoard.dimension - 1)
+    ) {
       this.moveGeneral(0, 1);
     } else {
       console.log('Cant move down!');
     }
   }
 
+  // Moves the ship sprite
   moveGeneral(newX, newY) {
     let x = this.position[0] + newX;
     let y = this.position[1] + newY;
 
-    this.calculatePosition([x, y]);
+    //create message using the jQuery
+    let params = {
+      id: this.id,
+      x: x,
+      y: y
+    };
 
-    this.position[0] = x;
-    this.position[1] = y;
+    $.post('/game/move', params);
 
-    treasureTracker.checkCollectedTreasure(this.gameBoard, this.position);
-    //console.log("New Position: " + this.position + ", Score: " + score);
+    // this.calculatePosition([x, y]);
+    //
+    // this.position[0] = x;
+    // this.position[1] = y;
+    //
+    // console.log("New Position: " + this.position + ", Score: " + score);
   }
 
   /*
-    A new method that sets the position of a ship on the grid
-  */
+  A new method that sets the position of a ship on the grid
+   */
   setPosition(newX, newY) {
-    this.calculatePosition([newX, newY]);
+    console.log('Message in');
+    console.log(newX);
+    console.log(newY);
+
+    this.updatePositionFromCoords([newX, newY]);
 
     this.position[0] = newX;
     this.position[1] = newY;

@@ -7,11 +7,12 @@ import * as PIXI from 'pixi.js';
 import * as util from './utility';
 import * as missileControl from './missileController';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
+import $ from "jquery";
 
-export default class ButtonManager {
-  constructor(app, gameBoard, myShip) {
+export default class FireButton {
+  constructor(app, gameBoard) {
+    this.app = app;
     this.gameBoard = gameBoard;
-    this.myShip = myShip;
 
     //texture loading
     this.textureButton = new PIXI.Texture.fromImage(
@@ -21,6 +22,8 @@ export default class ButtonManager {
     this.textureButtonDown = new PIXI.Texture.fromImage(
       'static/assets/Sprites/buttonFirePressed.png'
     );
+    this.fireMissile = this.fireMissile.bind(this);
+    this.toggleButton = this.toggleButton.bind(this);
 
     //creating button and changing settings
     let button = new PIXI.Sprite(this.textureButton);
@@ -29,47 +32,87 @@ export default class ButtonManager {
     button.anchor.set(0.5);
     button.x = GLOBAL_WIDTH * 0.75;
     button.y = GLOBAL_HEIGHT * 0.9;
-    button.on('pointerdown', this.buttonPressed);
-    button.on('pointerup', this.buttonReleased);
+    button.on('pointerdown', this.renderChallenge.bind(this));
+    button.on('pointerup', this.buttonReleased.bind(this));
     this.button = button;
 
     //adding button to the game container.
     app.stage.addChild(button);
   }
 
-  buttonPressed() {
-    this.button.texture = this.textureButtonDown;
+  toggleButton() {
+    this.button.texture = this.textureButton;
+    this.button.interactive = !this.button.interactive;
+  }
 
-    let pos = this.gameBoard.squareHighlighter.getPositionOfGreenSquare();
+  renderChallenge() {
+    console.log('rendering challenge before firing');
+    let param = {
+      id: this.state.me
+    }
+    $.post("/gettask", param)
+    this.button.texture = this.textureButtonDown;
+  }
+
+  fireMissile() {
+    console.log(this.myShip);
+
+    let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
+    let shipPos = [
+      this.gameBoard.myShip.sprite.position.x,
+      this.gameBoard.myShip.sprite.position.y
+    ];
     // let coords = getGridIndex(pos);
-    let dist = util.calculateDistance(
-      [this.myShip.positionExact[0], this.myShip.positionExact[1]],
-      pos
-    );
+    let dist = util.calculateDistance(shipPos, pos);
 
     //determines if the player can afford to shoot based on targets distance
     if (util.canAfford(this.gameBoard)) {
       missileControl.shoot(
-        util.rotateTo(
-          pos[0],
-          pos[1],
-          this.gameBoard.myShip.positionExact[0],
-          this.gameBoard.myShip.positionExact[1]
-        ),
+        util.rotateTo(pos[0], pos[1], shipPos[0], shipPos[1]),
         {
-          x: this.gameBoard.myShip.positionExact[0],
-          y: this.gameBoard.myShip.positionExact[1]
+          x: shipPos[0],
+          y: shipPos[1]
         },
         this.gameBoard
       );
 
       console.log(
-        'Score after Shot: ' + this.gameBoard.score + ', Distance: ' + dist
+        'Score after Shot: ' + this.gameBoard.challengedifficulty + ', Distance: ' + dist
       );
     } else {
       console.log('Not enough points to perform action!');
     }
   }
+
+  //buttonPressed() {
+    //this.button.texture = this.textureButtonDown;
+
+   // let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
+    //let shipPos = [
+     // this.gameBoard.myShip.sprite.position.x,
+     // this.gameBoard.myShip.sprite.position.y
+   // ];
+    // let coords = getGridIndex(pos);
+   // let dist = util.calculateDistance(shipPos, pos);
+
+    //determines if the player can afford to shoot based on targets distance
+    //if (util.canAfford(this.gameBoard)) {
+     // missileControl.shoot(
+    //    util.rotateTo(pos[0], pos[1], shipPos[0], shipPos[1]),
+   //     {
+    //      x: shipPos[0],
+    //      y: shipPos[1]
+    //    },
+    //    this.gameBoard
+    //  );
+
+    //  console.log(
+    //    'Score after Shot: ' + this.gameBoard.score + ', Distance: ' + dist
+    //  );
+   // } else {
+   //   console.log('Not enough points to perform action!');
+   // }
+  //}
 
   buttonReleased() {
     this.button.texture = this.textureButton;

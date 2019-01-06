@@ -56,43 +56,43 @@ function keyboard(value) {
   return key;
 }
 
-export default function keyboardInit(app, mousePosition, gameBoard, myShip) {
+export default function keyboardInit(app, mousePosition, gameBoard) { //Changed to take myShip as a parameter
   let left = keyboard('ArrowLeft'),
     up = keyboard('ArrowUp'),
     right = keyboard('ArrowRight'),
     down = keyboard('ArrowDown');
 
   left.press = () => {
-    myShip.sprite.rotation = -Math.PI / 2;
+    gameBoard.myShip.sprite.rotation = -Math.PI / 2;
     if (util.canAfford(gameBoard)) {
-      myShip.moveLeft();
+      gameBoard.myShip.moveLeft();
     } else {
       console.log('Cannot afford to move');
     }
   };
 
   right.press = () => {
-    myShip.sprite.rotation = Math.PI / 2;
+    gameBoard.myShip.sprite.rotation = Math.PI / 2;
     if (util.canAfford(gameBoard)) {
-      myShip.moveRight();
+      gameBoard.myShip.moveRight();
     } else {
       console.log('Cannot afford to move');
     }
   };
 
   up.press = () => {
-    myShip.sprite.rotation = 0;
+    gameBoard.myShip.sprite.rotation = 0;
     if (util.canAfford(gameBoard)) {
-      myShip.moveUp();
+      gameBoard.myShip.moveUp();
     } else {
       console.log('Cannot afford to move');
     }
   };
 
   down.press = () => {
-    myShip.sprite.rotation = Math.PI;
+    gameBoard.myShip.sprite.rotation = Math.PI;
     if (util.canAfford(gameBoard)) {
-      myShip.moveDown();
+      gameBoard.myShip.moveDown();
     } else {
       console.log('Cannot afford to move');
     }
@@ -101,8 +101,9 @@ export default function keyboardInit(app, mousePosition, gameBoard, myShip) {
   //this function sets the location of the green square when the mouse is clicked
   app.stage.on('mousedown', () => {
     if (!(mousePosition.y > GLOBAL_HEIGHT * 0.8)) {
-      let pos = gameBoard.squareHighlighter.getPositionOfCurrentSquare();
-      gameBoard.squareHighlighter.moveGreenSquare(gameBoard.getGridIndex(pos));
+      gameBoard.squareHighlighter.positionTarget(
+        gameBoard.squareHighlighter.hoverIndex
+      );
       //console.log("pos: " + pos);
       //console.log("GETGRIDINDEX(pos): " + getGridIndex(pos));
     }
