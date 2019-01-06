@@ -1,4 +1,7 @@
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack');
+
+const isDevServer = process.argv.find(v => v.includes('webpack-dev-server'));
 
 module.exports = {
   entry: {
@@ -51,5 +54,15 @@ module.exports = {
     compress: true,
     port: 8080
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
+  watchOptions: {
+    ignored: ['node_modules', 'server', 'static']
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(isDevServer ? 'development' : 'production')
+      }
+    })
+  ]
 };

@@ -79,6 +79,18 @@ def create_game_session(gkey, newgame):
     return template_values
 
 
+# [START route_delete]
+# @ttt.route('/delete', methods=['POST'])
+# def delete():
+#     game = Game.get_by_id(request.args.get('g'))
+#     if not game:
+#         return 'Game not found', 400
+#     user = users.get_current_user()
+#     _send_firebase_message(user.user_id() + game.key.id(), message=None)
+#     return ''
+# [END route_delete]
+
+
 @r_game.route("/game", methods=['GET', 'POST'])
 def start_game():
     logging.info("Main Game start")

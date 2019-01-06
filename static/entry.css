@@ -1,0 +1,63 @@
+body{
+    background-color:#333;
+    text-align:center;
+    padding-top:10%;
+    font-family:sans-serif;
+}
+
+h1,h2,h3{
+    color:#f8f8f8;
+}
+
+#user-details, #game-details{
+    max-width:50%;
+    display:inline-block;
+    margin:5%;
+    vertical-align:top;
+}
+
+
+.form{
+    color:#f8f8f8;
+    font-size:12pt;
+    padding:10px;
+}
+
+.form.text-box{
+    color:#000;
+}
+
+.form.label{
+    font-size:14pt;
+}
+
+
+#start-button, #change-button, #join-button, .form.text-box{
+    padding:10px;
+    font-size:12pt;
+    border-radius:15px;
+    border:0;
+    background-color:#f8f8f8;
+}
+
+#change-button:hover{
+    background-color:#ccc;
+}
+
+#join-button{
+    background-color:#008FEF;
+    color:#f8f8f8;
+}
+
+#join-button:hover{
+    background-color:#0170BA;
+}
+
+#start-button{
+    background-color:#00CC11;
+    color:#f8f8f8;
+}
+
+#start-button:hover{
+    background-color:#00A00D;
+}

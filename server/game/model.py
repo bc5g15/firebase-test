@@ -34,7 +34,7 @@ class TileEntity(ndb.Model):
         return json.dumps(self.to_dict())
 
 
-class Ship(TileEntity): # Ship, target and treasure are all extensions of TileEntity to represent that they all have
+class Ship(TileEntity):  # Ship, target and treasure are all extensions of TileEntity to represent that they all have
     # type, row and col yet have their own different attributes - different hitpoint numbers in ship and target and
     # value in treasure and target
     hitpoints = ndb.IntegerProperty()
@@ -202,6 +202,10 @@ class GameState(ndb.Model):
                     self.tiles[x].hitpoints = 0;
                     self.put()
                     self.send_small_update("destroyed", self.tiles[x])
+                    del self.tiles[x]
+                    # If thre is only one ship left, send an end game message
+                    if len(self.tiles) == 1:
+                        self.send_update("game-over")
                     return
                 else:  # Does nothing if a missile hits the wreck of a player's sunken ship - that player's already out!
                     return

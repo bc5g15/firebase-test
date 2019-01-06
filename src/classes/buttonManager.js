@@ -7,13 +7,12 @@ import * as PIXI from 'pixi.js';
 import * as util from './utility';
 import * as missileControl from './missileController';
 import TypingChallenge from './typeChallengeInterface';
-import { GLOBAL_HEIGHT, GLOBAL_WIDTH } from '../constants';
+import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
 
 export default class FireButton {
-  constructor(app, gameBoard, myShip) {
+  constructor(app, gameBoard) {
     this.app = app;
     this.gameBoard = gameBoard;
-    this.myShip = myShip;
 
     //texture loading
     this.textureButton = new PIXI.Texture.fromImage(
@@ -52,7 +51,7 @@ export default class FireButton {
       this.app,
       this.fireMissile,
       this.toggleButton,
-      'test longer! challenge.'
+      'test' // Just using test text for now
     );
     typingChal.showChallenge();
     this.button.texture = this.textureButtonDown;
@@ -63,8 +62,8 @@ export default class FireButton {
 
     let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
     let shipPos = [
-      this.myShip.sprite.position.x,
-      this.myShip.sprite.position.y
+      this.gameBoard.myShip.sprite.position.x,
+      this.gameBoard.myShip.sprite.position.y
     ];
     // let coords = getGridIndex(pos);
     let dist = util.calculateDistance(shipPos, pos);
@@ -87,6 +86,36 @@ export default class FireButton {
       console.log('Not enough points to perform action!');
     }
   }
+
+  //buttonPressed() {
+  //this.button.texture = this.textureButtonDown;
+
+  // let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
+  //let shipPos = [
+  // this.gameBoard.myShip.sprite.position.x,
+  // this.gameBoard.myShip.sprite.position.y
+  // ];
+  // let coords = getGridIndex(pos);
+  // let dist = util.calculateDistance(shipPos, pos);
+
+  //determines if the player can afford to shoot based on targets distance
+  //if (util.canAfford(this.gameBoard)) {
+  // missileControl.shoot(
+  //    util.rotateTo(pos[0], pos[1], shipPos[0], shipPos[1]),
+  //     {
+  //      x: shipPos[0],
+  //      y: shipPos[1]
+  //    },
+  //    this.gameBoard
+  //  );
+
+  //  console.log(
+  //    'Score after Shot: ' + this.gameBoard.score + ', Distance: ' + dist
+  //  );
+  // } else {
+  //   console.log('Not enough points to perform action!');
+  // }
+  //}
 
   buttonReleased() {
     this.button.texture = this.textureButton;
