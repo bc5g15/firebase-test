@@ -3,7 +3,7 @@ import * as firebase from 'firebase';
 import $ from 'jquery';
 import Game from './game';
 import Ship from './ship';
-import TypingChallenge from "./typeChallengeInterface";
+import TypingChallenge from './typeChallengeInterface';
 
 // initialise firebase
 let config = {
@@ -56,7 +56,7 @@ export default class Communicator {
         this.handlers['destroyed'] = this.destroyShip.bind(this);
         this.handlers['new_user'] = this.updateSingleShip.bind(this);
         this.handlers['position'] = this.updateFullGameState.bind(this);
-        this.handlers['typechallenge'] = this.createTypeTask(this);
+        this.handlers['typechallenge'] = this.createTypeTask.bind(this);
         $.post('/game/join');
       }
     };
@@ -171,7 +171,6 @@ export default class Communicator {
     //Explosion
   }
 
-
   destroyShip(newState) {
     //Explosion
     this.game.ships[newState.type].sprite = PIXI.Sprite.fromImage(
@@ -181,8 +180,8 @@ export default class Communicator {
     this.game.ships[newState.type].isDestroyed = true;
   }
 
-  createTypeTask(newState){
-    console.log(newState);
+  createTypeTask(newState) {
+    console.log(newState.text);
     this.game.challengetext = newState.text;
     //console.log(this.game.challengetext);
     this.game.challengedifficulty = newState.difficulty;
