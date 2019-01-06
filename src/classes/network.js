@@ -133,7 +133,8 @@ export default class Communicator {
           this.game,
           tile.type,
           [tile.col, tile.row],
-          tile.hitpoints
+          tile.hitpoints,
+          tile.type !== this.state.me
         );
         this.game.ships[tile.type].initShip();
         if (tile.type === this.state.me) {
@@ -151,7 +152,8 @@ export default class Communicator {
       this.game,
       newState.type,
       [newState.col, newState.row],
-      newState.hitpoints
+      newState.hitpoints,
+      newState.type !== this.state.me
     );
     this.game.ships[newState.type] = newShip;
     newShip.initShip();

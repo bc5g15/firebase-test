@@ -91,8 +91,10 @@ export default class Game {
     // initialise keyboard input
     keyboardInit(this.app, this.mousePosition, this, this.myShip);
 
-    // loads enemy ships from game state data
-    enemy.loadEnemies(this.app, this, testGameState());
+    // Only run if we use webpack-dev-server
+    if (process.env.NODE_ENV !== 'production') {
+      enemy.loadEnemies(this.app, this, testGameState());
+    }
 
     this.app.ticker.add(delta => this.tick(delta));
   }
