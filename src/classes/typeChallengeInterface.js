@@ -69,10 +69,20 @@ export default class TypingChallenge {
     let totalTime = 500 / this.challenge.length;
 
     let timer = new Timer();
-    timer.start({ countdown: true, startValues: { seconds: totalTime } });
+    timer.start({
+      countdown: true,
+      startValues: { seconds: totalTime },
+      target: { seconds: 0 }
+    });
+
     timer.addEventListener('secondsUpdated', () =>
       this.handleChallengeSize(timer, totalTime)
     );
+
+    timer.addEventListener('targetAchieved', () => {
+      console.error('time limit reached');
+      this.btnToggleCB();
+    });
   }
 
   handleChallengeSize(timer, totalTime) {
