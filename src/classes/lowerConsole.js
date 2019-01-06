@@ -9,7 +9,7 @@ import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
 import FireButton from './buttonManager';
 
 export default class LowerConsole {
-  constructor(app, gameBoard, myShip) {
+  constructor(app, gameBoard) {
     this.app = app;
     this.gameBoard = gameBoard;
 
@@ -21,6 +21,6 @@ export default class LowerConsole {
 
     app.stage.addChild(lowerConsole);
 
-    this.FireButton = new FireButton(app, gameBoard, myShip);
+    this.FireButton = new FireButton(app, gameBoard);
   }
 }

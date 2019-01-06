@@ -5,9 +5,12 @@
 
 import * as PIXI from 'pixi.js';
 import $ from 'jquery';
+import { EventEmitter } from 'events';
 
-export default class Ship {
+export default class Ship extends EventEmitter {
   constructor(app, gameBoard, id, position, hitpoints, enemy) {
+    super();
+
     this.app = app;
     this.gameBoard = gameBoard;
     this.id = id;
@@ -47,7 +50,7 @@ export default class Ship {
   }
 
   moveLeft() {
-    if (this.isDestroyed == false && !(this.position[0] === 0)) {
+    if (!this.isDestroyed && !(this.position[0] === 0)) {
       this.moveGeneral(-1, 0);
     } else {
       console.log('Cant move left!');
@@ -56,7 +59,7 @@ export default class Ship {
 
   moveRight() {
     if (
-      this.isDestroyed == false &&
+      !this.isDestroyed &&
       !(this.position[0] === this.gameBoard.dimension - 1)
     ) {
       this.moveGeneral(1, 0);
@@ -66,7 +69,7 @@ export default class Ship {
   }
 
   moveUp() {
-    if (this.isDestroyed == false && !(this.position[1] === 0)) {
+    if (!this.isDestroyed && !(this.position[1] === 0)) {
       this.moveGeneral(0, -1);
     } else {
       console.log('Cant move up!');
@@ -75,7 +78,7 @@ export default class Ship {
 
   moveDown() {
     if (
-      this.isDestroyed == false &&
+      !this.isDestroyed &&
       !(this.position[1] === this.gameBoard.dimension - 1)
     ) {
       this.moveGeneral(0, 1);
@@ -86,6 +89,10 @@ export default class Ship {
 
   // Moves the ship sprite
   moveGeneral(newX, newY) {
+    if (this.isDestroyed) {
+      return;
+    }
+
     let x = this.position[0] + newX;
     let y = this.position[1] + newY;
 
@@ -97,6 +104,7 @@ export default class Ship {
     };
 
     $.post('/game/move', params);
+    return true;
 
     // this.calculatePosition([x, y]);
     //
@@ -122,5 +130,6 @@ export default class Ship {
 
   destroy() {
     this.isDestroyed = true;
+    this.emit('destroyed');
   }
 }

@@ -139,7 +139,7 @@ export default class Communicator {
         this.game.ships[tile.type].initShip();
         if (tile.type === this.state.me) {
           console.log('Resetting myself');
-          this.game.myShip = this.game.ships[tile.type];
+          this.game.initPlayerShip(this.game.ships[tile.type]);
           // createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
         }
       }
@@ -159,7 +159,7 @@ export default class Communicator {
     newShip.initShip();
     if (newState.type === this.state.me) {
       console.log('Resetting myself');
-      this.game.myShip = newShip;
+      this.game.initPlayerShip(newShip);
       // createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
     }
   }

@@ -59,8 +59,9 @@ export default class Game {
 
     // Only run if we use webpack-dev-server
     if (process.env.NODE_ENV !== 'production') {
-      this.myShip = new Ship(app, this, 0, [0, 0]); //Changed to always create a new myShip
-      this.myShip.initShip();
+      let playerShip = new Ship(app, this, 0, [0, 0]);
+      playerShip.initShip();
+      this.initPlayerShip(playerShip); //Changed to always create a new myShip
     }
 
     this.squareHighlighter = new SquareHighlighter(app, this.gameGrid);
@@ -77,7 +78,16 @@ export default class Game {
     }
 
     // initialises button and other data to display
-    this.lowerConsole = new LowerConsole(app, this, this.myShip);
+    this.lowerConsole = new LowerConsole(app, this);
+  }
+
+  initPlayerShip(playerShip) {
+    this.myShip = playerShip;
+    // Disable interface on destroy
+    this.myShip.on('destroyed', () => {
+      this.lowerConsole.FireButton.showButton(false);
+      this.squareHighlighter.showSquares(false);
+    });
   }
 
   init() {

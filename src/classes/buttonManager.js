@@ -77,7 +77,7 @@ export default class FireButton {
   }
 
   fireMissile() {
-    console.log(this.myShip);
+    console.log(this.gameBoard.myShip);
 
     let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
     let shipPos = [
