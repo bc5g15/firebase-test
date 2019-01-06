@@ -76,7 +76,6 @@ export function loadEnemies(app, gameBoard, debugEnemies) {
 // Check for existence of ship at coordinate and remove hitpoints
 export function checkEnemyHit(gameBoard, coord) {
   Object.values(gameBoard.ships).forEach(ship => {
-    console.log(ship.toString());
     if (
       ship.position[0] === coord[0] &&
       ship.position[1] === coord[1] &&
@@ -90,7 +89,7 @@ export function checkEnemyHit(gameBoard, coord) {
         ship.hitpoints = 0;
         ship.sprite.texture = DESTROYED_TEXTURE;
         ship.sprite.alpha = 0.65;
-        ship.isDestroyed = true;
+        ship.destroy();
       } else {
         ship.hitpoints = ship.hitpoints - 1;
       }

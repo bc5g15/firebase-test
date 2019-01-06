@@ -119,4 +119,8 @@ export default class Ship {
     this.position[0] = newX;
     this.position[1] = newY;
   }
+
+  destroy() {
+    this.isDestroyed = true;
+  }
 }

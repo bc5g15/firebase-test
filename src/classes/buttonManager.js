@@ -38,6 +38,10 @@ export default class FireButton {
     app.stage.addChild(button);
   }
 
+  showButton(toggle) {
+    this.button.visible = toggle;
+  }
+
   toggleButton() {
     this.button.texture = this.textureButton;
     this.button.interactive = !this.button.interactive;

@@ -178,7 +178,7 @@ export default class Communicator {
       'static/assets/Sprites/shipDestroyed.png'
     ); //Changes the ship's
     // image to represent it being destroyed
-    this.game.ships[newState.type].isDestroyed = true;
+    this.game.ships[newState.type].destroy();
   }
 
   /*
