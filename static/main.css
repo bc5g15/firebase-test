@@ -1,18 +1,9 @@
 body {
   font-family: 'Helvetica';
-  background-color:#333;
-}
-
-h2, div, p {
-  color:#f8f8f8;
-}
-
-a{
-  color:#f8f8f8;
 }
 
 #board {
-  width:100%;
+  width:152px;
   height: 152px;
   margin: 20px auto;
 }
@@ -52,8 +43,8 @@ a{
 
 div.cell {
   float: left;
-  width:10%;
-  height: 100%;
+  width: 50px;
+  height: 50px;
   border: none;
   margin: 0px;
   padding: 0px;
@@ -88,41 +79,4 @@ div.t {
 
 div.b {
   border-top: 1pt solid black;
-}
-
-div.m.c{
-  border: 1pt solid black;
-  margin-left:45%;
-  background-color:#f8f8f8;
-}
-
-#number {
-  display:none;
-}
-
-#board {
-  display:none;
-}
-
-#users{
-  border-bottom:2px solid #f8f8f8;
-  padding-bottom:2%;
-}
-#userList{
-  padding-top:1%;
-}
-#start-game{
-  margin:2% 0;
-  padding:5%;
-  background-color:#f8f8f8;
-  color:#333;
-  border-radius:15px;
-}
-
-#userList{
-  position: absolute;
-  top:5%;
-  right:0;
-  border:2px solid #f8f8f8;
-
 }
