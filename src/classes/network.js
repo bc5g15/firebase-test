@@ -55,6 +55,7 @@ export default class Communicator {
         this.handlers['destroyed'] = this.destroyShip.bind(this);
         this.handlers['new_user'] = this.updateSingleShip.bind(this);
         this.handlers['position'] = this.updateFullGameState.bind(this);
+        this.handlers['game-over'] = this.gameOver.bind(this);
         $.post('/game/join');
       }
     };
@@ -169,7 +170,6 @@ export default class Communicator {
     //Explosion
   }
 
-
   destroyShip(newState) {
     //Explosion
     this.game.ships[newState.type].sprite = PIXI.Sprite.fromImage(
@@ -177,5 +177,14 @@ export default class Communicator {
     ); //Changes the ship's
     // image to represent it being destroyed
     this.game.ships[newState.type].isDestroyed = true;
+  }
+
+  /*
+  Display the game over message, with the appropriate user data
+   */
+  gameOver(newState) {
+    let winnerID = newState.tiles[0].type;
+    let winnerName = newState.users.filter(u => u.uid === winnerID)[0].name;
+    $('#game-over').html('GAME OVER: ' + winnerName + ' Wins!');
   }
 }
