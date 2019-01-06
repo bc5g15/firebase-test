@@ -50,17 +50,17 @@ export default class FireButton {
 
   renderChallenge() {
     console.log('rendering challenge before firing');
-    $.post('/gettask');
     this.button.texture = this.textureButtonDown;
 
     if (this.canShoot()) {
-      let typingChal = new TypingChallenge(
-        this.app,
-        this.fireMissile.bind(this),
-        this.toggleButton.bind(this),
-        'test' // Just using test text for now
-      );
-      typingChal.showChallenge();
+      $.post('/gettask');
+      // let typingChal = new TypingChallenge(
+      //   this.app,
+      //   this.fireMissile.bind(this),
+      //   this.toggleButton.bind(this),
+      //   'test' // Just using test text for now
+      // );
+      // typingChal.showChallenge();
     }
   }
 
