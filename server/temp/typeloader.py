@@ -12,6 +12,9 @@ loader = Blueprint('loader', __name__, template_folder=os.path.abspath('template
 keylist = []
 num_entries = 0
 
+MAX_ENTRIES = 200
+
+
 @loader.route("/loadtemp")
 def loadtemp():
     global keylist
@@ -32,6 +35,8 @@ def loadtemp():
         #  to find and return TypeTasks later on
         keylist.append(key)
         index += 1
+        if index > MAX_ENTRIES:
+            break
 
     return "Loaded values " + str(records)
 
@@ -47,14 +52,7 @@ def retrieve_task(self, userid):  # Non-route version of get_task to be imported
 
 @loader.route("/gettask", methods=["POST"])
 def get_task():
-    global keylist
-    global num_entries
-    if num_entries == 0:
-        text = open('server/temp/Difficulties.json', 'r').read()
-        records = json.loads(text)
-        num_entries = len(records) # Change this to the length of the input file
-    logging.info(num_entries)
-    typetaskindex = random.randint(1, num_entries)  # Randomly generates a key index from 0 to the maximum value
+    typetaskindex = random.randint(1, MAX_ENTRIES)  # Randomly generates a key index from 0 to the maximum value
     # (index is one greater than the length of the list so 2 has to be subtracted from it)
     typetask = TypeTask.get_by_id(typetaskindex)  # Uses the key to get the corresponding TypeTask from the database
     userid = get_current_session()["id"]
