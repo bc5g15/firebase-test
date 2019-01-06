@@ -41,6 +41,8 @@ export default class Game {
 
     let sizeGridSquareX = GLOBAL_WIDTH / dimension;
     let sizeGridSquareY = GLOBAL_HEIGHT * 0.8 / dimension;
+    this.challengetext = null;
+    this.challengedifficulty = null;
 
     this.missiles = [];
     this.missileCount = 0;

@@ -6,8 +6,9 @@ to fire a missile from the players position to the target position.
 import * as PIXI from 'pixi.js';
 import * as util from './utility';
 import * as missileControl from './missileController';
-import TypingChallenge from './typeChallengeInterface';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
+import TypingChallenge from './typeChallengeInterface';
+import $ from 'jquery';
 
 export default class FireButton {
   constructor(app, gameBoard) {
@@ -49,6 +50,7 @@ export default class FireButton {
 
   renderChallenge() {
     console.log('rendering challenge before firing');
+    $.post('/gettask');
     this.button.texture = this.textureButtonDown;
 
     if (this.canShoot()) {
@@ -102,7 +104,10 @@ export default class FireButton {
       );
 
       console.log(
-        'Score after Shot: ' + this.gameBoard.score + ', Distance: ' + dist
+        'Score after Shot: ' +
+          this.gameBoard.challengedifficulty +
+          ', Distance: ' +
+          dist
       );
     } else {
       console.log('Not enough points to perform action!');

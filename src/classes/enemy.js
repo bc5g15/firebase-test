@@ -53,6 +53,7 @@ export function checkEnemyHit(gameBoard, coord) {
         id: ship.id
       };
       $.post('/game/hit', param);
+      return;
     }
   });
 }

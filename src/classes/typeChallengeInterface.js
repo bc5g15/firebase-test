@@ -8,13 +8,13 @@ export default class TypingChallenge {
     injector(PIXI);
 
     this.bg = new PIXI.Graphics();
-    this.bg.beginFill(0xe74c3c);
+    this.bg.beginFill(0x000000);
     this.bg.lineStyle(2, 0xffffff);
-    this.bg.drawRect(0, 0, 800, 400);
+    this.bg.drawRect(0, 0, 800, 770);
     this.bg2 = new PIXI.Graphics();
     this.bg2.beginFill(0x000000);
     this.bg2.lineStyle(2, 0xffffff);
-    this.bg2.drawRect(0, 400, 800, 400);
+    this.bg2.drawRect(0, 400, 800, 770 / 2);
 
     this.textStyle = {
       default: {
@@ -30,7 +30,6 @@ export default class TypingChallenge {
     this.app = app;
     this.chalContainer = new PIXI.Container();
     this.inputContainer = new PIXI.Container();
-    this.scaleCont = new PIXI.Container();
     this.firingCB = firingCB;
     this.btnToggleCB = btnToggleCB;
     this.challenge = chal;
@@ -41,8 +40,7 @@ export default class TypingChallenge {
     this.totalTyped = 0;
     this.counter = 0;
 
-    this.app.stage.addChild(this.scaleCont);
-    this.scaleCont.addChild(this.chalContainer, this.inputContainer);
+    this.app.stage.addChild(this.chalContainer, this.inputContainer);
 
     this.inputContainer.position.y = this.chalContainer.position.y / 2;
 
@@ -69,28 +67,15 @@ export default class TypingChallenge {
     let totalTime = 500 / this.challenge.length;
 
     let timer = new Timer();
-    timer.start({
-      countdown: true,
-      startValues: { seconds: totalTime },
-      target: { seconds: 0 }
-    });
+    timer.start({ countdown: true, startValues: { seconds: totalTime } });
 
-    timer.addEventListener('secondsUpdated', () =>
-      this.handleChallengeSize(timer, totalTime)
-    );
-
-    timer.addEventListener('targetAchieved', () => {
-      console.error('time limit reached');
-      this.btnToggleCB();
-    });
+    timer.addEventListener('secondsUpdated', this.handleChallengeSize(timer));
   }
 
-  handleChallengeSize(timer, totalTime) {
-    let scale = timer.getTimeValues().seconds / totalTime;
-    //console.log(scale);
-    let trans = 400 * (1 - scale);
-    this.scaleCont.position.set(trans, trans);
-    this.scaleCont.scale.set(scale);
+  handleChallengeSize(timer) {
+    console.log(timer.getTimeValues());
+
+    this.bg.transform.localTransform.scale(0, 0);
   }
 
   processInput(event) {
@@ -120,12 +105,14 @@ export default class TypingChallenge {
       } else {
         this.firingCB();
       }
-      this.app.stage.removeChild(this.scaleCont);
+      this.app.stage.removeChild(this.chalContainer);
+      this.app.stage.removeChild(this.inputContainer);
       this.btnToggleCB();
     }
   }
 
   showChallenge() {
+    console.log("I'm being called!");
     this.challengeTimer();
     this.btnToggleCB();
     this.userInputTxt = new PIXI.MultiStyleText(this.input, this.textStyle);

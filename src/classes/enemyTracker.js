@@ -23,7 +23,6 @@ export function loadEnemies() {
         //are added to the ship's enemyShips array to indicate how many enemies there are to destroy
       }
     });
-    //enemy = new Enemy(app, ship[0], ship[1]);
   });
 
   //initialises an enemy class for each enemy. Not working with NPC enemies at the moment
