@@ -6,7 +6,11 @@
 import * as PIXI from 'pixi.js';
 import $ from 'jquery';
 import { EventEmitter } from 'events';
+import * as util from './utility';
 
+const DESTROYED_TEXTURE = PIXI.Texture.fromImage(
+  'static/assets/Sprites/shipDestroyed.png'
+);
 export default class Ship extends EventEmitter {
   constructor(app, gameBoard, id, position, hitpoints, enemy) {
     super();
@@ -34,18 +38,25 @@ export default class Ship extends EventEmitter {
     this.sprite.scale.y = 1.5 / this.gameBoard.dimension;
     this.sprite.anchor.set(0.5);
 
-    this.updatePositionFromCoords(this.position);
+    // Call with init argument set to true, disables initial rotation
+    this.updatePositionFromCoords(this.position, true);
 
     this.app.stage.addChild(this.sprite);
   }
 
   // Sets the position of the sprite according to 2D coordinates
-  updatePositionFromCoords(pos) {
+  updatePositionFromCoords(pos, init) {
     let x = this.gameBoard.gameGrid.getPointFromIndex(pos[0]).x;
     let y = this.gameBoard.gameGrid.getPointFromIndex(
       this.gameBoard.dimension * pos[1]
     ).y;
 
+    // Rotate ship
+    if (!init) {
+      this.sprite.rotation =
+        util.rotateTo(x, y, this.sprite.position.x, this.sprite.position.y) +
+        Math.PI / 2;
+    }
     this.sprite.position.set(x, y);
   }
 
@@ -104,14 +115,10 @@ export default class Ship extends EventEmitter {
     };
 
     $.post('/game/move', params);
-    return true;
 
-    // this.calculatePosition([x, y]);
-    //
-    // this.position[0] = x;
-    // this.position[1] = y;
-    //
-    // console.log("New Position: " + this.position + ", Score: " + score);
+    // this.setPosition(x, y);
+
+    return true;
   }
 
   /*
@@ -130,6 +137,9 @@ export default class Ship extends EventEmitter {
 
   destroy() {
     this.isDestroyed = true;
+    this.hitpoints = 0;
+    this.sprite.texture = DESTROYED_TEXTURE;
+    this.sprite.alpha = 0.65;
     this.emit('destroyed');
   }
 }

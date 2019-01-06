@@ -63,7 +63,6 @@ export default function keyboardInit(app, mousePosition, gameBoard) {
     down = keyboard('ArrowDown');
 
   left.press = () => {
-    gameBoard.myShip.sprite.rotation = -Math.PI / 2;
     if (util.canAfford(gameBoard)) {
       gameBoard.myShip.moveLeft();
     } else {
@@ -72,7 +71,6 @@ export default function keyboardInit(app, mousePosition, gameBoard) {
   };
 
   right.press = () => {
-    gameBoard.myShip.sprite.rotation = Math.PI / 2;
     if (util.canAfford(gameBoard)) {
       gameBoard.myShip.moveRight();
     } else {
@@ -81,7 +79,6 @@ export default function keyboardInit(app, mousePosition, gameBoard) {
   };
 
   up.press = () => {
-    gameBoard.myShip.sprite.rotation = 0;
     if (util.canAfford(gameBoard)) {
       gameBoard.myShip.moveUp();
     } else {
@@ -90,7 +87,6 @@ export default function keyboardInit(app, mousePosition, gameBoard) {
   };
 
   down.press = () => {
-    gameBoard.myShip.sprite.rotation = Math.PI;
     if (util.canAfford(gameBoard)) {
       gameBoard.myShip.moveDown();
     } else {

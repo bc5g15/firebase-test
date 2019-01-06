@@ -3,49 +3,8 @@ Enemy class that adds enemies to the game, each with their own health, position,
 and coordinates to say which coordinates the ship is in for the current game state)
 */
 
-import * as PIXI from 'pixi.js';
 import $ from 'jquery';
 import Ship from './ship';
-
-const DESTROYED_TEXTURE = PIXI.Texture.fromImage(
-  'static/assets/Sprites/shipDestroyed.png'
-);
-
-export default class Enemy {
-  constructor(app, gameBoard, id, coordinates) {
-    this.app = app;
-    this.gameBoard = gameBoard;
-    this.id = id;
-    this.position = null; //coordinates
-    this.sprite = null;
-    this.health = 1000;
-    this.hitpoints = 3;
-    this.coordinates = coordinates;
-  }
-
-  initEnemy() {
-    this.sprite = PIXI.Sprite.fromImage('static/assets/Sprites/ship.png');
-    this.sprite.scale.x = 1.5 / this.gameBoard.dimension;
-    this.sprite.scale.y = 1.5 / this.gameBoard.dimension;
-
-    this.sprite.anchor.set(0.5);
-    this.sprite.rotation = Math.PI * 2 * Math.random();
-    this.calculatePosition();
-
-    this.app.stage.addChild(this.sprite);
-    console.log('Enemy Coordinate: ' + this.coordinates);
-  }
-
-  calculatePosition() {
-    let x = this.gameBoard.gameGrid.getPointFromIndex(this.coordinates[0]).x;
-    let y = this.gameBoard.gameGrid.getPointFromIndex(
-      this.gameBoard.dimension * this.coordinates[1]
-    ).y;
-
-    this.sprite.position.set(x, y);
-    this.position = [x, y];
-  }
-}
 
 export function loadEnemies(app, gameBoard, debugEnemies) {
   //enemy has form of [id, [x, y]] where [x, y] is the index of the gameState array
@@ -86,9 +45,6 @@ export function checkEnemyHit(gameBoard, coord) {
       console.log(ship.hitpoints);
       if (ship.hitpoints === 1) {
         console.log('Abandon ship!');
-        ship.hitpoints = 0;
-        ship.sprite.texture = DESTROYED_TEXTURE;
-        ship.sprite.alpha = 0.65;
         ship.destroy();
       } else {
         ship.hitpoints = ship.hitpoints - 1;
