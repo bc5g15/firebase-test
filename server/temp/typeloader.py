@@ -6,6 +6,7 @@ import os
 from typemodel import TypeTask
 from ..firebase_interface import _send_firebase_message
 from flask import request
+from ..gaesessions import get_current_session
 
 loader = Blueprint('loader', __name__, template_folder=os.path.abspath('templates'))
 keylist = []
@@ -20,7 +21,7 @@ def loadtemp():
     So long as the data kind is in the database
     everything else should be fine
     """
-    text = open('temp/Difficulties.json', 'r').read()
+    text = open('server/temp/Difficulties.json', 'r').read()
     records = json.loads(text)
     index = 1
     for item in records:
@@ -53,7 +54,8 @@ def get_task():
     # (index is one greater than the length of the list so 2 has to be subtracted from it)
     typetaskkey = keylist[typetaskindex]  # Retrieves the key from the list
     typetask = typetaskkey.get()  # Uses the key to get the corresponding TypeTask from the database
-    userid = request.form.get('id')
+    userid = get_current_session(["id"])
+    logging.info()
     mdict = typetask.toDict()
     mdict["token"] = "typechallenge"
     message = json.dumps(mdict)
