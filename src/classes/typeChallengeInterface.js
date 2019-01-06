@@ -87,7 +87,7 @@ export default class TypingChallenge {
 
   handleChallengeSize(timer, totalTime) {
     let scale = timer.getTimeValues().seconds / totalTime;
-    //console.log(scale);
+
     let trans = 400 * (1 - scale);
     this.scaleCont.position.set(trans, trans);
     this.scaleCont.scale.set(scale);
