@@ -189,8 +189,12 @@ export default class Communicator {
     this.game.challengedifficulty = newState.difficulty;
     let typingChal = new TypingChallenge(
       this.game.app,
-      this.game.lowerConsole.FireButton.fireMissile,
-      this.game.lowerConsole.FireButton.toggleButton,
+      this.game.lowerConsole.FireButton.fireMissile.bind(
+        this.game.lowerConsole.FireButton
+      ),
+      this.game.lowerConsole.FireButton.toggleButton.bind(
+        this.game.lowerConsole.FireButton
+      ),
       this.game.challengetext
     );
     typingChal.showChallenge();

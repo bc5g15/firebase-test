@@ -7,7 +7,6 @@ import * as PIXI from 'pixi.js';
 import * as util from './utility';
 import * as missileControl from './missileController';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
-import TypingChallenge from './typeChallengeInterface';
 import $ from 'jquery';
 
 export default class FireButton {
