@@ -47,10 +47,7 @@ export default class FireButton {
 
   renderChallenge() {
     console.log('rendering challenge before firing');
-    let param = {
-      id: this.state.me
-    }
-    $.post("/gettask", param)
+    $.post("/gettask")
     this.button.texture = this.textureButtonDown;
   }
 
