@@ -25,6 +25,7 @@ export default class Ship extends EventEmitter {
     this.position = position; //coordinates
 
     this.sprite = null;
+    this.movementEnabled = true;
     this.isDestroyed = false; //Boolean that makes sure destroyed ships can't move
   }
 
@@ -61,7 +62,11 @@ export default class Ship extends EventEmitter {
   }
 
   moveLeft() {
-    if (!this.isDestroyed && !(this.position[0] === 0)) {
+    if (
+      !this.isDestroyed &&
+      this.movementEnabled &&
+      !(this.position[0] === 0)
+    ) {
       this.moveGeneral(-1, 0);
     } else {
       console.log('Cant move left!');
@@ -71,6 +76,7 @@ export default class Ship extends EventEmitter {
   moveRight() {
     if (
       !this.isDestroyed &&
+      this.movementEnabled &&
       !(this.position[0] === this.gameBoard.dimension - 1)
     ) {
       this.moveGeneral(1, 0);
@@ -80,7 +86,11 @@ export default class Ship extends EventEmitter {
   }
 
   moveUp() {
-    if (!this.isDestroyed && !(this.position[1] === 0)) {
+    if (
+      !this.isDestroyed &&
+      this.movementEnabled &&
+      !(this.position[1] === 0)
+    ) {
       this.moveGeneral(0, -1);
     } else {
       console.log('Cant move up!');
@@ -90,6 +100,7 @@ export default class Ship extends EventEmitter {
   moveDown() {
     if (
       !this.isDestroyed &&
+      this.movementEnabled &&
       !(this.position[1] === this.gameBoard.dimension - 1)
     ) {
       this.moveGeneral(0, 1);
@@ -104,6 +115,8 @@ export default class Ship extends EventEmitter {
       return;
     }
 
+    this.movementEnabled = false;
+
     let x = this.position[0] + newX;
     let y = this.position[1] + newY;
 
@@ -116,7 +129,7 @@ export default class Ship extends EventEmitter {
 
     $.post('/game/move', params);
 
-    // this.setPosition(x, y);
+    this.setPosition(x, y, true);
 
     return true;
   }
@@ -124,12 +137,14 @@ export default class Ship extends EventEmitter {
   /*
   A new method that sets the position of a ship on the grid
    */
-  setPosition(newX, newY) {
+  setPosition(newX, newY, noUnlock) {
     console.log('Message in');
     console.log(newX);
     console.log(newY);
 
-    this.updatePositionFromCoords([newX, newY]);
+    this.movementEnabled = !noUnlock;
+
+    this.updatePositionFromCoords([newX, newY], !noUnlock);
 
     this.position[0] = newX;
     this.position[1] = newY;
