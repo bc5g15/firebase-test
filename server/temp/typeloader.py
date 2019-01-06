@@ -45,17 +45,12 @@ def loadtemp():
     return "Loaded values " + str(output)
 
 
-def retrieve_task(self, userid):  # Non-route version of get_task to be imported by other functions
-    global keylist
-    typetaskindex = random.randint(0, len(keylist) - 1)  # Randomly generates a key index from 0 to the maximum value
-    # (index is one greater than the length of the list so 2 has to be subtracted from it)
-    typetaskkey = keylist[typetaskindex]  # Retrieves the key from the list
-    typetask = typetaskkey.get()  # Uses the key to get the corresponding TypeTask from the database
-    return typetask
-
-
 @loader.route("/gettask", methods=["POST"])
 def get_task():
+    """
+    Send a task over firebase to the user registered on the sesssion
+    :return:
+    """
     typetaskindex = random.randint(1, MAX_ENTRIES)  # Randomly generates a key index from 0 to the maximum value
     # (index is one greater than the length of the list so 2 has to be subtracted from it)
     typetask = TypeTask.get_by_id(typetaskindex)  # Uses the key to get the corresponding TypeTask from the database
@@ -64,5 +59,5 @@ def get_task():
     mdict["token"] = "typechallenge"
     message = json.dumps(mdict)
     logging.info(message)
-    _send_firebase_message(userid + request.args.get('g'), message = message);
+    _send_firebase_message(userid + request.args.get('g'), message=message)
     return ''
