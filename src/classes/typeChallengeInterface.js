@@ -82,6 +82,9 @@ export default class TypingChallenge {
     document.body.appendChild(app.view);
   }
 
+  /*
+
+   */
   challengeTimer() {
     let totalTime = this.challenge.length * 1.5;
     console.log('Total Time: ' + totalTime);
