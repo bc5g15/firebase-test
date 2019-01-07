@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars,no-alert */
 import * as PIXI from 'pixi.js';
 import Timer from 'easytimer.js';
-import injector from 'pixi-multistyle-text-esnext';
+import MultiStyleText from 'pixi-multistyle-text';
 
 export default class TypingChallenge {
   constructor(app, firingCB, btnToggleCB, chal) {
-    injector(PIXI);
+    // injector(PIXI);
 
     this.globals = require('../constants.js');
     this.bg = new PIXI.Graphics();
@@ -26,7 +26,10 @@ export default class TypingChallenge {
         fontFamily: 'Arial',
         fontSize: '20px',
         fill: '#cccccc',
-        align: 'center'
+        align: 'center',
+        leading: 20,
+        wordWrap: true,
+        wordWrapWidth: this.bg.width - 40
       },
       w: {
         fill: '#ff8888'
@@ -100,9 +103,6 @@ export default class TypingChallenge {
   handleChallengeSize(timer, totalTime) {
     let scale = timer.getTimeValues().seconds / totalTime;
     console.log('Scale: ' + scale);
-    //let trans = (this.globals.returnWidth()/2) * (1 - scale);
-    //console.log("Global Width: " + this.globals.returnWidth() + " // Transform: " + trans);
-    //this.scaleCont.position.set(trans, trans);
     this.barCont.scale.x = scale;
   }
 
@@ -144,40 +144,19 @@ export default class TypingChallenge {
   }
 
   showChallenge() {
-    this.challengeTimer();
+    // this.challengeTimer();
     this.btnToggleCB();
 
-    // this.userInputTxt = new PIXI.MultiStyleText(this.ißßßßnput, this.textStyle);
-    // this.userInputTxt.y = 400;
-    // let tmp = new PIXI.MultiStyleText(this.challenge, this.textStyle);
-
-    // this.chalContainer.addChild(textSample);
-    // this.inputContainer.addChild(this.userInputTxt);
-
-    this.userInputTxt = new PIXI.MultiStyleText(this.challenge, this.textStyle);
+    this.userInputTxt = new MultiStyleText(this.challenge, this.textStyle);
+    this.userInputTxt.x = 20;
     this.chalContainer.addChild(this.userInputTxt);
   }
 
   validateInput(char) {
-    console.log('##########################################');
-
     let tmp = this.challenge;
     let currentChar = tmp.charAt(this.counter);
 
-    let charToAdd;
-
-    if (char == ' ') {
-      charToAdd = '_';
-    } else {
-      charToAdd = char;
-    }
-    // console.log("correct char to type: ", this.challenge.charAt(this.counter));
     if (char != this.challenge.charAt(this.counter) && !this.finished) {
-      // console.log("1char typed: ", charToAdd);
-      //
-      // console.log("slice to counter BEFORE: ", tmp.slice(0, this.counter));
-      // console.log("slice from counter BEFORE: ", tmp.slice(this.counter + 1, tmp.length));
-
       this.challenge =
         tmp.slice(0, this.counter) +
         '<w>' +
@@ -185,29 +164,14 @@ export default class TypingChallenge {
         '</w>' +
         tmp.slice(this.counter + 1, tmp.length);
       this.counter += 8;
-      // //
-      // console.log("updated challenge: ", this.challenge);
-      // console.log("next char to check: ", this.challenge.charAt(this.counter));
-
       this.userInputTxt.text = this.challenge;
-      // this.userInputTxt = new PIXI.MultiStyleText(this.challenge, this.textStyle);
     } else {
-      // this.input += char;
-      // this.sanitisedInput += char;
-      // this.userInputTxt.text = this.input;
-      // console.log("2char typed: ", charToAdd);
-
-      // console.log("slice to counter BEFORE: ", tmp.slice(0, this.counter));
-      // console.log("slice from counter BEFORE: ", tmp.slice(this.counter + 1, tmp.length));
-      // console.log("adding char: ", tmp.charAt(this.counter));
-
       this.challenge =
         tmp.slice(0, this.counter) +
         '<c>' +
         (currentChar == ' ' ? '_' : currentChar) +
         '</c>' +
         tmp.slice(this.counter + 1, tmp.length);
-      // console.log("updated challenge: ", this.challenge);
 
       this.counter += 8;
 
@@ -215,57 +179,33 @@ export default class TypingChallenge {
 
       this.correct++;
     }
-    console.log('##########################################\n\n');
 
     this.sanitisedInput += char;
-    console.error('sanitised input after adding char: ', this.sanitisedInput);
   }
 
   calculateAccuracy() {
-    console.log('correct letters: ', this.correct);
-    console.log('total typed: ', this.totalTyped);
     return this.correct / this.totalTyped * 100;
   }
 
   removeLastChar() {
-    console.log('##########################################');
-    // console.log("challenge BEFORE: ", this.challenge);
-    // console.log("counter BEFORE removing: ", this.counter);
-    // console.log("char at counter: ", this.challenge.charAt(this.counter));
-
-    // if(this.challenge.substring(this.challenge.length - 4))
-
     let currentTag = this.challenge.substring(this.counter - 4, this.counter);
 
     currentTag == '</c>' ? this.correct-- : null;
 
     let charToRemove = this.challenge.charAt(this.counter - 5);
 
-    // console.log("char to remove: ", charToRemove);
-    // console.log("substring to append: ", this.challenge.substring(this.counter, this.challenge.length));
-    // console.log("appending to: ", this.challenge.substring(0, this.counter - 7) + charToRemove);
-
     this.challenge =
       this.challenge.substring(0, this.counter - 8) +
       (charToRemove == '_' ? ' ' : charToRemove) +
       this.challenge.substring(this.counter, this.challenge.length);
-    // console.log("challenge after removing: ", this.challenge);
-
-    // console.log("counter after removing: ", this.counter);
 
     this.counter -= 8;
-    // console.log("counter AFTER removing: ", this.counter);
-    // console.log("char at current counter: ", this.challenge.charAt(this.counter));
-    //
+
     this.userInputTxt.text = this.challenge;
-    //
-    // console.log("challenge AFTER: ", this.challenge);
-    // console.log("##########################################\n\n");
 
     this.sanitisedInput = this.sanitisedInput.substring(
       0,
       this.sanitisedInput.length - 1
     );
-    console.error('sanitised input after removing: ', this.sanitisedInput);
   }
 }

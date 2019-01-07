@@ -51,7 +51,7 @@ export default class FireButton {
       this.app,
       this.fireMissile,
       this.toggleButton,
-      'test typing challenge' // Just using test text for now
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Even sterilized Bureau pain and brakes. But this weekend pain. Some the most exciting environment, but grief lorem. Stress soccer convenience any time in diameter. Tomato sauce put the fear of football makeup. In addition, indoor air quality asset, was pregnant and, sapien layer. Vivamus nec molestie metus, in the venenatis tortor. Maecenas congue, elit id ultricies convallis, metus laoreet posuere turpis, sed tempor turpis orci vitae urna. However, in the region or on the basis of developers and members free. Vel sed laoreet mauris vitae, egestas lectus ac, venenatis a lion. Donec euismod blandit out, but malesuada sapien facilisis a. Justo diameter until carrots classroom. Fusce augue risus, ullamcorper in, and the warm-up, to raise up and investors. Warm just innovative element present.' // Just using test text for now
     );
     typingChal.showChallenge();
     this.button.texture = this.textureButtonDown;
