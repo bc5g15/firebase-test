@@ -45,7 +45,9 @@ export default class FireButton {
 
   toggleButton(setEnabled) {
     this.button.texture = this.textureButton;
+    console.log('Before: ' + this.button.interactive);
     this.button.interactive = setEnabled;
+    console.log('After' + this.button.interactive);
   }
 
   renderChallenge() {

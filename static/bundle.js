@@ -30839,7 +30839,9 @@ object-assign
             key: 'toggleButton',
             value: function(t) {
               (this.button.texture = this.textureButton),
-                (this.button.interactive = t);
+                console.log('Before: ' + this.button.interactive),
+                (this.button.interactive = t),
+                console.log('After' + this.button.interactive);
             }
           },
           {
