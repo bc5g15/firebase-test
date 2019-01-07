@@ -102,7 +102,7 @@ export default class TypingChallenge {
     timer.addEventListener('targetAchieved', () => {
       console.error('time limit reached');
       this.hideChallenge();
-      this.btnToggleCB();
+      this.btnToggleCB(true);
     });
   }
 
@@ -148,6 +148,7 @@ export default class TypingChallenge {
     this.app.stage.removeChild(this.barCont);
     this.app.stage.removeChild(this.chalContainer);
     this.app.stage.removeChild(this.inputContainer);
+    this.btnToggleCB(true);
   }
 
   showChallenge() {

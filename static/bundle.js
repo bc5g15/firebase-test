@@ -18472,7 +18472,7 @@ var Battleships = (function(t) {
                 n.addEventListener('targetAchieved', function() {
                   console.error('time limit reached'),
                     t.hideChallenge(),
-                    t.btnToggleCB();
+                    t.btnToggleCB(!0);
                 });
             }
           },
@@ -18519,7 +18519,8 @@ var Battleships = (function(t) {
             value: function() {
               this.app.stage.removeChild(this.barCont),
                 this.app.stage.removeChild(this.chalContainer),
-                this.app.stage.removeChild(this.inputContainer);
+                this.app.stage.removeChild(this.inputContainer),
+                this.btnToggleCB(!0);
             }
           },
           {
