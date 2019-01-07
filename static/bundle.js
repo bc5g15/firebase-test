@@ -18510,7 +18510,7 @@ var Battleships = (function(t) {
                     : this.firingCB(),
                   this.app.stage.removeChild(this.scaleCont),
                   this.hideChallenge(),
-                  this.btnToggleCB();
+                  this.btnToggleCB(!0);
               }
             }
           },
@@ -18526,7 +18526,7 @@ var Battleships = (function(t) {
             key: 'showChallenge',
             value: function() {
               this.challengeTimer(),
-                this.btnToggleCB(),
+                this.btnToggleCB(!1),
                 (this.userInputTxt = new a.default(
                   this.challenge,
                   this.textStyle
@@ -30787,15 +30787,14 @@ object-assign
   function(t, e, n) {
     'use strict';
     Object.defineProperty(e, '__esModule', { value: !0 });
-    var r = f(n(7)),
-      i = f(n(9)),
-      o = l(n(6)),
-      s = l(n(23)),
-      a = l(n(130)),
-      u = f(n(141)),
-      h = n(19),
-      c = f(n(35));
-    function l(t) {
+    var r = l(n(7)),
+      i = l(n(9)),
+      o = c(n(6)),
+      s = c(n(23)),
+      a = c(n(130)),
+      u = (l(n(141)), n(19)),
+      h = l(n(35));
+    function c(t) {
       if (t && t.__esModule) return t;
       var e = {};
       if (null != t)
@@ -30803,10 +30802,10 @@ object-assign
           Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
       return (e.default = t), e;
     }
-    function f(t) {
+    function l(t) {
       return t && t.__esModule ? t : { default: t };
     }
-    var p = (function() {
+    var f = (function() {
       function t(e, n) {
         (0, r.default)(this, t),
           (this.app = e),
@@ -30821,8 +30820,8 @@ object-assign
         (i.buttonMode = !0),
           (i.interactive = !0),
           i.anchor.set(0.5),
-          (i.x = 0.75 * h.GLOBAL_WIDTH),
-          (i.y = 0.9 * h.GLOBAL_HEIGHT),
+          (i.x = 0.75 * u.GLOBAL_WIDTH),
+          (i.y = 0.9 * u.GLOBAL_HEIGHT),
           i.on('pointerdown', this.renderChallenge.bind(this)),
           i.on('pointerup', this.buttonReleased.bind(this)),
           (this.button = i),
@@ -30838,24 +30837,17 @@ object-assign
           },
           {
             key: 'toggleButton',
-            value: function() {
+            value: function(t) {
               (this.button.texture = this.textureButton),
-                (this.button.interactive = !this.button.interactive);
+                (this.button.interactive = t);
             }
           },
           {
             key: 'renderChallenge',
             value: function() {
-              (console.log('rendering challenge before firing'),
-              (this.button.texture = this.textureButtonDown),
-              this.canShoot()) &&
-                (c.default.post('/gettask'),
-                new u.default(
-                  this.app,
-                  this.fireMissile.bind(this),
-                  this.toggleButton.bind(this),
-                  'Test Test Test Test Test Test'
-                ).showChallenge());
+              console.log('rendering challenge before firing'),
+                (this.button.texture = this.textureButtonDown),
+                this.canShoot() && h.default.post('/gettask');
             }
           },
           {
@@ -30908,7 +30900,7 @@ object-assign
         t
       );
     })();
-    e.default = p;
+    e.default = f;
   },
   function(t, e, n) {
     'use strict';
