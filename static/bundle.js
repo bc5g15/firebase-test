@@ -12866,7 +12866,7 @@ var Battleships = (function(t) {
                     i = { id: this.id, x: n, y: r };
                   return (
                     u.default.post('/game/move', i),
-                    this.setPosition(n, r, !0),
+                    this.setPosition(n, r, !0, !0),
                     !0
                   );
                 }
@@ -12879,7 +12879,7 @@ var Battleships = (function(t) {
                   console.log(t),
                   console.log(e),
                   (this.movementEnabled = !n),
-                  this.updatePositionFromCoords([t, e], !n),
+                  this.updatePositionFromCoords([t, e], !this.enemy && !n),
                   (this.position[0] = t),
                   (this.position[1] = e);
               }

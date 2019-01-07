@@ -129,7 +129,7 @@ export default class Ship extends EventEmitter {
 
     $.post('/game/move', params);
 
-    this.setPosition(x, y, true);
+    this.setPosition(x, y, true, true);
 
     return true;
   }
@@ -144,7 +144,8 @@ export default class Ship extends EventEmitter {
 
     this.movementEnabled = !noUnlock;
 
-    this.updatePositionFromCoords([newX, newY], !noUnlock);
+    // Roate always if we're an enemy and only unlock on local movements if local player
+    this.updatePositionFromCoords([newX, newY], this.enemy ? false : !noUnlock);
 
     this.position[0] = newX;
     this.position[1] = newY;
