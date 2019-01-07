@@ -48,3 +48,10 @@ h1{
 #start-game:hover{
     background-color:#00A00D;
 }
+
+#accuracyTracker{
+    position: absolute;
+    left: 5%;
+    top: 20%;
+    display: none;
+}

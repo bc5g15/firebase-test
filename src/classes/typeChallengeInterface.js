@@ -2,6 +2,7 @@
 import * as PIXI from 'pixi.js';
 import Timer from 'easytimer.js';
 import MultiStyleText from 'pixi-multistyle-text';
+import $ from 'jquery';
 
 export default class TypingChallenge {
   constructor(app, firingCB, btnToggleCB, chal) {
@@ -56,6 +57,7 @@ export default class TypingChallenge {
     this.totalTyped = 0;
     this.counter = 0;
     this.userInputTxt;
+    this.timer = new Timer();
 
     this.app.stage.addChild(this.chalContainer);
 
@@ -88,18 +90,18 @@ export default class TypingChallenge {
   challengeTimer() {
     let totalTime = 10 + this.challenge.length / 5;
     console.log('Total Time: ' + totalTime);
-    let timer = new Timer();
+    this.timer = new Timer();
     timer.start({
       countdown: true,
       startValues: { seconds: totalTime },
       target: { seconds: 0 }
     });
 
-    timer.addEventListener('secondsUpdated', () =>
-      this.handleChallengeSize(timer, totalTime)
+    this.timer.addEventListener('secondsUpdated', () =>
+      this.handleChallengeSize(this.timer, totalTime)
     );
 
-    timer.addEventListener('targetAchieved', () => {
+    this.timer.addEventListener('targetAchieved', () => {
       console.error('time limit reached');
       this.hideChallenge();
       this.btnToggleCB(true);
@@ -122,24 +124,23 @@ export default class TypingChallenge {
     }
 
     if (this.sanitisedInput.length == this.originalChal.length) {
-      let tmp = this.calculateAccuracy();
+      let tmp = this.calculateAccuracy().toFixed();
       let msg = new PIXI.Text(
         'Challenge complete your accuracy was ' + tmp + '%'
       );
 
       msg.y = 100;
-      alert("you're accuracy was " + tmp + '%');
+      $('#AClog').html('Your accuracy was ' + tmp + '%');
       this.finished = true;
 
       if (tmp < 50) {
-        alert(
-          'cannot fire, accuracy was below 50%, you had ' + tmp + '% accuracy'
-        );
+        $('#AClog').html('Cannot fire you only had ' + tmp + '% accuracy');
       } else {
         this.firingCB();
       }
       this.app.stage.removeChild(this.scaleCont);
       this.hideChallenge();
+      this.timer.stop();
       this.btnToggleCB(true);
     }
   }

@@ -98,6 +98,7 @@ export default class Game {
     $('#userList').css('display', 'none');
     $('#pin').css('display', 'none');
     $('#h1lobby').css('display', 'none');
+    $('#accuracyTracker').css('display', 'block');
     this.app.renderer.view.style.position = 'absolute';
     this.app.renderer.view.style.display = 'block';
     this.app.renderer.view.style.left =

@@ -57,7 +57,7 @@ var Battleships = (function(t) {
   function(t, e, n) {
     'use strict';
     Object.defineProperty(e, '__esModule', { value: !0 });
-    var r = n(26),
+    var r = n(27),
       i = function(t, e) {
         return Object.prototype.hasOwnProperty.call(t, e);
       },
@@ -400,7 +400,7 @@ var Battleships = (function(t) {
         return K(a).default;
       }
     });
-    var u = n(29);
+    var u = n(30);
     Object.defineProperty(e, 'Container', {
       enumerable: !0,
       get: function() {
@@ -568,14 +568,14 @@ var Battleships = (function(t) {
         return K(P).default;
       }
     });
-    var N = n(32);
+    var N = n(33);
     Object.defineProperty(e, 'Shader', {
       enumerable: !0,
       get: function() {
         return K(N).default;
       }
     });
-    var R = n(31);
+    var R = n(32);
     Object.defineProperty(e, 'WebGLManager', {
       enumerable: !0,
       get: function() {
@@ -634,7 +634,7 @@ var Battleships = (function(t) {
     var q = z(n(3)),
       V = z(n(55)),
       H = K(n(4)),
-      W = K(n(30)),
+      W = K(n(31)),
       G = K(n(39));
     function z(t) {
       if (t && t.__esModule) return t;
@@ -1526,7 +1526,7 @@ var Battleships = (function(t) {
     'number' == typeof __e && (__e = n);
   },
   function(t, e, n) {
-    var r = n(28),
+    var r = n(29),
       i = n(77),
       o = n(44),
       s = Object.defineProperty;
@@ -2088,1600 +2088,6 @@ var Battleships = (function(t) {
       (e.indexToGridCoord = function(t, e) {
         return [t % e, Math.floor(t / e)];
       });
-  },
-  function(t, e, n) {
-    var r = n(263),
-      i = n(64);
-    t.exports = function(t) {
-      return r(i(t));
-    };
-  },
-  function(t, e, n) {
-    var r = n(69)('wks'),
-      i = n(43),
-      o = n(11).Symbol,
-      s = 'function' == typeof o;
-    (t.exports = function(t) {
-      return r[t] || (r[t] = (s && o[t]) || (s ? o : i)('Symbol.' + t));
-    }).store = r;
-  },
-  function(t, e, n) {
-    'use strict';
-    Object.defineProperty(e, '__esModule', { value: !0 });
-    var r = n(304),
-      i = { NODE_CLIENT: !1, NODE_ADMIN: !1, SDK_VERSION: '${JSCORE_VERSION}' },
-      o = function(t, e) {
-        if (!t) throw s(e);
-      },
-      s = function(t) {
-        return new Error(
-          'Firebase Database (' +
-            i.SDK_VERSION +
-            ') INTERNAL ASSERT FAILED: ' +
-            t
-        );
-      },
-      a = function(t) {
-        for (var e = [], n = 0, r = 0; r < t.length; r++) {
-          var i = t.charCodeAt(r);
-          i < 128
-            ? (e[n++] = i)
-            : i < 2048
-              ? ((e[n++] = (i >> 6) | 192), (e[n++] = (63 & i) | 128))
-              : 55296 == (64512 & i) &&
-                r + 1 < t.length &&
-                56320 == (64512 & t.charCodeAt(r + 1))
-                ? ((i =
-                    65536 + ((1023 & i) << 10) + (1023 & t.charCodeAt(++r))),
-                  (e[n++] = (i >> 18) | 240),
-                  (e[n++] = ((i >> 12) & 63) | 128),
-                  (e[n++] = ((i >> 6) & 63) | 128),
-                  (e[n++] = (63 & i) | 128))
-                : ((e[n++] = (i >> 12) | 224),
-                  (e[n++] = ((i >> 6) & 63) | 128),
-                  (e[n++] = (63 & i) | 128));
-        }
-        return e;
-      },
-      u = {
-        byteToCharMap_: null,
-        charToByteMap_: null,
-        byteToCharMapWebSafe_: null,
-        charToByteMapWebSafe_: null,
-        ENCODED_VALS_BASE:
-          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-        get ENCODED_VALS() {
-          return this.ENCODED_VALS_BASE + '+/=';
-        },
-        get ENCODED_VALS_WEBSAFE() {
-          return this.ENCODED_VALS_BASE + '-_.';
-        },
-        HAS_NATIVE_SUPPORT: 'function' == typeof atob,
-        encodeByteArray: function(t, e) {
-          if (!Array.isArray(t))
-            throw Error('encodeByteArray takes an array as a parameter');
-          this.init_();
-          for (
-            var n = e ? this.byteToCharMapWebSafe_ : this.byteToCharMap_,
-              r = [],
-              i = 0;
-            i < t.length;
-            i += 3
-          ) {
-            var o = t[i],
-              s = i + 1 < t.length,
-              a = s ? t[i + 1] : 0,
-              u = i + 2 < t.length,
-              h = u ? t[i + 2] : 0,
-              c = o >> 2,
-              l = ((3 & o) << 4) | (a >> 4),
-              f = ((15 & a) << 2) | (h >> 6),
-              p = 63 & h;
-            u || ((p = 64), s || (f = 64)), r.push(n[c], n[l], n[f], n[p]);
-          }
-          return r.join('');
-        },
-        encodeString: function(t, e) {
-          return this.HAS_NATIVE_SUPPORT && !e
-            ? btoa(t)
-            : this.encodeByteArray(a(t), e);
-        },
-        decodeString: function(t, e) {
-          return this.HAS_NATIVE_SUPPORT && !e
-            ? atob(t)
-            : (function(t) {
-                for (var e = [], n = 0, r = 0; n < t.length; ) {
-                  var i = t[n++];
-                  if (i < 128) e[r++] = String.fromCharCode(i);
-                  else if (i > 191 && i < 224) {
-                    var o = t[n++];
-                    e[r++] = String.fromCharCode(((31 & i) << 6) | (63 & o));
-                  } else if (i > 239 && i < 365) {
-                    var s =
-                      (((7 & i) << 18) |
-                        ((63 & (o = t[n++])) << 12) |
-                        ((63 & (a = t[n++])) << 6) |
-                        (63 & t[n++])) -
-                      65536;
-                    (e[r++] = String.fromCharCode(55296 + (s >> 10))),
-                      (e[r++] = String.fromCharCode(56320 + (1023 & s)));
-                  } else {
-                    o = t[n++];
-                    var a = t[n++];
-                    e[r++] = String.fromCharCode(
-                      ((15 & i) << 12) | ((63 & o) << 6) | (63 & a)
-                    );
-                  }
-                }
-                return e.join('');
-              })(this.decodeStringToByteArray(t, e));
-        },
-        decodeStringToByteArray: function(t, e) {
-          this.init_();
-          for (
-            var n = e ? this.charToByteMapWebSafe_ : this.charToByteMap_,
-              r = [],
-              i = 0;
-            i < t.length;
-
-          ) {
-            var o = n[t.charAt(i++)],
-              s = i < t.length ? n[t.charAt(i)] : 0,
-              a = ++i < t.length ? n[t.charAt(i)] : 64,
-              u = ++i < t.length ? n[t.charAt(i)] : 64;
-            if ((++i, null == o || null == s || null == a || null == u))
-              throw Error();
-            var h = (o << 2) | (s >> 4);
-            if ((r.push(h), 64 != a)) {
-              var c = ((s << 4) & 240) | (a >> 2);
-              if ((r.push(c), 64 != u)) {
-                var l = ((a << 6) & 192) | u;
-                r.push(l);
-              }
-            }
-          }
-          return r;
-        },
-        init_: function() {
-          if (!this.byteToCharMap_) {
-            (this.byteToCharMap_ = {}),
-              (this.charToByteMap_ = {}),
-              (this.byteToCharMapWebSafe_ = {}),
-              (this.charToByteMapWebSafe_ = {});
-            for (var t = 0; t < this.ENCODED_VALS.length; t++)
-              (this.byteToCharMap_[t] = this.ENCODED_VALS.charAt(t)),
-                (this.charToByteMap_[this.byteToCharMap_[t]] = t),
-                (this.byteToCharMapWebSafe_[
-                  t
-                ] = this.ENCODED_VALS_WEBSAFE.charAt(t)),
-                (this.charToByteMapWebSafe_[this.byteToCharMapWebSafe_[t]] = t),
-                t >= this.ENCODED_VALS_BASE.length &&
-                  ((this.charToByteMap_[
-                    this.ENCODED_VALS_WEBSAFE.charAt(t)
-                  ] = t),
-                  (this.charToByteMapWebSafe_[
-                    this.ENCODED_VALS.charAt(t)
-                  ] = t));
-          }
-        }
-      },
-      h = function(t) {
-        try {
-          return u.decodeString(t, !0);
-        } catch (t) {
-          console.error('base64Decode failed: ', t);
-        }
-        return null;
-      };
-    function c(t, e) {
-      if (!(e instanceof Object)) return e;
-      switch (e.constructor) {
-        case Date:
-          return new Date(e.getTime());
-        case Object:
-          void 0 === t && (t = {});
-          break;
-        case Array:
-          t = [];
-          break;
-        default:
-          return e;
-      }
-      for (var n in e) e.hasOwnProperty(n) && (t[n] = c(t[n], e[n]));
-      return t;
-    }
-    var l = (function() {
-        function t() {
-          var t = this;
-          this.promise = new Promise(function(e, n) {
-            (t.resolve = e), (t.reject = n);
-          });
-        }
-        return (
-          (t.prototype.wrapCallback = function(t) {
-            var e = this;
-            return function(n, r) {
-              n ? e.reject(n) : e.resolve(r),
-                'function' == typeof t &&
-                  (e.promise.catch(function() {}),
-                  1 === t.length ? t(n) : t(n, r));
-            };
-          }),
-          t
-        );
-      })(),
-      f = function() {
-        return 'undefined' != typeof navigator &&
-          'string' == typeof navigator.userAgent
-          ? navigator.userAgent
-          : '';
-      },
-      p = 'FirebaseError',
-      d = Error.captureStackTrace;
-    var y = (function() {
-      return function(t, e) {
-        if (((this.code = t), (this.message = e), d))
-          d(this, v.prototype.create);
-        else
-          try {
-            throw Error.apply(this, arguments);
-          } catch (t) {
-            (this.name = p),
-              Object.defineProperty(this, 'stack', {
-                get: function() {
-                  return t.stack;
-                }
-              });
-          }
-      };
-    })();
-    (y.prototype = Object.create(Error.prototype)),
-      (y.prototype.constructor = y),
-      (y.prototype.name = p);
-    var v = (function() {
-      function t(t, e, n) {
-        (this.service = t),
-          (this.serviceName = e),
-          (this.errors = n),
-          (this.pattern = /\{\$([^}]+)}/g);
-      }
-      return (
-        (t.prototype.create = function(t, e) {
-          void 0 === e && (e = {});
-          var n,
-            r = this.errors[t],
-            i = this.service + '/' + t;
-          (n =
-            void 0 === r
-              ? 'Error'
-              : r.replace(this.pattern, function(t, n) {
-                  var r = e[n];
-                  return void 0 !== r ? r.toString() : '<' + n + '?>';
-                })),
-            (n = this.serviceName + ': ' + n + ' (' + i + ').');
-          var o = new y(i, n);
-          for (var s in e)
-            e.hasOwnProperty(s) && '_' !== s.slice(-1) && (o[s] = e[s]);
-          return o;
-        }),
-        t
-      );
-    })();
-    function g(t) {
-      return JSON.parse(t);
-    }
-    var m = function(t) {
-        var e = {},
-          n = {},
-          r = {},
-          i = '';
-        try {
-          var o = t.split('.');
-          (e = g(h(o[0]) || '')),
-            (n = g(h(o[1]) || '')),
-            (i = o[2]),
-            (r = n.d || {}),
-            delete n.d;
-        } catch (t) {}
-        return { header: e, claims: n, data: r, signature: i };
-      },
-      _ = function(t, e) {
-        for (var n in t)
-          Object.prototype.hasOwnProperty.call(t, n) && e(n, t[n]);
-      },
-      b = function(t, e) {
-        return (
-          _(e, function(e, n) {
-            t[e] = n;
-          }),
-          t
-        );
-      },
-      w = function(t, e, n) {
-        for (var r in t) if (e.call(n, t[r], r, t)) return r;
-      },
-      T = (function(t) {
-        function e() {
-          var e = t.call(this) || this;
-          (e.chain_ = []),
-            (e.buf_ = []),
-            (e.W_ = []),
-            (e.pad_ = []),
-            (e.inbuf_ = 0),
-            (e.total_ = 0),
-            (e.blockSize = 64),
-            (e.pad_[0] = 128);
-          for (var n = 1; n < e.blockSize; ++n) e.pad_[n] = 0;
-          return e.reset(), e;
-        }
-        return (
-          r.__extends(e, t),
-          (e.prototype.reset = function() {
-            (this.chain_[0] = 1732584193),
-              (this.chain_[1] = 4023233417),
-              (this.chain_[2] = 2562383102),
-              (this.chain_[3] = 271733878),
-              (this.chain_[4] = 3285377520),
-              (this.inbuf_ = 0),
-              (this.total_ = 0);
-          }),
-          (e.prototype.compress_ = function(t, e) {
-            e || (e = 0);
-            var n = this.W_;
-            if ('string' == typeof t)
-              for (var r = 0; r < 16; r++)
-                (n[r] =
-                  (t.charCodeAt(e) << 24) |
-                  (t.charCodeAt(e + 1) << 16) |
-                  (t.charCodeAt(e + 2) << 8) |
-                  t.charCodeAt(e + 3)),
-                  (e += 4);
-            else
-              for (r = 0; r < 16; r++)
-                (n[r] =
-                  (t[e] << 24) | (t[e + 1] << 16) | (t[e + 2] << 8) | t[e + 3]),
-                  (e += 4);
-            for (r = 16; r < 80; r++) {
-              var i = n[r - 3] ^ n[r - 8] ^ n[r - 14] ^ n[r - 16];
-              n[r] = 4294967295 & ((i << 1) | (i >>> 31));
-            }
-            var o,
-              s,
-              a = this.chain_[0],
-              u = this.chain_[1],
-              h = this.chain_[2],
-              c = this.chain_[3],
-              l = this.chain_[4];
-            for (r = 0; r < 80; r++) {
-              r < 40
-                ? r < 20
-                  ? ((o = c ^ (u & (h ^ c))), (s = 1518500249))
-                  : ((o = u ^ h ^ c), (s = 1859775393))
-                : r < 60
-                  ? ((o = (u & h) | (c & (u | h))), (s = 2400959708))
-                  : ((o = u ^ h ^ c), (s = 3395469782));
-              i = (((a << 5) | (a >>> 27)) + o + l + s + n[r]) & 4294967295;
-              (l = c),
-                (c = h),
-                (h = 4294967295 & ((u << 30) | (u >>> 2))),
-                (u = a),
-                (a = i);
-            }
-            (this.chain_[0] = (this.chain_[0] + a) & 4294967295),
-              (this.chain_[1] = (this.chain_[1] + u) & 4294967295),
-              (this.chain_[2] = (this.chain_[2] + h) & 4294967295),
-              (this.chain_[3] = (this.chain_[3] + c) & 4294967295),
-              (this.chain_[4] = (this.chain_[4] + l) & 4294967295);
-          }),
-          (e.prototype.update = function(t, e) {
-            if (null != t) {
-              void 0 === e && (e = t.length);
-              for (
-                var n = e - this.blockSize,
-                  r = 0,
-                  i = this.buf_,
-                  o = this.inbuf_;
-                r < e;
-
-              ) {
-                if (0 == o)
-                  for (; r <= n; ) this.compress_(t, r), (r += this.blockSize);
-                if ('string' == typeof t) {
-                  for (; r < e; )
-                    if (
-                      ((i[o] = t.charCodeAt(r)), ++r, ++o == this.blockSize)
-                    ) {
-                      this.compress_(i), (o = 0);
-                      break;
-                    }
-                } else
-                  for (; r < e; )
-                    if (((i[o] = t[r]), ++r, ++o == this.blockSize)) {
-                      this.compress_(i), (o = 0);
-                      break;
-                    }
-              }
-              (this.inbuf_ = o), (this.total_ += e);
-            }
-          }),
-          (e.prototype.digest = function() {
-            var t = [],
-              e = 8 * this.total_;
-            this.inbuf_ < 56
-              ? this.update(this.pad_, 56 - this.inbuf_)
-              : this.update(this.pad_, this.blockSize - (this.inbuf_ - 56));
-            for (var n = this.blockSize - 1; n >= 56; n--)
-              (this.buf_[n] = 255 & e), (e /= 256);
-            this.compress_(this.buf_);
-            var r = 0;
-            for (n = 0; n < 5; n++)
-              for (var i = 24; i >= 0; i -= 8)
-                (t[r] = (this.chain_[n] >> i) & 255), ++r;
-            return t;
-          }),
-          e
-        );
-      })(
-        (function() {
-          return function() {
-            this.blockSize = -1;
-          };
-        })()
-      );
-    var E = (function() {
-      function t(t, e) {
-        var n = this;
-        (this.observers = []),
-          (this.unsubscribes = []),
-          (this.observerCount = 0),
-          (this.task = Promise.resolve()),
-          (this.finalized = !1),
-          (this.onNoObservers = e),
-          this.task
-            .then(function() {
-              t(n);
-            })
-            .catch(function(t) {
-              n.error(t);
-            });
-      }
-      return (
-        (t.prototype.next = function(t) {
-          this.forEachObserver(function(e) {
-            e.next(t);
-          });
-        }),
-        (t.prototype.error = function(t) {
-          this.forEachObserver(function(e) {
-            e.error(t);
-          }),
-            this.close(t);
-        }),
-        (t.prototype.complete = function() {
-          this.forEachObserver(function(t) {
-            t.complete();
-          }),
-            this.close();
-        }),
-        (t.prototype.subscribe = function(t, e, n) {
-          var r,
-            i = this;
-          if (void 0 === t && void 0 === e && void 0 === n)
-            throw new Error('Missing Observer.');
-          void 0 ===
-            (r = (function(t, e) {
-              if ('object' != typeof t || null === t) return !1;
-              for (var n = 0, r = e; n < r.length; n++) {
-                var i = r[n];
-                if (i in t && 'function' == typeof t[i]) return !0;
-              }
-              return !1;
-            })(t, ['next', 'error', 'complete'])
-              ? t
-              : { next: t, error: e, complete: n }).next && (r.next = S),
-            void 0 === r.error && (r.error = S),
-            void 0 === r.complete && (r.complete = S);
-          var o = this.unsubscribeOne.bind(this, this.observers.length);
-          return (
-            this.finalized &&
-              this.task.then(function() {
-                try {
-                  i.finalError ? r.error(i.finalError) : r.complete();
-                } catch (t) {}
-              }),
-            this.observers.push(r),
-            o
-          );
-        }),
-        (t.prototype.unsubscribeOne = function(t) {
-          void 0 !== this.observers &&
-            void 0 !== this.observers[t] &&
-            (delete this.observers[t],
-            (this.observerCount -= 1),
-            0 === this.observerCount &&
-              void 0 !== this.onNoObservers &&
-              this.onNoObservers(this));
-        }),
-        (t.prototype.forEachObserver = function(t) {
-          if (!this.finalized)
-            for (var e = 0; e < this.observers.length; e++) this.sendOne(e, t);
-        }),
-        (t.prototype.sendOne = function(t, e) {
-          var n = this;
-          this.task.then(function() {
-            if (void 0 !== n.observers && void 0 !== n.observers[t])
-              try {
-                e(n.observers[t]);
-              } catch (t) {
-                'undefined' != typeof console &&
-                  console.error &&
-                  console.error(t);
-              }
-          });
-        }),
-        (t.prototype.close = function(t) {
-          var e = this;
-          this.finalized ||
-            ((this.finalized = !0),
-            void 0 !== t && (this.finalError = t),
-            this.task.then(function() {
-              (e.observers = void 0), (e.onNoObservers = void 0);
-            }));
-        }),
-        t
-      );
-    })();
-    function S() {}
-    function I(t, e, n) {
-      var r = '';
-      switch (e) {
-        case 1:
-          r = n ? 'first' : 'First';
-          break;
-        case 2:
-          r = n ? 'second' : 'Second';
-          break;
-        case 3:
-          r = n ? 'third' : 'Third';
-          break;
-        case 4:
-          r = n ? 'fourth' : 'Fourth';
-          break;
-        default:
-          throw new Error(
-            'errorPrefix called with argumentNumber > 4.  Need to update it?'
-          );
-      }
-      var i = t + ' failed: ';
-      return (i += r + ' argument ');
-    }
-    (e.assert = o),
-      (e.assertionError = s),
-      (e.base64 = u),
-      (e.base64Decode = h),
-      (e.base64Encode = function(t) {
-        var e = a(t);
-        return u.encodeByteArray(e, !0);
-      }),
-      (e.CONSTANTS = i),
-      (e.deepCopy = function(t) {
-        return c(void 0, t);
-      }),
-      (e.deepExtend = c),
-      (e.patchProperty = function(t, e, n) {
-        t[e] = n;
-      }),
-      (e.Deferred = l),
-      (e.getUA = f),
-      (e.isMobileCordova = function() {
-        return (
-          'undefined' != typeof window &&
-          !!(window.cordova || window.phonegap || window.PhoneGap) &&
-          /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(f())
-        );
-      }),
-      (e.isNodeSdk = function() {
-        return !0 === i.NODE_CLIENT || !0 === i.NODE_ADMIN;
-      }),
-      (e.isReactNative = function() {
-        return (
-          'object' == typeof navigator && 'ReactNative' === navigator.product
-        );
-      }),
-      (e.ErrorFactory = v),
-      (e.FirebaseError = y),
-      (e.patchCapture = function(t) {
-        var e = d;
-        return (d = t), e;
-      }),
-      (e.jsonEval = g),
-      (e.stringify = function(t) {
-        return JSON.stringify(t);
-      }),
-      (e.decode = m),
-      (e.isAdmin = function(t) {
-        var e = m(t).claims;
-        return 'object' == typeof e && !0 === e.admin;
-      }),
-      (e.issuedAtTime = function(t) {
-        var e = m(t).claims;
-        return 'object' == typeof e && e.hasOwnProperty('iat') ? e.iat : null;
-      }),
-      (e.isValidFormat = function(t) {
-        var e = m(t).claims;
-        return !!e && 'object' == typeof e && e.hasOwnProperty('iat');
-      }),
-      (e.isValidTimestamp = function(t) {
-        var e,
-          n,
-          r = m(t).claims,
-          i = Math.floor(new Date().getTime() / 1e3);
-        return (
-          'object' == typeof r &&
-            (r.hasOwnProperty('nbf')
-              ? (e = r.nbf)
-              : r.hasOwnProperty('iat') && (e = r.iat),
-            (n = r.hasOwnProperty('exp') ? r.exp : e + 86400)),
-          i && e && n && i >= e && i <= n
-        );
-      }),
-      (e.clone = function(t) {
-        return b({}, t);
-      }),
-      (e.contains = function(t, e) {
-        return Object.prototype.hasOwnProperty.call(t, e);
-      }),
-      (e.every = function(t, e) {
-        for (var n in t)
-          if (Object.prototype.hasOwnProperty.call(t, n) && !e(n, t[n]))
-            return !1;
-        return !0;
-      }),
-      (e.extend = b),
-      (e.findKey = w),
-      (e.findValue = function(t, e, n) {
-        var r = w(t, e, n);
-        return r && t[r];
-      }),
-      (e.forEach = _),
-      (e.getAnyKey = function(t) {
-        for (var e in t) return e;
-      }),
-      (e.getCount = function(t) {
-        var e = 0;
-        for (var n in t) e++;
-        return e;
-      }),
-      (e.getValues = function(t) {
-        var e = [],
-          n = 0;
-        for (var r in t) e[n++] = t[r];
-        return e;
-      }),
-      (e.isEmpty = function(t) {
-        for (var e in t) return !1;
-        return !0;
-      }),
-      (e.isNonNullObject = function(t) {
-        return 'object' == typeof t && null !== t;
-      }),
-      (e.map = function(t, e, n) {
-        var r = {};
-        for (var i in t) r[i] = e.call(n, t[i], i, t);
-        return r;
-      }),
-      (e.safeGet = function(t, e) {
-        if (Object.prototype.hasOwnProperty.call(t, e)) return t[e];
-      }),
-      (e.querystring = function(t) {
-        var e = [];
-        return (
-          _(t, function(t, n) {
-            Array.isArray(n)
-              ? n.forEach(function(n) {
-                  e.push(encodeURIComponent(t) + '=' + encodeURIComponent(n));
-                })
-              : e.push(encodeURIComponent(t) + '=' + encodeURIComponent(n));
-          }),
-          e.length ? '&' + e.join('&') : ''
-        );
-      }),
-      (e.querystringDecode = function(t) {
-        var e = {};
-        return (
-          t
-            .replace(/^\?/, '')
-            .split('&')
-            .forEach(function(t) {
-              if (t) {
-                var n = t.split('=');
-                e[n[0]] = n[1];
-              }
-            }),
-          e
-        );
-      }),
-      (e.Sha1 = T),
-      (e.async = function(t, e) {
-        return function() {
-          for (var n = [], r = 0; r < arguments.length; r++)
-            n[r] = arguments[r];
-          Promise.resolve(!0)
-            .then(function() {
-              t.apply(void 0, n);
-            })
-            .catch(function(t) {
-              e && e(t);
-            });
-        };
-      }),
-      (e.createSubscribe = function(t, e) {
-        var n = new E(t, e);
-        return n.subscribe.bind(n);
-      }),
-      (e.errorPrefix = I),
-      (e.validateArgCount = function(t, e, n, r) {
-        var i;
-        if (
-          (r < e
-            ? (i = 'at least ' + e)
-            : r > n && (i = 0 === n ? 'none' : 'no more than ' + n),
-          i)
-        )
-          throw new Error(
-            t +
-              ' failed: Was called with ' +
-              r +
-              (1 === r ? ' argument.' : ' arguments.') +
-              ' Expects ' +
-              i +
-              '.'
-          );
-      }),
-      (e.validateCallback = function(t, e, n, r) {
-        if ((!r || n) && 'function' != typeof n)
-          throw new Error(I(t, e, r) + 'must be a valid function.');
-      }),
-      (e.validateContextObject = function(t, e, n, r) {
-        if ((!r || n) && ('object' != typeof n || null === n))
-          throw new Error(I(t, e, r) + 'must be a valid context object.');
-      }),
-      (e.validateNamespace = function(t, e, n, r) {
-        if ((!r || n) && 'string' != typeof n)
-          throw new Error(I(t, e, r) + 'must be a valid firebase namespace.');
-      }),
-      (e.stringLength = function(t) {
-        for (var e = 0, n = 0; n < t.length; n++) {
-          var r = t.charCodeAt(n);
-          r < 128
-            ? e++
-            : r < 2048
-              ? (e += 2)
-              : r >= 55296 && r <= 56319 ? ((e += 4), n++) : (e += 3);
-        }
-        return e;
-      }),
-      (e.stringToByteArray = function(t) {
-        for (var e = [], n = 0, r = 0; r < t.length; r++) {
-          var i = t.charCodeAt(r);
-          if (i >= 55296 && i <= 56319) {
-            var s = i - 55296;
-            o(++r < t.length, 'Surrogate pair missing trail surrogate.'),
-              (i = 65536 + (s << 10) + (t.charCodeAt(r) - 56320));
-          }
-          i < 128
-            ? (e[n++] = i)
-            : i < 2048
-              ? ((e[n++] = (i >> 6) | 192), (e[n++] = (63 & i) | 128))
-              : i < 65536
-                ? ((e[n++] = (i >> 12) | 224),
-                  (e[n++] = ((i >> 6) & 63) | 128),
-                  (e[n++] = (63 & i) | 128))
-                : ((e[n++] = (i >> 18) | 240),
-                  (e[n++] = ((i >> 12) & 63) | 128),
-                  (e[n++] = ((i >> 6) & 63) | 128),
-                  (e[n++] = (63 & i) | 128));
-        }
-        return e;
-      });
-  },
-  function(t, e, n) {
-    var r = n(11),
-      i = n(14),
-      o = n(76),
-      s = n(20),
-      a = n(17),
-      u = function(t, e, n) {
-        var h,
-          c,
-          l,
-          f = t & u.F,
-          p = t & u.G,
-          d = t & u.S,
-          y = t & u.P,
-          v = t & u.B,
-          g = t & u.W,
-          m = p ? i : i[e] || (i[e] = {}),
-          _ = m.prototype,
-          b = p ? r : d ? r[e] : (r[e] || {}).prototype;
-        for (h in (p && (n = e), n))
-          ((c = !f && b && void 0 !== b[h]) && a(m, h)) ||
-            ((l = c ? b[h] : n[h]),
-            (m[h] =
-              p && 'function' != typeof b[h]
-                ? n[h]
-                : v && c
-                  ? o(l, r)
-                  : g && b[h] == l
-                    ? (function(t) {
-                        var e = function(e, n, r) {
-                          if (this instanceof t) {
-                            switch (arguments.length) {
-                              case 0:
-                                return new t();
-                              case 1:
-                                return new t(e);
-                              case 2:
-                                return new t(e, n);
-                            }
-                            return new t(e, n, r);
-                          }
-                          return t.apply(this, arguments);
-                        };
-                        return (e.prototype = t.prototype), e;
-                      })(l)
-                    : y && 'function' == typeof l ? o(Function.call, l) : l),
-            y &&
-              (((m.virtual || (m.virtual = {}))[h] = l),
-              t & u.R && _ && !_[h] && s(_, h, l)));
-      };
-    (u.F = 1),
-      (u.G = 2),
-      (u.S = 4),
-      (u.P = 8),
-      (u.B = 16),
-      (u.W = 32),
-      (u.U = 64),
-      (u.R = 128),
-      (t.exports = u);
-  },
-  function(t, e, n) {
-    var r = n(21);
-    t.exports = function(t) {
-      if (!r(t)) throw TypeError(t + ' is not an object!');
-      return t;
-    };
-  },
-  function(t, e, n) {
-    'use strict';
-    e.__esModule = !0;
-    var r,
-      i = (function() {
-        function t(t, e) {
-          for (var n = 0; n < e.length; n++) {
-            var r = e[n];
-            (r.enumerable = r.enumerable || !1),
-              (r.configurable = !0),
-              'value' in r && (r.writable = !0),
-              Object.defineProperty(t, r.key, r);
-          }
-        }
-        return function(e, n, r) {
-          return n && t(e.prototype, n), r && t(e, r), e;
-        };
-      })(),
-      o = n(3),
-      s = n(90);
-    var a = (function(t) {
-      function e() {
-        !(function(t, e) {
-          if (!(t instanceof e))
-            throw new TypeError('Cannot call a class as a function');
-        })(this, e);
-        var n = (function(t, e) {
-          if (!t)
-            throw new ReferenceError(
-              "this hasn't been initialised - super() hasn't been called"
-            );
-          return !e || ('object' != typeof e && 'function' != typeof e) ? t : e;
-        })(this, t.call(this));
-        return (n.children = []), n;
-      }
-      return (
-        (function(t, e) {
-          if ('function' != typeof e && null !== e)
-            throw new TypeError(
-              'Super expression must either be null or a function, not ' +
-                typeof e
-            );
-          (t.prototype = Object.create(e && e.prototype, {
-            constructor: {
-              value: t,
-              enumerable: !1,
-              writable: !0,
-              configurable: !0
-            }
-          })),
-            e &&
-              (Object.setPrototypeOf
-                ? Object.setPrototypeOf(t, e)
-                : (t.__proto__ = e));
-        })(e, t),
-        (e.prototype.onChildrenChange = function() {}),
-        (e.prototype.addChild = function(t) {
-          var e = arguments.length;
-          if (e > 1) for (var n = 0; n < e; n++) this.addChild(arguments[n]);
-          else
-            t.parent && t.parent.removeChild(t),
-              (t.parent = this),
-              (t.transform._parentID = -1),
-              this.children.push(t),
-              this._boundsID++,
-              this.onChildrenChange(this.children.length - 1),
-              t.emit('added', this);
-          return t;
-        }),
-        (e.prototype.addChildAt = function(t, e) {
-          if (e < 0 || e > this.children.length)
-            throw new Error(
-              t +
-                'addChildAt: The index ' +
-                e +
-                ' supplied is out of bounds ' +
-                this.children.length
-            );
-          return (
-            t.parent && t.parent.removeChild(t),
-            (t.parent = this),
-            (t.transform._parentID = -1),
-            this.children.splice(e, 0, t),
-            this._boundsID++,
-            this.onChildrenChange(e),
-            t.emit('added', this),
-            t
-          );
-        }),
-        (e.prototype.swapChildren = function(t, e) {
-          if (t !== e) {
-            var n = this.getChildIndex(t),
-              r = this.getChildIndex(e);
-            (this.children[n] = e),
-              (this.children[r] = t),
-              this.onChildrenChange(n < r ? n : r);
-          }
-        }),
-        (e.prototype.getChildIndex = function(t) {
-          var e = this.children.indexOf(t);
-          if (-1 === e)
-            throw new Error(
-              'The supplied DisplayObject must be a child of the caller'
-            );
-          return e;
-        }),
-        (e.prototype.setChildIndex = function(t, e) {
-          if (e < 0 || e >= this.children.length)
-            throw new Error(
-              'The index ' +
-                e +
-                ' supplied is out of bounds ' +
-                this.children.length
-            );
-          var n = this.getChildIndex(t);
-          (0, o.removeItems)(this.children, n, 1),
-            this.children.splice(e, 0, t),
-            this.onChildrenChange(e);
-        }),
-        (e.prototype.getChildAt = function(t) {
-          if (t < 0 || t >= this.children.length)
-            throw new Error('getChildAt: Index (' + t + ') does not exist.');
-          return this.children[t];
-        }),
-        (e.prototype.removeChild = function(t) {
-          var e = arguments.length;
-          if (e > 1) for (var n = 0; n < e; n++) this.removeChild(arguments[n]);
-          else {
-            var r = this.children.indexOf(t);
-            if (-1 === r) return null;
-            (t.parent = null),
-              (t.transform._parentID = -1),
-              (0, o.removeItems)(this.children, r, 1),
-              this._boundsID++,
-              this.onChildrenChange(r),
-              t.emit('removed', this);
-          }
-          return t;
-        }),
-        (e.prototype.removeChildAt = function(t) {
-          var e = this.getChildAt(t);
-          return (
-            (e.parent = null),
-            (e.transform._parentID = -1),
-            (0, o.removeItems)(this.children, t, 1),
-            this._boundsID++,
-            this.onChildrenChange(t),
-            e.emit('removed', this),
-            e
-          );
-        }),
-        (e.prototype.removeChildren = function() {
-          var t =
-              arguments.length > 0 && void 0 !== arguments[0]
-                ? arguments[0]
-                : 0,
-            e = arguments[1],
-            n = t,
-            r = 'number' == typeof e ? e : this.children.length,
-            i = r - n,
-            o = void 0;
-          if (i > 0 && i <= r) {
-            o = this.children.splice(n, i);
-            for (var s = 0; s < o.length; ++s)
-              (o[s].parent = null),
-                o[s].transform && (o[s].transform._parentID = -1);
-            this._boundsID++, this.onChildrenChange(t);
-            for (var a = 0; a < o.length; ++a) o[a].emit('removed', this);
-            return o;
-          }
-          if (0 === i && 0 === this.children.length) return [];
-          throw new RangeError(
-            'removeChildren: numeric values are outside the acceptable range.'
-          );
-        }),
-        (e.prototype.updateTransform = function() {
-          this._boundsID++,
-            this.transform.updateTransform(this.parent.transform),
-            (this.worldAlpha = this.alpha * this.parent.worldAlpha);
-          for (var t = 0, e = this.children.length; t < e; ++t) {
-            var n = this.children[t];
-            n.visible && n.updateTransform();
-          }
-        }),
-        (e.prototype.calculateBounds = function() {
-          this._bounds.clear(), this._calculateBounds();
-          for (var t = 0; t < this.children.length; t++) {
-            var e = this.children[t];
-            e.visible &&
-              e.renderable &&
-              (e.calculateBounds(),
-              e._mask
-                ? (e._mask.calculateBounds(),
-                  this._bounds.addBoundsMask(e._bounds, e._mask._bounds))
-                : e.filterArea
-                  ? this._bounds.addBoundsArea(e._bounds, e.filterArea)
-                  : this._bounds.addBounds(e._bounds));
-          }
-          this._lastBoundsID = this._boundsID;
-        }),
-        (e.prototype._calculateBounds = function() {}),
-        (e.prototype.renderWebGL = function(t) {
-          if (this.visible && !(this.worldAlpha <= 0) && this.renderable)
-            if (this._mask || this._filters) this.renderAdvancedWebGL(t);
-            else {
-              this._renderWebGL(t);
-              for (var e = 0, n = this.children.length; e < n; ++e)
-                this.children[e].renderWebGL(t);
-            }
-        }),
-        (e.prototype.renderAdvancedWebGL = function(t) {
-          t.flush();
-          var e = this._filters,
-            n = this._mask;
-          if (e) {
-            this._enabledFilters || (this._enabledFilters = []),
-              (this._enabledFilters.length = 0);
-            for (var r = 0; r < e.length; r++)
-              e[r].enabled && this._enabledFilters.push(e[r]);
-            this._enabledFilters.length &&
-              t.filterManager.pushFilter(this, this._enabledFilters);
-          }
-          n && t.maskManager.pushMask(this, this._mask), this._renderWebGL(t);
-          for (var i = 0, o = this.children.length; i < o; i++)
-            this.children[i].renderWebGL(t);
-          t.flush(),
-            n && t.maskManager.popMask(this, this._mask),
-            e &&
-              this._enabledFilters &&
-              this._enabledFilters.length &&
-              t.filterManager.popFilter();
-        }),
-        (e.prototype._renderWebGL = function(t) {}),
-        (e.prototype._renderCanvas = function(t) {}),
-        (e.prototype.renderCanvas = function(t) {
-          if (this.visible && !(this.worldAlpha <= 0) && this.renderable) {
-            this._mask && t.maskManager.pushMask(this._mask),
-              this._renderCanvas(t);
-            for (var e = 0, n = this.children.length; e < n; ++e)
-              this.children[e].renderCanvas(t);
-            this._mask && t.maskManager.popMask(t);
-          }
-        }),
-        (e.prototype.destroy = function(e) {
-          t.prototype.destroy.call(this);
-          var n = 'boolean' == typeof e ? e : e && e.children,
-            r = this.removeChildren(0, this.children.length);
-          if (n) for (var i = 0; i < r.length; ++i) r[i].destroy(e);
-        }),
-        i(e, [
-          {
-            key: 'width',
-            get: function() {
-              return this.scale.x * this.getLocalBounds().width;
-            },
-            set: function(t) {
-              var e = this.getLocalBounds().width;
-              (this.scale.x = 0 !== e ? t / e : 1), (this._width = t);
-            }
-          },
-          {
-            key: 'height',
-            get: function() {
-              return this.scale.y * this.getLocalBounds().height;
-            },
-            set: function(t) {
-              var e = this.getLocalBounds().height;
-              (this.scale.y = 0 !== e ? t / e : 1), (this._height = t);
-            }
-          }
-        ]),
-        e
-      );
-    })(((r = s) && r.__esModule ? r : { default: r }).default);
-    (e.default = a),
-      (a.prototype.containerUpdateTransform = a.prototype.updateTransform);
-  },
-  function(t, e, n) {
-    'use strict';
-    e.__esModule = !0;
-    var r = c(n(97)),
-      i = c(n(181)),
-      o = c(n(99)),
-      s = c(n(182)),
-      a = n(3),
-      u = n(1),
-      h = c(n(4));
-    function c(t) {
-      return t && t.__esModule ? t : { default: t };
-    }
-    var l = (function(t) {
-      function e(n, r, o) {
-        !(function(t, e) {
-          if (!(t instanceof e))
-            throw new TypeError('Cannot call a class as a function');
-        })(this, e);
-        var a = (function(t, e) {
-          if (!t)
-            throw new ReferenceError(
-              "this hasn't been initialised - super() hasn't been called"
-            );
-          return !e || ('object' != typeof e && 'function' != typeof e) ? t : e;
-        })(this, t.call(this, 'Canvas', n, r, o));
-        return (
-          (a.type = u.RENDERER_TYPE.CANVAS),
-          (a.rootContext = a.view.getContext('2d', { alpha: a.transparent })),
-          (a.context = a.rootContext),
-          (a.refresh = !0),
-          (a.maskManager = new i.default(a)),
-          (a.smoothProperty = 'imageSmoothingEnabled'),
-          a.rootContext.imageSmoothingEnabled ||
-            (a.rootContext.webkitImageSmoothingEnabled
-              ? (a.smoothProperty = 'webkitImageSmoothingEnabled')
-              : a.rootContext.mozImageSmoothingEnabled
-                ? (a.smoothProperty = 'mozImageSmoothingEnabled')
-                : a.rootContext.oImageSmoothingEnabled
-                  ? (a.smoothProperty = 'oImageSmoothingEnabled')
-                  : a.rootContext.msImageSmoothingEnabled &&
-                    (a.smoothProperty = 'msImageSmoothingEnabled')),
-          a.initPlugins(),
-          (a.blendModes = (0, s.default)()),
-          (a._activeBlendMode = null),
-          (a.renderingToScreen = !1),
-          a.resize(a.options.width, a.options.height),
-          a
-        );
-      }
-      return (
-        (function(t, e) {
-          if ('function' != typeof e && null !== e)
-            throw new TypeError(
-              'Super expression must either be null or a function, not ' +
-                typeof e
-            );
-          (t.prototype = Object.create(e && e.prototype, {
-            constructor: {
-              value: t,
-              enumerable: !1,
-              writable: !0,
-              configurable: !0
-            }
-          })),
-            e &&
-              (Object.setPrototypeOf
-                ? Object.setPrototypeOf(t, e)
-                : (t.__proto__ = e));
-        })(e, t),
-        (e.prototype.render = function(t, e, n, r, i) {
-          if (this.view) {
-            (this.renderingToScreen = !e), this.emit('prerender');
-            var s = this.resolution;
-            e
-              ? ((e = e.baseTexture || e)._canvasRenderTarget ||
-                  ((e._canvasRenderTarget = new o.default(
-                    e.width,
-                    e.height,
-                    e.resolution
-                  )),
-                  (e.source = e._canvasRenderTarget.canvas),
-                  (e.valid = !0)),
-                (this.context = e._canvasRenderTarget.context),
-                (this.resolution = e._canvasRenderTarget.resolution))
-              : (this.context = this.rootContext);
-            var a = this.context;
-            if ((e || (this._lastObjectRendered = t), !i)) {
-              var h = t.parent,
-                c = this._tempDisplayObjectParent.transform.worldTransform;
-              r
-                ? (r.copy(c),
-                  (this._tempDisplayObjectParent.transform._worldID = -1))
-                : c.identity(),
-                (t.parent = this._tempDisplayObjectParent),
-                t.updateTransform(),
-                (t.parent = h);
-            }
-            a.save(),
-              a.setTransform(1, 0, 0, 1, 0, 0),
-              (a.globalAlpha = 1),
-              (this._activeBlendMode = u.BLEND_MODES.NORMAL),
-              (a.globalCompositeOperation = this.blendModes[
-                u.BLEND_MODES.NORMAL
-              ]),
-              navigator.isCocoonJS &&
-                this.view.screencanvas &&
-                ((a.fillStyle = 'black'), a.clear()),
-              (void 0 !== n ? n : this.clearBeforeRender) &&
-                this.renderingToScreen &&
-                (this.transparent
-                  ? a.clearRect(0, 0, this.width, this.height)
-                  : ((a.fillStyle = this._backgroundColorString),
-                    a.fillRect(0, 0, this.width, this.height)));
-            var l = this.context;
-            (this.context = a),
-              t.renderCanvas(this),
-              (this.context = l),
-              a.restore(),
-              (this.resolution = s),
-              this.emit('postrender');
-          }
-        }),
-        (e.prototype.clear = function(t) {
-          var e = this.context;
-          (t = t || this._backgroundColorString),
-            !this.transparent && t
-              ? ((e.fillStyle = t), e.fillRect(0, 0, this.width, this.height))
-              : e.clearRect(0, 0, this.width, this.height);
-        }),
-        (e.prototype.setBlendMode = function(t) {
-          this._activeBlendMode !== t &&
-            ((this._activeBlendMode = t),
-            (this.context.globalCompositeOperation = this.blendModes[t]));
-        }),
-        (e.prototype.destroy = function(e) {
-          this.destroyPlugins(),
-            t.prototype.destroy.call(this, e),
-            (this.context = null),
-            (this.refresh = !0),
-            this.maskManager.destroy(),
-            (this.maskManager = null),
-            (this.smoothProperty = null);
-        }),
-        (e.prototype.resize = function(e, n) {
-          t.prototype.resize.call(this, e, n),
-            this.smoothProperty &&
-              (this.rootContext[this.smoothProperty] =
-                h.default.SCALE_MODE === u.SCALE_MODES.LINEAR);
-        }),
-        (e.prototype.invalidateBlendMode = function() {
-          this._activeBlendMode = this.blendModes.indexOf(
-            this.context.globalCompositeOperation
-          );
-        }),
-        e
-      );
-    })(r.default);
-    (e.default = l), a.pluginTarget.mixin(l);
-  },
-  function(t, e, n) {
-    'use strict';
-    e.__esModule = !0;
-    var r = (function() {
-      function t(e) {
-        !(function(t, e) {
-          if (!(t instanceof e))
-            throw new TypeError('Cannot call a class as a function');
-        })(this, t),
-          (this.renderer = e),
-          this.renderer.on('context', this.onContextChange, this);
-      }
-      return (
-        (t.prototype.onContextChange = function() {}),
-        (t.prototype.destroy = function() {
-          this.renderer.off('context', this.onContextChange, this),
-            (this.renderer = null);
-        }),
-        t
-      );
-    })();
-    e.default = r;
-  },
-  function(t, e, n) {
-    'use strict';
-    e.__esModule = !0;
-    var r,
-      i = n(8),
-      o = n(4),
-      s = (r = o) && r.__esModule ? r : { default: r };
-    function a(t, e) {
-      if (t instanceof Array) {
-        if ('precision' !== t[0].substring(0, 9)) {
-          var n = t.slice(0);
-          return n.unshift('precision ' + e + ' float;'), n;
-        }
-      } else if ('precision' !== t.trim().substring(0, 9))
-        return 'precision ' + e + ' float;\n' + t;
-      return t;
-    }
-    var u = (function(t) {
-      function e(n, r, i, o, u) {
-        return (
-          (function(t, e) {
-            if (!(t instanceof e))
-              throw new TypeError('Cannot call a class as a function');
-          })(this, e),
-          (function(t, e) {
-            if (!t)
-              throw new ReferenceError(
-                "this hasn't been initialised - super() hasn't been called"
-              );
-            return !e || ('object' != typeof e && 'function' != typeof e)
-              ? t
-              : e;
-          })(
-            this,
-            t.call(
-              this,
-              n,
-              a(r, u || s.default.PRECISION_VERTEX),
-              a(i, u || s.default.PRECISION_FRAGMENT),
-              void 0,
-              o
-            )
-          )
-        );
-      }
-      return (
-        (function(t, e) {
-          if ('function' != typeof e && null !== e)
-            throw new TypeError(
-              'Super expression must either be null or a function, not ' +
-                typeof e
-            );
-          (t.prototype = Object.create(e && e.prototype, {
-            constructor: {
-              value: t,
-              enumerable: !1,
-              writable: !0,
-              configurable: !0
-            }
-          })),
-            e &&
-              (Object.setPrototypeOf
-                ? Object.setPrototypeOf(t, e)
-                : (t.__proto__ = e));
-        })(e, t),
-        e
-      );
-    })(i.GLShader);
-    e.default = u;
-  },
-  function(t, e, n) {
-    'use strict';
-    var r = n(234).Loader,
-      i = n(60).Resource,
-      o = n(124),
-      s = n(125);
-    (r.Resource = i),
-      (r.async = o),
-      (r.encodeBinary = s),
-      (r.base64 = s),
-      (t.exports = r),
-      (t.exports.Loader = r),
-      (t.exports.default = r);
-  },
-  function(t, e, n) {
-    'use strict';
-    e.__esModule = !0;
-    var r,
-      i = (function() {
-        function t(t, e) {
-          for (var n = 0; n < e.length; n++) {
-            var r = e[n];
-            (r.enumerable = r.enumerable || !1),
-              (r.configurable = !0),
-              'value' in r && (r.writable = !0),
-              Object.defineProperty(t, r.key, r);
-          }
-        }
-        return function(e, n, r) {
-          return n && t(e.prototype, n), r && t(e, r), e;
-        };
-      })(),
-      o = (function(t) {
-        if (t && t.__esModule) return t;
-        var e = {};
-        if (null != t)
-          for (var n in t)
-            Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
-        return (e.default = t), e;
-      })(n(2)),
-      s = n(13),
-      a = (r = s) && r.__esModule ? r : { default: r };
-    var u = new o.Point(),
-      h = new o.Polygon(),
-      c = (function(t) {
-        function e(n, r, i, s, u) {
-          !(function(t, e) {
-            if (!(t instanceof e))
-              throw new TypeError('Cannot call a class as a function');
-          })(this, e);
-          var h = (function(t, e) {
-            if (!t)
-              throw new ReferenceError(
-                "this hasn't been initialised - super() hasn't been called"
-              );
-            return !e || ('object' != typeof e && 'function' != typeof e)
-              ? t
-              : e;
-          })(this, t.call(this));
-          return (
-            (h._texture = n || a.default.EMPTY),
-            (h.uvs = i || new Float32Array([0, 0, 1, 0, 1, 1, 0, 1])),
-            (h.vertices =
-              r || new Float32Array([0, 0, 100, 0, 100, 100, 0, 100])),
-            (h.indices = s || new Uint16Array([0, 1, 3, 2])),
-            (h.dirty = 0),
-            (h.indexDirty = 0),
-            (h.vertexDirty = 0),
-            (h.autoUpdate = !0),
-            (h.blendMode = o.BLEND_MODES.NORMAL),
-            (h.canvasPadding = o.settings.MESH_CANVAS_PADDING),
-            (h.drawMode = u || e.DRAW_MODES.TRIANGLE_MESH),
-            (h.shader = null),
-            (h.tintRgb = new Float32Array([1, 1, 1])),
-            (h._glDatas = {}),
-            (h._uvTransform = new o.TextureMatrix(h._texture)),
-            (h.uploadUvTransform = !1),
-            (h.pluginName = 'mesh'),
-            h
-          );
-        }
-        return (
-          (function(t, e) {
-            if ('function' != typeof e && null !== e)
-              throw new TypeError(
-                'Super expression must either be null or a function, not ' +
-                  typeof e
-              );
-            (t.prototype = Object.create(e && e.prototype, {
-              constructor: {
-                value: t,
-                enumerable: !1,
-                writable: !0,
-                configurable: !0
-              }
-            })),
-              e &&
-                (Object.setPrototypeOf
-                  ? Object.setPrototypeOf(t, e)
-                  : (t.__proto__ = e));
-          })(e, t),
-          (e.prototype._renderWebGL = function(t) {
-            this.refresh(),
-              t.setObjectRenderer(t.plugins[this.pluginName]),
-              t.plugins[this.pluginName].render(this);
-          }),
-          (e.prototype._renderCanvas = function(t) {
-            this.refresh(), t.plugins[this.pluginName].render(this);
-          }),
-          (e.prototype._onTextureUpdate = function() {
-            (this._uvTransform.texture = this._texture), this.refresh();
-          }),
-          (e.prototype.multiplyUvs = function() {
-            this.uploadUvTransform || this._uvTransform.multiplyUvs(this.uvs);
-          }),
-          (e.prototype.refresh = function(t) {
-            this.autoUpdate && this.vertexDirty++,
-              this._uvTransform.update(t) && this._refresh();
-          }),
-          (e.prototype._refresh = function() {}),
-          (e.prototype._calculateBounds = function() {
-            this._bounds.addVertices(
-              this.transform,
-              this.vertices,
-              0,
-              this.vertices.length
-            );
-          }),
-          (e.prototype.containsPoint = function(t) {
-            if (!this.getBounds().contains(t.x, t.y)) return !1;
-            this.worldTransform.applyInverse(t, u);
-            for (
-              var n = this.vertices,
-                r = h.points,
-                i = this.indices,
-                o = this.indices.length,
-                s = this.drawMode === e.DRAW_MODES.TRIANGLES ? 3 : 1,
-                a = 0;
-              a + 2 < o;
-              a += s
-            ) {
-              var c = 2 * i[a],
-                l = 2 * i[a + 1],
-                f = 2 * i[a + 2];
-              if (
-                ((r[0] = n[c]),
-                (r[1] = n[c + 1]),
-                (r[2] = n[l]),
-                (r[3] = n[l + 1]),
-                (r[4] = n[f]),
-                (r[5] = n[f + 1]),
-                h.contains(u.x, u.y))
-              )
-                return !0;
-            }
-            return !1;
-          }),
-          (e.prototype.destroy = function(e) {
-            for (var n in this._glDatas) {
-              var r = this._glDatas[n];
-              r.destroy
-                ? r.destroy()
-                : (r.vertexBuffer &&
-                    (r.vertexBuffer.destroy(), (r.vertexBuffer = null)),
-                  r.indexBuffer &&
-                    (r.indexBuffer.destroy(), (r.indexBuffer = null)),
-                  r.uvBuffer && (r.uvBuffer.destroy(), (r.uvBuffer = null)),
-                  r.vao && (r.vao.destroy(), (r.vao = null)));
-            }
-            (this._glDatas = null), t.prototype.destroy.call(this, e);
-          }),
-          i(e, [
-            {
-              key: 'texture',
-              get: function() {
-                return this._texture;
-              },
-              set: function(t) {
-                this._texture !== t &&
-                  ((this._texture = t),
-                  t &&
-                    (t.baseTexture.hasLoaded
-                      ? this._onTextureUpdate()
-                      : t.once('update', this._onTextureUpdate, this)));
-              }
-            },
-            {
-              key: 'tint',
-              get: function() {
-                return o.utils.rgb2hex(this.tintRgb);
-              },
-              set: function(t) {
-                this.tintRgb = o.utils.hex2rgb(t, this.tintRgb);
-              }
-            }
-          ]),
-          e
-        );
-      })(o.Container);
-    (e.default = c), (c.DRAW_MODES = { TRIANGLE_MESH: 0, TRIANGLES: 1 });
   },
   function(t, e, n) {
     var r;
@@ -9202,6 +7608,1600 @@ var Battleships = (function(t) {
       );
     });
   },
+  function(t, e, n) {
+    var r = n(263),
+      i = n(64);
+    t.exports = function(t) {
+      return r(i(t));
+    };
+  },
+  function(t, e, n) {
+    var r = n(69)('wks'),
+      i = n(43),
+      o = n(11).Symbol,
+      s = 'function' == typeof o;
+    (t.exports = function(t) {
+      return r[t] || (r[t] = (s && o[t]) || (s ? o : i)('Symbol.' + t));
+    }).store = r;
+  },
+  function(t, e, n) {
+    'use strict';
+    Object.defineProperty(e, '__esModule', { value: !0 });
+    var r = n(304),
+      i = { NODE_CLIENT: !1, NODE_ADMIN: !1, SDK_VERSION: '${JSCORE_VERSION}' },
+      o = function(t, e) {
+        if (!t) throw s(e);
+      },
+      s = function(t) {
+        return new Error(
+          'Firebase Database (' +
+            i.SDK_VERSION +
+            ') INTERNAL ASSERT FAILED: ' +
+            t
+        );
+      },
+      a = function(t) {
+        for (var e = [], n = 0, r = 0; r < t.length; r++) {
+          var i = t.charCodeAt(r);
+          i < 128
+            ? (e[n++] = i)
+            : i < 2048
+              ? ((e[n++] = (i >> 6) | 192), (e[n++] = (63 & i) | 128))
+              : 55296 == (64512 & i) &&
+                r + 1 < t.length &&
+                56320 == (64512 & t.charCodeAt(r + 1))
+                ? ((i =
+                    65536 + ((1023 & i) << 10) + (1023 & t.charCodeAt(++r))),
+                  (e[n++] = (i >> 18) | 240),
+                  (e[n++] = ((i >> 12) & 63) | 128),
+                  (e[n++] = ((i >> 6) & 63) | 128),
+                  (e[n++] = (63 & i) | 128))
+                : ((e[n++] = (i >> 12) | 224),
+                  (e[n++] = ((i >> 6) & 63) | 128),
+                  (e[n++] = (63 & i) | 128));
+        }
+        return e;
+      },
+      u = {
+        byteToCharMap_: null,
+        charToByteMap_: null,
+        byteToCharMapWebSafe_: null,
+        charToByteMapWebSafe_: null,
+        ENCODED_VALS_BASE:
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+        get ENCODED_VALS() {
+          return this.ENCODED_VALS_BASE + '+/=';
+        },
+        get ENCODED_VALS_WEBSAFE() {
+          return this.ENCODED_VALS_BASE + '-_.';
+        },
+        HAS_NATIVE_SUPPORT: 'function' == typeof atob,
+        encodeByteArray: function(t, e) {
+          if (!Array.isArray(t))
+            throw Error('encodeByteArray takes an array as a parameter');
+          this.init_();
+          for (
+            var n = e ? this.byteToCharMapWebSafe_ : this.byteToCharMap_,
+              r = [],
+              i = 0;
+            i < t.length;
+            i += 3
+          ) {
+            var o = t[i],
+              s = i + 1 < t.length,
+              a = s ? t[i + 1] : 0,
+              u = i + 2 < t.length,
+              h = u ? t[i + 2] : 0,
+              c = o >> 2,
+              l = ((3 & o) << 4) | (a >> 4),
+              f = ((15 & a) << 2) | (h >> 6),
+              p = 63 & h;
+            u || ((p = 64), s || (f = 64)), r.push(n[c], n[l], n[f], n[p]);
+          }
+          return r.join('');
+        },
+        encodeString: function(t, e) {
+          return this.HAS_NATIVE_SUPPORT && !e
+            ? btoa(t)
+            : this.encodeByteArray(a(t), e);
+        },
+        decodeString: function(t, e) {
+          return this.HAS_NATIVE_SUPPORT && !e
+            ? atob(t)
+            : (function(t) {
+                for (var e = [], n = 0, r = 0; n < t.length; ) {
+                  var i = t[n++];
+                  if (i < 128) e[r++] = String.fromCharCode(i);
+                  else if (i > 191 && i < 224) {
+                    var o = t[n++];
+                    e[r++] = String.fromCharCode(((31 & i) << 6) | (63 & o));
+                  } else if (i > 239 && i < 365) {
+                    var s =
+                      (((7 & i) << 18) |
+                        ((63 & (o = t[n++])) << 12) |
+                        ((63 & (a = t[n++])) << 6) |
+                        (63 & t[n++])) -
+                      65536;
+                    (e[r++] = String.fromCharCode(55296 + (s >> 10))),
+                      (e[r++] = String.fromCharCode(56320 + (1023 & s)));
+                  } else {
+                    o = t[n++];
+                    var a = t[n++];
+                    e[r++] = String.fromCharCode(
+                      ((15 & i) << 12) | ((63 & o) << 6) | (63 & a)
+                    );
+                  }
+                }
+                return e.join('');
+              })(this.decodeStringToByteArray(t, e));
+        },
+        decodeStringToByteArray: function(t, e) {
+          this.init_();
+          for (
+            var n = e ? this.charToByteMapWebSafe_ : this.charToByteMap_,
+              r = [],
+              i = 0;
+            i < t.length;
+
+          ) {
+            var o = n[t.charAt(i++)],
+              s = i < t.length ? n[t.charAt(i)] : 0,
+              a = ++i < t.length ? n[t.charAt(i)] : 64,
+              u = ++i < t.length ? n[t.charAt(i)] : 64;
+            if ((++i, null == o || null == s || null == a || null == u))
+              throw Error();
+            var h = (o << 2) | (s >> 4);
+            if ((r.push(h), 64 != a)) {
+              var c = ((s << 4) & 240) | (a >> 2);
+              if ((r.push(c), 64 != u)) {
+                var l = ((a << 6) & 192) | u;
+                r.push(l);
+              }
+            }
+          }
+          return r;
+        },
+        init_: function() {
+          if (!this.byteToCharMap_) {
+            (this.byteToCharMap_ = {}),
+              (this.charToByteMap_ = {}),
+              (this.byteToCharMapWebSafe_ = {}),
+              (this.charToByteMapWebSafe_ = {});
+            for (var t = 0; t < this.ENCODED_VALS.length; t++)
+              (this.byteToCharMap_[t] = this.ENCODED_VALS.charAt(t)),
+                (this.charToByteMap_[this.byteToCharMap_[t]] = t),
+                (this.byteToCharMapWebSafe_[
+                  t
+                ] = this.ENCODED_VALS_WEBSAFE.charAt(t)),
+                (this.charToByteMapWebSafe_[this.byteToCharMapWebSafe_[t]] = t),
+                t >= this.ENCODED_VALS_BASE.length &&
+                  ((this.charToByteMap_[
+                    this.ENCODED_VALS_WEBSAFE.charAt(t)
+                  ] = t),
+                  (this.charToByteMapWebSafe_[
+                    this.ENCODED_VALS.charAt(t)
+                  ] = t));
+          }
+        }
+      },
+      h = function(t) {
+        try {
+          return u.decodeString(t, !0);
+        } catch (t) {
+          console.error('base64Decode failed: ', t);
+        }
+        return null;
+      };
+    function c(t, e) {
+      if (!(e instanceof Object)) return e;
+      switch (e.constructor) {
+        case Date:
+          return new Date(e.getTime());
+        case Object:
+          void 0 === t && (t = {});
+          break;
+        case Array:
+          t = [];
+          break;
+        default:
+          return e;
+      }
+      for (var n in e) e.hasOwnProperty(n) && (t[n] = c(t[n], e[n]));
+      return t;
+    }
+    var l = (function() {
+        function t() {
+          var t = this;
+          this.promise = new Promise(function(e, n) {
+            (t.resolve = e), (t.reject = n);
+          });
+        }
+        return (
+          (t.prototype.wrapCallback = function(t) {
+            var e = this;
+            return function(n, r) {
+              n ? e.reject(n) : e.resolve(r),
+                'function' == typeof t &&
+                  (e.promise.catch(function() {}),
+                  1 === t.length ? t(n) : t(n, r));
+            };
+          }),
+          t
+        );
+      })(),
+      f = function() {
+        return 'undefined' != typeof navigator &&
+          'string' == typeof navigator.userAgent
+          ? navigator.userAgent
+          : '';
+      },
+      p = 'FirebaseError',
+      d = Error.captureStackTrace;
+    var y = (function() {
+      return function(t, e) {
+        if (((this.code = t), (this.message = e), d))
+          d(this, v.prototype.create);
+        else
+          try {
+            throw Error.apply(this, arguments);
+          } catch (t) {
+            (this.name = p),
+              Object.defineProperty(this, 'stack', {
+                get: function() {
+                  return t.stack;
+                }
+              });
+          }
+      };
+    })();
+    (y.prototype = Object.create(Error.prototype)),
+      (y.prototype.constructor = y),
+      (y.prototype.name = p);
+    var v = (function() {
+      function t(t, e, n) {
+        (this.service = t),
+          (this.serviceName = e),
+          (this.errors = n),
+          (this.pattern = /\{\$([^}]+)}/g);
+      }
+      return (
+        (t.prototype.create = function(t, e) {
+          void 0 === e && (e = {});
+          var n,
+            r = this.errors[t],
+            i = this.service + '/' + t;
+          (n =
+            void 0 === r
+              ? 'Error'
+              : r.replace(this.pattern, function(t, n) {
+                  var r = e[n];
+                  return void 0 !== r ? r.toString() : '<' + n + '?>';
+                })),
+            (n = this.serviceName + ': ' + n + ' (' + i + ').');
+          var o = new y(i, n);
+          for (var s in e)
+            e.hasOwnProperty(s) && '_' !== s.slice(-1) && (o[s] = e[s]);
+          return o;
+        }),
+        t
+      );
+    })();
+    function g(t) {
+      return JSON.parse(t);
+    }
+    var m = function(t) {
+        var e = {},
+          n = {},
+          r = {},
+          i = '';
+        try {
+          var o = t.split('.');
+          (e = g(h(o[0]) || '')),
+            (n = g(h(o[1]) || '')),
+            (i = o[2]),
+            (r = n.d || {}),
+            delete n.d;
+        } catch (t) {}
+        return { header: e, claims: n, data: r, signature: i };
+      },
+      _ = function(t, e) {
+        for (var n in t)
+          Object.prototype.hasOwnProperty.call(t, n) && e(n, t[n]);
+      },
+      b = function(t, e) {
+        return (
+          _(e, function(e, n) {
+            t[e] = n;
+          }),
+          t
+        );
+      },
+      w = function(t, e, n) {
+        for (var r in t) if (e.call(n, t[r], r, t)) return r;
+      },
+      T = (function(t) {
+        function e() {
+          var e = t.call(this) || this;
+          (e.chain_ = []),
+            (e.buf_ = []),
+            (e.W_ = []),
+            (e.pad_ = []),
+            (e.inbuf_ = 0),
+            (e.total_ = 0),
+            (e.blockSize = 64),
+            (e.pad_[0] = 128);
+          for (var n = 1; n < e.blockSize; ++n) e.pad_[n] = 0;
+          return e.reset(), e;
+        }
+        return (
+          r.__extends(e, t),
+          (e.prototype.reset = function() {
+            (this.chain_[0] = 1732584193),
+              (this.chain_[1] = 4023233417),
+              (this.chain_[2] = 2562383102),
+              (this.chain_[3] = 271733878),
+              (this.chain_[4] = 3285377520),
+              (this.inbuf_ = 0),
+              (this.total_ = 0);
+          }),
+          (e.prototype.compress_ = function(t, e) {
+            e || (e = 0);
+            var n = this.W_;
+            if ('string' == typeof t)
+              for (var r = 0; r < 16; r++)
+                (n[r] =
+                  (t.charCodeAt(e) << 24) |
+                  (t.charCodeAt(e + 1) << 16) |
+                  (t.charCodeAt(e + 2) << 8) |
+                  t.charCodeAt(e + 3)),
+                  (e += 4);
+            else
+              for (r = 0; r < 16; r++)
+                (n[r] =
+                  (t[e] << 24) | (t[e + 1] << 16) | (t[e + 2] << 8) | t[e + 3]),
+                  (e += 4);
+            for (r = 16; r < 80; r++) {
+              var i = n[r - 3] ^ n[r - 8] ^ n[r - 14] ^ n[r - 16];
+              n[r] = 4294967295 & ((i << 1) | (i >>> 31));
+            }
+            var o,
+              s,
+              a = this.chain_[0],
+              u = this.chain_[1],
+              h = this.chain_[2],
+              c = this.chain_[3],
+              l = this.chain_[4];
+            for (r = 0; r < 80; r++) {
+              r < 40
+                ? r < 20
+                  ? ((o = c ^ (u & (h ^ c))), (s = 1518500249))
+                  : ((o = u ^ h ^ c), (s = 1859775393))
+                : r < 60
+                  ? ((o = (u & h) | (c & (u | h))), (s = 2400959708))
+                  : ((o = u ^ h ^ c), (s = 3395469782));
+              i = (((a << 5) | (a >>> 27)) + o + l + s + n[r]) & 4294967295;
+              (l = c),
+                (c = h),
+                (h = 4294967295 & ((u << 30) | (u >>> 2))),
+                (u = a),
+                (a = i);
+            }
+            (this.chain_[0] = (this.chain_[0] + a) & 4294967295),
+              (this.chain_[1] = (this.chain_[1] + u) & 4294967295),
+              (this.chain_[2] = (this.chain_[2] + h) & 4294967295),
+              (this.chain_[3] = (this.chain_[3] + c) & 4294967295),
+              (this.chain_[4] = (this.chain_[4] + l) & 4294967295);
+          }),
+          (e.prototype.update = function(t, e) {
+            if (null != t) {
+              void 0 === e && (e = t.length);
+              for (
+                var n = e - this.blockSize,
+                  r = 0,
+                  i = this.buf_,
+                  o = this.inbuf_;
+                r < e;
+
+              ) {
+                if (0 == o)
+                  for (; r <= n; ) this.compress_(t, r), (r += this.blockSize);
+                if ('string' == typeof t) {
+                  for (; r < e; )
+                    if (
+                      ((i[o] = t.charCodeAt(r)), ++r, ++o == this.blockSize)
+                    ) {
+                      this.compress_(i), (o = 0);
+                      break;
+                    }
+                } else
+                  for (; r < e; )
+                    if (((i[o] = t[r]), ++r, ++o == this.blockSize)) {
+                      this.compress_(i), (o = 0);
+                      break;
+                    }
+              }
+              (this.inbuf_ = o), (this.total_ += e);
+            }
+          }),
+          (e.prototype.digest = function() {
+            var t = [],
+              e = 8 * this.total_;
+            this.inbuf_ < 56
+              ? this.update(this.pad_, 56 - this.inbuf_)
+              : this.update(this.pad_, this.blockSize - (this.inbuf_ - 56));
+            for (var n = this.blockSize - 1; n >= 56; n--)
+              (this.buf_[n] = 255 & e), (e /= 256);
+            this.compress_(this.buf_);
+            var r = 0;
+            for (n = 0; n < 5; n++)
+              for (var i = 24; i >= 0; i -= 8)
+                (t[r] = (this.chain_[n] >> i) & 255), ++r;
+            return t;
+          }),
+          e
+        );
+      })(
+        (function() {
+          return function() {
+            this.blockSize = -1;
+          };
+        })()
+      );
+    var E = (function() {
+      function t(t, e) {
+        var n = this;
+        (this.observers = []),
+          (this.unsubscribes = []),
+          (this.observerCount = 0),
+          (this.task = Promise.resolve()),
+          (this.finalized = !1),
+          (this.onNoObservers = e),
+          this.task
+            .then(function() {
+              t(n);
+            })
+            .catch(function(t) {
+              n.error(t);
+            });
+      }
+      return (
+        (t.prototype.next = function(t) {
+          this.forEachObserver(function(e) {
+            e.next(t);
+          });
+        }),
+        (t.prototype.error = function(t) {
+          this.forEachObserver(function(e) {
+            e.error(t);
+          }),
+            this.close(t);
+        }),
+        (t.prototype.complete = function() {
+          this.forEachObserver(function(t) {
+            t.complete();
+          }),
+            this.close();
+        }),
+        (t.prototype.subscribe = function(t, e, n) {
+          var r,
+            i = this;
+          if (void 0 === t && void 0 === e && void 0 === n)
+            throw new Error('Missing Observer.');
+          void 0 ===
+            (r = (function(t, e) {
+              if ('object' != typeof t || null === t) return !1;
+              for (var n = 0, r = e; n < r.length; n++) {
+                var i = r[n];
+                if (i in t && 'function' == typeof t[i]) return !0;
+              }
+              return !1;
+            })(t, ['next', 'error', 'complete'])
+              ? t
+              : { next: t, error: e, complete: n }).next && (r.next = S),
+            void 0 === r.error && (r.error = S),
+            void 0 === r.complete && (r.complete = S);
+          var o = this.unsubscribeOne.bind(this, this.observers.length);
+          return (
+            this.finalized &&
+              this.task.then(function() {
+                try {
+                  i.finalError ? r.error(i.finalError) : r.complete();
+                } catch (t) {}
+              }),
+            this.observers.push(r),
+            o
+          );
+        }),
+        (t.prototype.unsubscribeOne = function(t) {
+          void 0 !== this.observers &&
+            void 0 !== this.observers[t] &&
+            (delete this.observers[t],
+            (this.observerCount -= 1),
+            0 === this.observerCount &&
+              void 0 !== this.onNoObservers &&
+              this.onNoObservers(this));
+        }),
+        (t.prototype.forEachObserver = function(t) {
+          if (!this.finalized)
+            for (var e = 0; e < this.observers.length; e++) this.sendOne(e, t);
+        }),
+        (t.prototype.sendOne = function(t, e) {
+          var n = this;
+          this.task.then(function() {
+            if (void 0 !== n.observers && void 0 !== n.observers[t])
+              try {
+                e(n.observers[t]);
+              } catch (t) {
+                'undefined' != typeof console &&
+                  console.error &&
+                  console.error(t);
+              }
+          });
+        }),
+        (t.prototype.close = function(t) {
+          var e = this;
+          this.finalized ||
+            ((this.finalized = !0),
+            void 0 !== t && (this.finalError = t),
+            this.task.then(function() {
+              (e.observers = void 0), (e.onNoObservers = void 0);
+            }));
+        }),
+        t
+      );
+    })();
+    function S() {}
+    function I(t, e, n) {
+      var r = '';
+      switch (e) {
+        case 1:
+          r = n ? 'first' : 'First';
+          break;
+        case 2:
+          r = n ? 'second' : 'Second';
+          break;
+        case 3:
+          r = n ? 'third' : 'Third';
+          break;
+        case 4:
+          r = n ? 'fourth' : 'Fourth';
+          break;
+        default:
+          throw new Error(
+            'errorPrefix called with argumentNumber > 4.  Need to update it?'
+          );
+      }
+      var i = t + ' failed: ';
+      return (i += r + ' argument ');
+    }
+    (e.assert = o),
+      (e.assertionError = s),
+      (e.base64 = u),
+      (e.base64Decode = h),
+      (e.base64Encode = function(t) {
+        var e = a(t);
+        return u.encodeByteArray(e, !0);
+      }),
+      (e.CONSTANTS = i),
+      (e.deepCopy = function(t) {
+        return c(void 0, t);
+      }),
+      (e.deepExtend = c),
+      (e.patchProperty = function(t, e, n) {
+        t[e] = n;
+      }),
+      (e.Deferred = l),
+      (e.getUA = f),
+      (e.isMobileCordova = function() {
+        return (
+          'undefined' != typeof window &&
+          !!(window.cordova || window.phonegap || window.PhoneGap) &&
+          /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(f())
+        );
+      }),
+      (e.isNodeSdk = function() {
+        return !0 === i.NODE_CLIENT || !0 === i.NODE_ADMIN;
+      }),
+      (e.isReactNative = function() {
+        return (
+          'object' == typeof navigator && 'ReactNative' === navigator.product
+        );
+      }),
+      (e.ErrorFactory = v),
+      (e.FirebaseError = y),
+      (e.patchCapture = function(t) {
+        var e = d;
+        return (d = t), e;
+      }),
+      (e.jsonEval = g),
+      (e.stringify = function(t) {
+        return JSON.stringify(t);
+      }),
+      (e.decode = m),
+      (e.isAdmin = function(t) {
+        var e = m(t).claims;
+        return 'object' == typeof e && !0 === e.admin;
+      }),
+      (e.issuedAtTime = function(t) {
+        var e = m(t).claims;
+        return 'object' == typeof e && e.hasOwnProperty('iat') ? e.iat : null;
+      }),
+      (e.isValidFormat = function(t) {
+        var e = m(t).claims;
+        return !!e && 'object' == typeof e && e.hasOwnProperty('iat');
+      }),
+      (e.isValidTimestamp = function(t) {
+        var e,
+          n,
+          r = m(t).claims,
+          i = Math.floor(new Date().getTime() / 1e3);
+        return (
+          'object' == typeof r &&
+            (r.hasOwnProperty('nbf')
+              ? (e = r.nbf)
+              : r.hasOwnProperty('iat') && (e = r.iat),
+            (n = r.hasOwnProperty('exp') ? r.exp : e + 86400)),
+          i && e && n && i >= e && i <= n
+        );
+      }),
+      (e.clone = function(t) {
+        return b({}, t);
+      }),
+      (e.contains = function(t, e) {
+        return Object.prototype.hasOwnProperty.call(t, e);
+      }),
+      (e.every = function(t, e) {
+        for (var n in t)
+          if (Object.prototype.hasOwnProperty.call(t, n) && !e(n, t[n]))
+            return !1;
+        return !0;
+      }),
+      (e.extend = b),
+      (e.findKey = w),
+      (e.findValue = function(t, e, n) {
+        var r = w(t, e, n);
+        return r && t[r];
+      }),
+      (e.forEach = _),
+      (e.getAnyKey = function(t) {
+        for (var e in t) return e;
+      }),
+      (e.getCount = function(t) {
+        var e = 0;
+        for (var n in t) e++;
+        return e;
+      }),
+      (e.getValues = function(t) {
+        var e = [],
+          n = 0;
+        for (var r in t) e[n++] = t[r];
+        return e;
+      }),
+      (e.isEmpty = function(t) {
+        for (var e in t) return !1;
+        return !0;
+      }),
+      (e.isNonNullObject = function(t) {
+        return 'object' == typeof t && null !== t;
+      }),
+      (e.map = function(t, e, n) {
+        var r = {};
+        for (var i in t) r[i] = e.call(n, t[i], i, t);
+        return r;
+      }),
+      (e.safeGet = function(t, e) {
+        if (Object.prototype.hasOwnProperty.call(t, e)) return t[e];
+      }),
+      (e.querystring = function(t) {
+        var e = [];
+        return (
+          _(t, function(t, n) {
+            Array.isArray(n)
+              ? n.forEach(function(n) {
+                  e.push(encodeURIComponent(t) + '=' + encodeURIComponent(n));
+                })
+              : e.push(encodeURIComponent(t) + '=' + encodeURIComponent(n));
+          }),
+          e.length ? '&' + e.join('&') : ''
+        );
+      }),
+      (e.querystringDecode = function(t) {
+        var e = {};
+        return (
+          t
+            .replace(/^\?/, '')
+            .split('&')
+            .forEach(function(t) {
+              if (t) {
+                var n = t.split('=');
+                e[n[0]] = n[1];
+              }
+            }),
+          e
+        );
+      }),
+      (e.Sha1 = T),
+      (e.async = function(t, e) {
+        return function() {
+          for (var n = [], r = 0; r < arguments.length; r++)
+            n[r] = arguments[r];
+          Promise.resolve(!0)
+            .then(function() {
+              t.apply(void 0, n);
+            })
+            .catch(function(t) {
+              e && e(t);
+            });
+        };
+      }),
+      (e.createSubscribe = function(t, e) {
+        var n = new E(t, e);
+        return n.subscribe.bind(n);
+      }),
+      (e.errorPrefix = I),
+      (e.validateArgCount = function(t, e, n, r) {
+        var i;
+        if (
+          (r < e
+            ? (i = 'at least ' + e)
+            : r > n && (i = 0 === n ? 'none' : 'no more than ' + n),
+          i)
+        )
+          throw new Error(
+            t +
+              ' failed: Was called with ' +
+              r +
+              (1 === r ? ' argument.' : ' arguments.') +
+              ' Expects ' +
+              i +
+              '.'
+          );
+      }),
+      (e.validateCallback = function(t, e, n, r) {
+        if ((!r || n) && 'function' != typeof n)
+          throw new Error(I(t, e, r) + 'must be a valid function.');
+      }),
+      (e.validateContextObject = function(t, e, n, r) {
+        if ((!r || n) && ('object' != typeof n || null === n))
+          throw new Error(I(t, e, r) + 'must be a valid context object.');
+      }),
+      (e.validateNamespace = function(t, e, n, r) {
+        if ((!r || n) && 'string' != typeof n)
+          throw new Error(I(t, e, r) + 'must be a valid firebase namespace.');
+      }),
+      (e.stringLength = function(t) {
+        for (var e = 0, n = 0; n < t.length; n++) {
+          var r = t.charCodeAt(n);
+          r < 128
+            ? e++
+            : r < 2048
+              ? (e += 2)
+              : r >= 55296 && r <= 56319 ? ((e += 4), n++) : (e += 3);
+        }
+        return e;
+      }),
+      (e.stringToByteArray = function(t) {
+        for (var e = [], n = 0, r = 0; r < t.length; r++) {
+          var i = t.charCodeAt(r);
+          if (i >= 55296 && i <= 56319) {
+            var s = i - 55296;
+            o(++r < t.length, 'Surrogate pair missing trail surrogate.'),
+              (i = 65536 + (s << 10) + (t.charCodeAt(r) - 56320));
+          }
+          i < 128
+            ? (e[n++] = i)
+            : i < 2048
+              ? ((e[n++] = (i >> 6) | 192), (e[n++] = (63 & i) | 128))
+              : i < 65536
+                ? ((e[n++] = (i >> 12) | 224),
+                  (e[n++] = ((i >> 6) & 63) | 128),
+                  (e[n++] = (63 & i) | 128))
+                : ((e[n++] = (i >> 18) | 240),
+                  (e[n++] = ((i >> 12) & 63) | 128),
+                  (e[n++] = ((i >> 6) & 63) | 128),
+                  (e[n++] = (63 & i) | 128));
+        }
+        return e;
+      });
+  },
+  function(t, e, n) {
+    var r = n(11),
+      i = n(14),
+      o = n(76),
+      s = n(20),
+      a = n(17),
+      u = function(t, e, n) {
+        var h,
+          c,
+          l,
+          f = t & u.F,
+          p = t & u.G,
+          d = t & u.S,
+          y = t & u.P,
+          v = t & u.B,
+          g = t & u.W,
+          m = p ? i : i[e] || (i[e] = {}),
+          _ = m.prototype,
+          b = p ? r : d ? r[e] : (r[e] || {}).prototype;
+        for (h in (p && (n = e), n))
+          ((c = !f && b && void 0 !== b[h]) && a(m, h)) ||
+            ((l = c ? b[h] : n[h]),
+            (m[h] =
+              p && 'function' != typeof b[h]
+                ? n[h]
+                : v && c
+                  ? o(l, r)
+                  : g && b[h] == l
+                    ? (function(t) {
+                        var e = function(e, n, r) {
+                          if (this instanceof t) {
+                            switch (arguments.length) {
+                              case 0:
+                                return new t();
+                              case 1:
+                                return new t(e);
+                              case 2:
+                                return new t(e, n);
+                            }
+                            return new t(e, n, r);
+                          }
+                          return t.apply(this, arguments);
+                        };
+                        return (e.prototype = t.prototype), e;
+                      })(l)
+                    : y && 'function' == typeof l ? o(Function.call, l) : l),
+            y &&
+              (((m.virtual || (m.virtual = {}))[h] = l),
+              t & u.R && _ && !_[h] && s(_, h, l)));
+      };
+    (u.F = 1),
+      (u.G = 2),
+      (u.S = 4),
+      (u.P = 8),
+      (u.B = 16),
+      (u.W = 32),
+      (u.U = 64),
+      (u.R = 128),
+      (t.exports = u);
+  },
+  function(t, e, n) {
+    var r = n(21);
+    t.exports = function(t) {
+      if (!r(t)) throw TypeError(t + ' is not an object!');
+      return t;
+    };
+  },
+  function(t, e, n) {
+    'use strict';
+    e.__esModule = !0;
+    var r,
+      i = (function() {
+        function t(t, e) {
+          for (var n = 0; n < e.length; n++) {
+            var r = e[n];
+            (r.enumerable = r.enumerable || !1),
+              (r.configurable = !0),
+              'value' in r && (r.writable = !0),
+              Object.defineProperty(t, r.key, r);
+          }
+        }
+        return function(e, n, r) {
+          return n && t(e.prototype, n), r && t(e, r), e;
+        };
+      })(),
+      o = n(3),
+      s = n(90);
+    var a = (function(t) {
+      function e() {
+        !(function(t, e) {
+          if (!(t instanceof e))
+            throw new TypeError('Cannot call a class as a function');
+        })(this, e);
+        var n = (function(t, e) {
+          if (!t)
+            throw new ReferenceError(
+              "this hasn't been initialised - super() hasn't been called"
+            );
+          return !e || ('object' != typeof e && 'function' != typeof e) ? t : e;
+        })(this, t.call(this));
+        return (n.children = []), n;
+      }
+      return (
+        (function(t, e) {
+          if ('function' != typeof e && null !== e)
+            throw new TypeError(
+              'Super expression must either be null or a function, not ' +
+                typeof e
+            );
+          (t.prototype = Object.create(e && e.prototype, {
+            constructor: {
+              value: t,
+              enumerable: !1,
+              writable: !0,
+              configurable: !0
+            }
+          })),
+            e &&
+              (Object.setPrototypeOf
+                ? Object.setPrototypeOf(t, e)
+                : (t.__proto__ = e));
+        })(e, t),
+        (e.prototype.onChildrenChange = function() {}),
+        (e.prototype.addChild = function(t) {
+          var e = arguments.length;
+          if (e > 1) for (var n = 0; n < e; n++) this.addChild(arguments[n]);
+          else
+            t.parent && t.parent.removeChild(t),
+              (t.parent = this),
+              (t.transform._parentID = -1),
+              this.children.push(t),
+              this._boundsID++,
+              this.onChildrenChange(this.children.length - 1),
+              t.emit('added', this);
+          return t;
+        }),
+        (e.prototype.addChildAt = function(t, e) {
+          if (e < 0 || e > this.children.length)
+            throw new Error(
+              t +
+                'addChildAt: The index ' +
+                e +
+                ' supplied is out of bounds ' +
+                this.children.length
+            );
+          return (
+            t.parent && t.parent.removeChild(t),
+            (t.parent = this),
+            (t.transform._parentID = -1),
+            this.children.splice(e, 0, t),
+            this._boundsID++,
+            this.onChildrenChange(e),
+            t.emit('added', this),
+            t
+          );
+        }),
+        (e.prototype.swapChildren = function(t, e) {
+          if (t !== e) {
+            var n = this.getChildIndex(t),
+              r = this.getChildIndex(e);
+            (this.children[n] = e),
+              (this.children[r] = t),
+              this.onChildrenChange(n < r ? n : r);
+          }
+        }),
+        (e.prototype.getChildIndex = function(t) {
+          var e = this.children.indexOf(t);
+          if (-1 === e)
+            throw new Error(
+              'The supplied DisplayObject must be a child of the caller'
+            );
+          return e;
+        }),
+        (e.prototype.setChildIndex = function(t, e) {
+          if (e < 0 || e >= this.children.length)
+            throw new Error(
+              'The index ' +
+                e +
+                ' supplied is out of bounds ' +
+                this.children.length
+            );
+          var n = this.getChildIndex(t);
+          (0, o.removeItems)(this.children, n, 1),
+            this.children.splice(e, 0, t),
+            this.onChildrenChange(e);
+        }),
+        (e.prototype.getChildAt = function(t) {
+          if (t < 0 || t >= this.children.length)
+            throw new Error('getChildAt: Index (' + t + ') does not exist.');
+          return this.children[t];
+        }),
+        (e.prototype.removeChild = function(t) {
+          var e = arguments.length;
+          if (e > 1) for (var n = 0; n < e; n++) this.removeChild(arguments[n]);
+          else {
+            var r = this.children.indexOf(t);
+            if (-1 === r) return null;
+            (t.parent = null),
+              (t.transform._parentID = -1),
+              (0, o.removeItems)(this.children, r, 1),
+              this._boundsID++,
+              this.onChildrenChange(r),
+              t.emit('removed', this);
+          }
+          return t;
+        }),
+        (e.prototype.removeChildAt = function(t) {
+          var e = this.getChildAt(t);
+          return (
+            (e.parent = null),
+            (e.transform._parentID = -1),
+            (0, o.removeItems)(this.children, t, 1),
+            this._boundsID++,
+            this.onChildrenChange(t),
+            e.emit('removed', this),
+            e
+          );
+        }),
+        (e.prototype.removeChildren = function() {
+          var t =
+              arguments.length > 0 && void 0 !== arguments[0]
+                ? arguments[0]
+                : 0,
+            e = arguments[1],
+            n = t,
+            r = 'number' == typeof e ? e : this.children.length,
+            i = r - n,
+            o = void 0;
+          if (i > 0 && i <= r) {
+            o = this.children.splice(n, i);
+            for (var s = 0; s < o.length; ++s)
+              (o[s].parent = null),
+                o[s].transform && (o[s].transform._parentID = -1);
+            this._boundsID++, this.onChildrenChange(t);
+            for (var a = 0; a < o.length; ++a) o[a].emit('removed', this);
+            return o;
+          }
+          if (0 === i && 0 === this.children.length) return [];
+          throw new RangeError(
+            'removeChildren: numeric values are outside the acceptable range.'
+          );
+        }),
+        (e.prototype.updateTransform = function() {
+          this._boundsID++,
+            this.transform.updateTransform(this.parent.transform),
+            (this.worldAlpha = this.alpha * this.parent.worldAlpha);
+          for (var t = 0, e = this.children.length; t < e; ++t) {
+            var n = this.children[t];
+            n.visible && n.updateTransform();
+          }
+        }),
+        (e.prototype.calculateBounds = function() {
+          this._bounds.clear(), this._calculateBounds();
+          for (var t = 0; t < this.children.length; t++) {
+            var e = this.children[t];
+            e.visible &&
+              e.renderable &&
+              (e.calculateBounds(),
+              e._mask
+                ? (e._mask.calculateBounds(),
+                  this._bounds.addBoundsMask(e._bounds, e._mask._bounds))
+                : e.filterArea
+                  ? this._bounds.addBoundsArea(e._bounds, e.filterArea)
+                  : this._bounds.addBounds(e._bounds));
+          }
+          this._lastBoundsID = this._boundsID;
+        }),
+        (e.prototype._calculateBounds = function() {}),
+        (e.prototype.renderWebGL = function(t) {
+          if (this.visible && !(this.worldAlpha <= 0) && this.renderable)
+            if (this._mask || this._filters) this.renderAdvancedWebGL(t);
+            else {
+              this._renderWebGL(t);
+              for (var e = 0, n = this.children.length; e < n; ++e)
+                this.children[e].renderWebGL(t);
+            }
+        }),
+        (e.prototype.renderAdvancedWebGL = function(t) {
+          t.flush();
+          var e = this._filters,
+            n = this._mask;
+          if (e) {
+            this._enabledFilters || (this._enabledFilters = []),
+              (this._enabledFilters.length = 0);
+            for (var r = 0; r < e.length; r++)
+              e[r].enabled && this._enabledFilters.push(e[r]);
+            this._enabledFilters.length &&
+              t.filterManager.pushFilter(this, this._enabledFilters);
+          }
+          n && t.maskManager.pushMask(this, this._mask), this._renderWebGL(t);
+          for (var i = 0, o = this.children.length; i < o; i++)
+            this.children[i].renderWebGL(t);
+          t.flush(),
+            n && t.maskManager.popMask(this, this._mask),
+            e &&
+              this._enabledFilters &&
+              this._enabledFilters.length &&
+              t.filterManager.popFilter();
+        }),
+        (e.prototype._renderWebGL = function(t) {}),
+        (e.prototype._renderCanvas = function(t) {}),
+        (e.prototype.renderCanvas = function(t) {
+          if (this.visible && !(this.worldAlpha <= 0) && this.renderable) {
+            this._mask && t.maskManager.pushMask(this._mask),
+              this._renderCanvas(t);
+            for (var e = 0, n = this.children.length; e < n; ++e)
+              this.children[e].renderCanvas(t);
+            this._mask && t.maskManager.popMask(t);
+          }
+        }),
+        (e.prototype.destroy = function(e) {
+          t.prototype.destroy.call(this);
+          var n = 'boolean' == typeof e ? e : e && e.children,
+            r = this.removeChildren(0, this.children.length);
+          if (n) for (var i = 0; i < r.length; ++i) r[i].destroy(e);
+        }),
+        i(e, [
+          {
+            key: 'width',
+            get: function() {
+              return this.scale.x * this.getLocalBounds().width;
+            },
+            set: function(t) {
+              var e = this.getLocalBounds().width;
+              (this.scale.x = 0 !== e ? t / e : 1), (this._width = t);
+            }
+          },
+          {
+            key: 'height',
+            get: function() {
+              return this.scale.y * this.getLocalBounds().height;
+            },
+            set: function(t) {
+              var e = this.getLocalBounds().height;
+              (this.scale.y = 0 !== e ? t / e : 1), (this._height = t);
+            }
+          }
+        ]),
+        e
+      );
+    })(((r = s) && r.__esModule ? r : { default: r }).default);
+    (e.default = a),
+      (a.prototype.containerUpdateTransform = a.prototype.updateTransform);
+  },
+  function(t, e, n) {
+    'use strict';
+    e.__esModule = !0;
+    var r = c(n(97)),
+      i = c(n(181)),
+      o = c(n(99)),
+      s = c(n(182)),
+      a = n(3),
+      u = n(1),
+      h = c(n(4));
+    function c(t) {
+      return t && t.__esModule ? t : { default: t };
+    }
+    var l = (function(t) {
+      function e(n, r, o) {
+        !(function(t, e) {
+          if (!(t instanceof e))
+            throw new TypeError('Cannot call a class as a function');
+        })(this, e);
+        var a = (function(t, e) {
+          if (!t)
+            throw new ReferenceError(
+              "this hasn't been initialised - super() hasn't been called"
+            );
+          return !e || ('object' != typeof e && 'function' != typeof e) ? t : e;
+        })(this, t.call(this, 'Canvas', n, r, o));
+        return (
+          (a.type = u.RENDERER_TYPE.CANVAS),
+          (a.rootContext = a.view.getContext('2d', { alpha: a.transparent })),
+          (a.context = a.rootContext),
+          (a.refresh = !0),
+          (a.maskManager = new i.default(a)),
+          (a.smoothProperty = 'imageSmoothingEnabled'),
+          a.rootContext.imageSmoothingEnabled ||
+            (a.rootContext.webkitImageSmoothingEnabled
+              ? (a.smoothProperty = 'webkitImageSmoothingEnabled')
+              : a.rootContext.mozImageSmoothingEnabled
+                ? (a.smoothProperty = 'mozImageSmoothingEnabled')
+                : a.rootContext.oImageSmoothingEnabled
+                  ? (a.smoothProperty = 'oImageSmoothingEnabled')
+                  : a.rootContext.msImageSmoothingEnabled &&
+                    (a.smoothProperty = 'msImageSmoothingEnabled')),
+          a.initPlugins(),
+          (a.blendModes = (0, s.default)()),
+          (a._activeBlendMode = null),
+          (a.renderingToScreen = !1),
+          a.resize(a.options.width, a.options.height),
+          a
+        );
+      }
+      return (
+        (function(t, e) {
+          if ('function' != typeof e && null !== e)
+            throw new TypeError(
+              'Super expression must either be null or a function, not ' +
+                typeof e
+            );
+          (t.prototype = Object.create(e && e.prototype, {
+            constructor: {
+              value: t,
+              enumerable: !1,
+              writable: !0,
+              configurable: !0
+            }
+          })),
+            e &&
+              (Object.setPrototypeOf
+                ? Object.setPrototypeOf(t, e)
+                : (t.__proto__ = e));
+        })(e, t),
+        (e.prototype.render = function(t, e, n, r, i) {
+          if (this.view) {
+            (this.renderingToScreen = !e), this.emit('prerender');
+            var s = this.resolution;
+            e
+              ? ((e = e.baseTexture || e)._canvasRenderTarget ||
+                  ((e._canvasRenderTarget = new o.default(
+                    e.width,
+                    e.height,
+                    e.resolution
+                  )),
+                  (e.source = e._canvasRenderTarget.canvas),
+                  (e.valid = !0)),
+                (this.context = e._canvasRenderTarget.context),
+                (this.resolution = e._canvasRenderTarget.resolution))
+              : (this.context = this.rootContext);
+            var a = this.context;
+            if ((e || (this._lastObjectRendered = t), !i)) {
+              var h = t.parent,
+                c = this._tempDisplayObjectParent.transform.worldTransform;
+              r
+                ? (r.copy(c),
+                  (this._tempDisplayObjectParent.transform._worldID = -1))
+                : c.identity(),
+                (t.parent = this._tempDisplayObjectParent),
+                t.updateTransform(),
+                (t.parent = h);
+            }
+            a.save(),
+              a.setTransform(1, 0, 0, 1, 0, 0),
+              (a.globalAlpha = 1),
+              (this._activeBlendMode = u.BLEND_MODES.NORMAL),
+              (a.globalCompositeOperation = this.blendModes[
+                u.BLEND_MODES.NORMAL
+              ]),
+              navigator.isCocoonJS &&
+                this.view.screencanvas &&
+                ((a.fillStyle = 'black'), a.clear()),
+              (void 0 !== n ? n : this.clearBeforeRender) &&
+                this.renderingToScreen &&
+                (this.transparent
+                  ? a.clearRect(0, 0, this.width, this.height)
+                  : ((a.fillStyle = this._backgroundColorString),
+                    a.fillRect(0, 0, this.width, this.height)));
+            var l = this.context;
+            (this.context = a),
+              t.renderCanvas(this),
+              (this.context = l),
+              a.restore(),
+              (this.resolution = s),
+              this.emit('postrender');
+          }
+        }),
+        (e.prototype.clear = function(t) {
+          var e = this.context;
+          (t = t || this._backgroundColorString),
+            !this.transparent && t
+              ? ((e.fillStyle = t), e.fillRect(0, 0, this.width, this.height))
+              : e.clearRect(0, 0, this.width, this.height);
+        }),
+        (e.prototype.setBlendMode = function(t) {
+          this._activeBlendMode !== t &&
+            ((this._activeBlendMode = t),
+            (this.context.globalCompositeOperation = this.blendModes[t]));
+        }),
+        (e.prototype.destroy = function(e) {
+          this.destroyPlugins(),
+            t.prototype.destroy.call(this, e),
+            (this.context = null),
+            (this.refresh = !0),
+            this.maskManager.destroy(),
+            (this.maskManager = null),
+            (this.smoothProperty = null);
+        }),
+        (e.prototype.resize = function(e, n) {
+          t.prototype.resize.call(this, e, n),
+            this.smoothProperty &&
+              (this.rootContext[this.smoothProperty] =
+                h.default.SCALE_MODE === u.SCALE_MODES.LINEAR);
+        }),
+        (e.prototype.invalidateBlendMode = function() {
+          this._activeBlendMode = this.blendModes.indexOf(
+            this.context.globalCompositeOperation
+          );
+        }),
+        e
+      );
+    })(r.default);
+    (e.default = l), a.pluginTarget.mixin(l);
+  },
+  function(t, e, n) {
+    'use strict';
+    e.__esModule = !0;
+    var r = (function() {
+      function t(e) {
+        !(function(t, e) {
+          if (!(t instanceof e))
+            throw new TypeError('Cannot call a class as a function');
+        })(this, t),
+          (this.renderer = e),
+          this.renderer.on('context', this.onContextChange, this);
+      }
+      return (
+        (t.prototype.onContextChange = function() {}),
+        (t.prototype.destroy = function() {
+          this.renderer.off('context', this.onContextChange, this),
+            (this.renderer = null);
+        }),
+        t
+      );
+    })();
+    e.default = r;
+  },
+  function(t, e, n) {
+    'use strict';
+    e.__esModule = !0;
+    var r,
+      i = n(8),
+      o = n(4),
+      s = (r = o) && r.__esModule ? r : { default: r };
+    function a(t, e) {
+      if (t instanceof Array) {
+        if ('precision' !== t[0].substring(0, 9)) {
+          var n = t.slice(0);
+          return n.unshift('precision ' + e + ' float;'), n;
+        }
+      } else if ('precision' !== t.trim().substring(0, 9))
+        return 'precision ' + e + ' float;\n' + t;
+      return t;
+    }
+    var u = (function(t) {
+      function e(n, r, i, o, u) {
+        return (
+          (function(t, e) {
+            if (!(t instanceof e))
+              throw new TypeError('Cannot call a class as a function');
+          })(this, e),
+          (function(t, e) {
+            if (!t)
+              throw new ReferenceError(
+                "this hasn't been initialised - super() hasn't been called"
+              );
+            return !e || ('object' != typeof e && 'function' != typeof e)
+              ? t
+              : e;
+          })(
+            this,
+            t.call(
+              this,
+              n,
+              a(r, u || s.default.PRECISION_VERTEX),
+              a(i, u || s.default.PRECISION_FRAGMENT),
+              void 0,
+              o
+            )
+          )
+        );
+      }
+      return (
+        (function(t, e) {
+          if ('function' != typeof e && null !== e)
+            throw new TypeError(
+              'Super expression must either be null or a function, not ' +
+                typeof e
+            );
+          (t.prototype = Object.create(e && e.prototype, {
+            constructor: {
+              value: t,
+              enumerable: !1,
+              writable: !0,
+              configurable: !0
+            }
+          })),
+            e &&
+              (Object.setPrototypeOf
+                ? Object.setPrototypeOf(t, e)
+                : (t.__proto__ = e));
+        })(e, t),
+        e
+      );
+    })(i.GLShader);
+    e.default = u;
+  },
+  function(t, e, n) {
+    'use strict';
+    var r = n(234).Loader,
+      i = n(60).Resource,
+      o = n(124),
+      s = n(125);
+    (r.Resource = i),
+      (r.async = o),
+      (r.encodeBinary = s),
+      (r.base64 = s),
+      (t.exports = r),
+      (t.exports.Loader = r),
+      (t.exports.default = r);
+  },
+  function(t, e, n) {
+    'use strict';
+    e.__esModule = !0;
+    var r,
+      i = (function() {
+        function t(t, e) {
+          for (var n = 0; n < e.length; n++) {
+            var r = e[n];
+            (r.enumerable = r.enumerable || !1),
+              (r.configurable = !0),
+              'value' in r && (r.writable = !0),
+              Object.defineProperty(t, r.key, r);
+          }
+        }
+        return function(e, n, r) {
+          return n && t(e.prototype, n), r && t(e, r), e;
+        };
+      })(),
+      o = (function(t) {
+        if (t && t.__esModule) return t;
+        var e = {};
+        if (null != t)
+          for (var n in t)
+            Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
+        return (e.default = t), e;
+      })(n(2)),
+      s = n(13),
+      a = (r = s) && r.__esModule ? r : { default: r };
+    var u = new o.Point(),
+      h = new o.Polygon(),
+      c = (function(t) {
+        function e(n, r, i, s, u) {
+          !(function(t, e) {
+            if (!(t instanceof e))
+              throw new TypeError('Cannot call a class as a function');
+          })(this, e);
+          var h = (function(t, e) {
+            if (!t)
+              throw new ReferenceError(
+                "this hasn't been initialised - super() hasn't been called"
+              );
+            return !e || ('object' != typeof e && 'function' != typeof e)
+              ? t
+              : e;
+          })(this, t.call(this));
+          return (
+            (h._texture = n || a.default.EMPTY),
+            (h.uvs = i || new Float32Array([0, 0, 1, 0, 1, 1, 0, 1])),
+            (h.vertices =
+              r || new Float32Array([0, 0, 100, 0, 100, 100, 0, 100])),
+            (h.indices = s || new Uint16Array([0, 1, 3, 2])),
+            (h.dirty = 0),
+            (h.indexDirty = 0),
+            (h.vertexDirty = 0),
+            (h.autoUpdate = !0),
+            (h.blendMode = o.BLEND_MODES.NORMAL),
+            (h.canvasPadding = o.settings.MESH_CANVAS_PADDING),
+            (h.drawMode = u || e.DRAW_MODES.TRIANGLE_MESH),
+            (h.shader = null),
+            (h.tintRgb = new Float32Array([1, 1, 1])),
+            (h._glDatas = {}),
+            (h._uvTransform = new o.TextureMatrix(h._texture)),
+            (h.uploadUvTransform = !1),
+            (h.pluginName = 'mesh'),
+            h
+          );
+        }
+        return (
+          (function(t, e) {
+            if ('function' != typeof e && null !== e)
+              throw new TypeError(
+                'Super expression must either be null or a function, not ' +
+                  typeof e
+              );
+            (t.prototype = Object.create(e && e.prototype, {
+              constructor: {
+                value: t,
+                enumerable: !1,
+                writable: !0,
+                configurable: !0
+              }
+            })),
+              e &&
+                (Object.setPrototypeOf
+                  ? Object.setPrototypeOf(t, e)
+                  : (t.__proto__ = e));
+          })(e, t),
+          (e.prototype._renderWebGL = function(t) {
+            this.refresh(),
+              t.setObjectRenderer(t.plugins[this.pluginName]),
+              t.plugins[this.pluginName].render(this);
+          }),
+          (e.prototype._renderCanvas = function(t) {
+            this.refresh(), t.plugins[this.pluginName].render(this);
+          }),
+          (e.prototype._onTextureUpdate = function() {
+            (this._uvTransform.texture = this._texture), this.refresh();
+          }),
+          (e.prototype.multiplyUvs = function() {
+            this.uploadUvTransform || this._uvTransform.multiplyUvs(this.uvs);
+          }),
+          (e.prototype.refresh = function(t) {
+            this.autoUpdate && this.vertexDirty++,
+              this._uvTransform.update(t) && this._refresh();
+          }),
+          (e.prototype._refresh = function() {}),
+          (e.prototype._calculateBounds = function() {
+            this._bounds.addVertices(
+              this.transform,
+              this.vertices,
+              0,
+              this.vertices.length
+            );
+          }),
+          (e.prototype.containsPoint = function(t) {
+            if (!this.getBounds().contains(t.x, t.y)) return !1;
+            this.worldTransform.applyInverse(t, u);
+            for (
+              var n = this.vertices,
+                r = h.points,
+                i = this.indices,
+                o = this.indices.length,
+                s = this.drawMode === e.DRAW_MODES.TRIANGLES ? 3 : 1,
+                a = 0;
+              a + 2 < o;
+              a += s
+            ) {
+              var c = 2 * i[a],
+                l = 2 * i[a + 1],
+                f = 2 * i[a + 2];
+              if (
+                ((r[0] = n[c]),
+                (r[1] = n[c + 1]),
+                (r[2] = n[l]),
+                (r[3] = n[l + 1]),
+                (r[4] = n[f]),
+                (r[5] = n[f + 1]),
+                h.contains(u.x, u.y))
+              )
+                return !0;
+            }
+            return !1;
+          }),
+          (e.prototype.destroy = function(e) {
+            for (var n in this._glDatas) {
+              var r = this._glDatas[n];
+              r.destroy
+                ? r.destroy()
+                : (r.vertexBuffer &&
+                    (r.vertexBuffer.destroy(), (r.vertexBuffer = null)),
+                  r.indexBuffer &&
+                    (r.indexBuffer.destroy(), (r.indexBuffer = null)),
+                  r.uvBuffer && (r.uvBuffer.destroy(), (r.uvBuffer = null)),
+                  r.vao && (r.vao.destroy(), (r.vao = null)));
+            }
+            (this._glDatas = null), t.prototype.destroy.call(this, e);
+          }),
+          i(e, [
+            {
+              key: 'texture',
+              get: function() {
+                return this._texture;
+              },
+              set: function(t) {
+                this._texture !== t &&
+                  ((this._texture = t),
+                  t &&
+                    (t.baseTexture.hasLoaded
+                      ? this._onTextureUpdate()
+                      : t.once('update', this._onTextureUpdate, this)));
+              }
+            },
+            {
+              key: 'tint',
+              get: function() {
+                return o.utils.rgb2hex(this.tintRgb);
+              },
+              set: function(t) {
+                this.tintRgb = o.utils.hex2rgb(t, this.tintRgb);
+              }
+            }
+          ]),
+          e
+        );
+      })(o.Container);
+    (e.default = c), (c.DRAW_MODES = { TRIANGLE_MESH: 0, TRIANGLES: 1 });
+  },
   function(t, e) {
     t.exports = function(t) {
       try {
@@ -9225,7 +9225,7 @@ var Battleships = (function(t) {
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(31);
+      i = n(32);
     var o = (function(t) {
       function e() {
         return (
@@ -11187,7 +11187,7 @@ var Battleships = (function(t) {
       o = n(3),
       s = n(1),
       a = h(n(13)),
-      u = h(n(29));
+      u = h(n(30));
     function h(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -12744,7 +12744,7 @@ var Battleships = (function(t) {
       o = f(n(256)),
       s = f(n(284)),
       a = l(n(6)),
-      u = f(n(35)),
+      u = f(n(24)),
       h = n(140),
       c = l(n(23));
     function l(t) {
@@ -12917,7 +12917,7 @@ var Battleships = (function(t) {
     t.exports = {};
   },
   function(t, e, n) {
-    var r = n(28),
+    var r = n(29),
       i = n(262),
       o = n(70),
       s = n(68)('IE_PROTO'),
@@ -12991,7 +12991,7 @@ var Battleships = (function(t) {
   function(t, e, n) {
     var r = n(15).f,
       i = n(17),
-      o = n(25)('toStringTag');
+      o = n(26)('toStringTag');
     t.exports = function(t, e, n) {
       t &&
         !i((t = n ? t : t.prototype), o) &&
@@ -12999,7 +12999,7 @@ var Battleships = (function(t) {
     };
   },
   function(t, e, n) {
-    e.f = n(25);
+    e.f = n(26);
   },
   function(t, e, n) {
     var r = n(11),
@@ -13031,7 +13031,7 @@ var Battleships = (function(t) {
       p = g(n(131)),
       d = m(n(297)),
       y = g(n(130)),
-      v = (n(142), m(n(35)));
+      v = (n(142), m(n(24)));
     function g(t) {
       if (t && t.__esModule) return t;
       var e = {};
@@ -13105,6 +13105,7 @@ var Battleships = (function(t) {
                   (0, v.default)('#userList').css('display', 'none'),
                   (0, v.default)('#pin').css('display', 'none'),
                   (0, v.default)('#h1lobby').css('display', 'none'),
+                  (0, v.default)('#accuracyTracker').css('display', 'block'),
                   (this.app.renderer.view.style.position = 'absolute'),
                   (this.app.renderer.view.style.display = 'block'),
                   (this.app.renderer.view.style.left =
@@ -15148,7 +15149,7 @@ var Battleships = (function(t) {
       o = n(5),
       s = n(1),
       a = l(n(4)),
-      u = l(n(29)),
+      u = l(n(30)),
       h = l(n(56)),
       c = l(n(18));
     function l(t) {
@@ -16610,7 +16611,7 @@ var Battleships = (function(t) {
         };
       })(),
       i = n(109),
-      o = h(n(29)),
+      o = h(n(30)),
       s = n(55),
       a = h(n(4)),
       u = n(1);
@@ -16716,7 +16717,7 @@ var Battleships = (function(t) {
             Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
         return (e.default = t), e;
       })(n(3)),
-      i = s(n(30)),
+      i = s(n(31)),
       o = s(n(39));
     function s(t) {
       return t && t.__esModule ? t : { default: t };
@@ -17433,7 +17434,7 @@ var Battleships = (function(t) {
             Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
         return (e.default = t), e;
       })(n(10)),
-      i = n(33),
+      i = n(34),
       o = n(111);
     function s(t, e) {
       t.bitmapFont = o.BitmapText.registerFont(t.data, e);
@@ -17798,7 +17799,7 @@ var Battleships = (function(t) {
       }),
       (e.getResourcePath = u);
     var r,
-      i = n(33),
+      i = n(34),
       o = n(94),
       s = (r = o) && r.__esModule ? r : { default: r },
       a = n(2);
@@ -17820,7 +17821,7 @@ var Battleships = (function(t) {
         };
       });
     var r,
-      i = n(33),
+      i = n(34),
       o = n(13),
       s = (r = o) && r.__esModule ? r : { default: r };
   },
@@ -17828,7 +17829,7 @@ var Battleships = (function(t) {
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(34),
+      i = n(35),
       o = (r = i) && r.__esModule ? r : { default: r };
     var s = (function(t) {
       function e(n, r, i) {
@@ -18043,7 +18044,7 @@ var Battleships = (function(t) {
             e.sprite.alpha < 0 && t.app.stage.removeChild(e.sprite));
         });
       });
-    var r = o(n(35)),
+    var r = o(n(24)),
       i = o(n(62));
     function o(t) {
       return t && t.__esModule ? t : { default: t };
@@ -18087,14 +18088,14 @@ var Battleships = (function(t) {
   function(t, e, n) {
     'use strict';
     var r = n(42),
-      i = n(27),
+      i = n(28),
       o = n(134),
       s = n(20),
       a = n(65),
       u = n(261),
       h = n(71),
       c = n(268),
-      l = n(25)('iterator'),
+      l = n(26)('iterator'),
       f = !([].keys && 'next' in [].keys()),
       p = function() {
         return this;
@@ -18160,7 +18161,7 @@ var Battleships = (function(t) {
   },
   function(t, e, n) {
     var r = n(17),
-      i = n(24),
+      i = n(25),
       o = n(264)(!1),
       s = n(68)('IE_PROTO');
     t.exports = function(t, e) {
@@ -18194,7 +18195,7 @@ var Battleships = (function(t) {
   function(t, e, n) {
     var r = n(74),
       i = n(37),
-      o = n(24),
+      o = n(25),
       s = n(44),
       a = n(17),
       u = n(77),
@@ -18374,8 +18375,8 @@ var Battleships = (function(t) {
   function(t, e, n) {
     'use strict';
     Object.defineProperty(e, '__esModule', { value: !0 });
-    var r = u(n(7)),
-      i = u(n(9)),
+    var r = h(n(7)),
+      i = h(n(9)),
       o = (function(t) {
         if (t && t.__esModule) return t;
         var e = {};
@@ -18384,14 +18385,15 @@ var Battleships = (function(t) {
             Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
         return (e.default = t), e;
       })(n(6)),
-      s = u(n(294)),
-      a = u(n(295));
-    function u(t) {
+      s = h(n(294)),
+      a = h(n(295)),
+      u = h(n(24));
+    function h(t) {
       return t && t.__esModule ? t : { default: t };
     }
-    var h = (function() {
-      function t(e, i, s, a) {
-        var u = this;
+    var c = (function() {
+      function t(e, i, a, u) {
+        var h = this;
         (0, r.default)(this, t),
           (this.globals = n(19)),
           (this.bg = new o.Graphics()),
@@ -18426,9 +18428,9 @@ var Battleships = (function(t) {
           (this.inputContainer = new o.Container()),
           (this.barCont = new o.Container()),
           (this.firingCB = i),
-          (this.btnToggleCB = s),
-          (this.originalChal = a),
-          (this.challenge = a),
+          (this.btnToggleCB = a),
+          (this.originalChal = u),
+          (this.challenge = u),
           (this.finished = !1),
           (this.input = ''),
           (this.sanitisedInput = ''),
@@ -18436,6 +18438,7 @@ var Battleships = (function(t) {
           (this.totalTyped = 0),
           (this.counter = 0),
           this.userInputTxt,
+          (this.timer = new s.default()),
           this.app.stage.addChild(this.chalContainer),
           this.app.stage.addChild(this.barCont),
           (this.inputContainer.position.y = this.chalContainer.position.y / 2),
@@ -18445,10 +18448,10 @@ var Battleships = (function(t) {
           this.inputContainer.addChild(this.bg2),
           this.barCont.addChild(this.bg3),
           (window.onkeypress = function(t) {
-            'Enter' != t.key && u.processInput(t);
+            'Enter' != t.key && h.processInput(t);
           }),
           (window.onkeydown = function(t) {
-            'Backspace' == t.key && u.processInput(t);
+            'Backspace' == t.key && h.processInput(t);
           }),
           document.body.appendChild(e.view);
       }
@@ -18459,17 +18462,17 @@ var Battleships = (function(t) {
             value: function() {
               var t = this,
                 e = 10 + this.challenge.length / 5;
-              console.log('Total Time: ' + e);
-              var n = new s.default();
-              n.start({
-                countdown: !0,
-                startValues: { seconds: e },
-                target: { seconds: 0 }
-              }),
-                n.addEventListener('secondsUpdated', function() {
-                  return t.handleChallengeSize(n, e);
+              console.log('Total Time: ' + e),
+                (this.timer = new s.default()),
+                timer.start({
+                  countdown: !0,
+                  startValues: { seconds: e },
+                  target: { seconds: 0 }
                 }),
-                n.addEventListener('targetAchieved', function() {
+                this.timer.addEventListener('secondsUpdated', function() {
+                  return t.handleChallengeSize(t.timer, e);
+                }),
+                this.timer.addEventListener('targetAchieved', function() {
                   console.error('time limit reached'),
                     t.hideChallenge(),
                     t.btnToggleCB(!0);
@@ -18495,21 +18498,20 @@ var Battleships = (function(t) {
                     (this.validateInput(t.key), this.totalTyped++),
                 this.sanitisedInput.length == this.originalChal.length)
               ) {
-                var e = this.calculateAccuracy();
+                var e = this.calculateAccuracy().toFixed();
                 (new o.Text(
                   'Challenge complete your accuracy was ' + e + '%'
                 ).y = 100),
-                  alert("you're accuracy was " + e + '%'),
+                  (0, u.default)('#AClog').html('Your accuracy was ' + e + '%'),
                   (this.finished = !0),
                   e < 50
-                    ? alert(
-                        'cannot fire, accuracy was below 50%, you had ' +
-                          e +
-                          '% accuracy'
+                    ? (0, u.default)('#AClog').html(
+                        'Cannot fire you only had ' + e + '% accuracy'
                       )
                     : this.firingCB(),
                   this.app.stage.removeChild(this.scaleCont),
                   this.hideChallenge(),
+                  this.timer.stop(),
                   this.btnToggleCB(!0);
               }
             }
@@ -18592,7 +18594,7 @@ var Battleships = (function(t) {
         t
       );
     })();
-    e.default = h;
+    e.default = c;
   },
   function(t, e, n) {
     'use strict';
@@ -18772,7 +18774,7 @@ var Battleships = (function(t) {
     };
   },
   function(t, e, n) {
-    var r = n(27);
+    var r = n(28);
     r(r.S + r.F * !n(16), 'Object', { defineProperty: n(15).f });
   },
   function(t, e) {
@@ -20057,7 +20059,7 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = a(n(30)),
+    var r = a(n(31)),
       i = n(1),
       o = n(5),
       s = a(n(57));
@@ -20711,7 +20713,7 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = o(n(31)),
+    var r = o(n(32)),
       i = o(n(101));
     function o(t) {
       return t && t.__esModule ? t : { default: t };
@@ -20876,7 +20878,7 @@ object-assign
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(31),
+      i = n(32),
       o = (r = i) && r.__esModule ? r : { default: r };
     var s = (function(t) {
       function e(n) {
@@ -20969,11 +20971,11 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = c(n(31)),
+    var r = c(n(32)),
       i = c(n(40)),
       o = c(n(104)),
       s = n(5),
-      a = c(n(32)),
+      a = c(n(33)),
       u = (function(t) {
         if (t && t.__esModule) return t;
         var e = {};
@@ -21770,7 +21772,7 @@ object-assign
         return r.bind(), (r.uniforms.uSamplers = i), r;
       });
     var r,
-      i = n(32),
+      i = n(33),
       o = (r = i) && r.__esModule ? r : { default: r };
     n(10);
     var s = [
@@ -22264,7 +22266,7 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = d(n(29)),
+    var r = d(n(30)),
       i = d(n(56)),
       o = d(n(13)),
       s = d(n(107)),
@@ -22274,7 +22276,7 @@ object-assign
       c = n(1),
       l = d(n(49)),
       f = d(n(201)),
-      p = d(n(30));
+      p = d(n(31));
     function d(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -23179,7 +23181,7 @@ object-assign
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(32);
+      i = n(33);
     var o = (function(t) {
       function e(n) {
         return (
@@ -23468,7 +23470,7 @@ object-assign
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(30),
+      i = n(31),
       o = (r = i) && r.__esModule ? r : { default: r },
       s = n(1);
     var a = (function() {
@@ -28290,7 +28292,7 @@ object-assign
         return h(o).default;
       }
     });
-    var s = n(33);
+    var s = n(34);
     Object.defineProperty(e, 'Resource', {
       enumerable: !0,
       get: function() {
@@ -28590,7 +28592,7 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = h(n(33)),
+    var r = h(n(34)),
       i = n(236),
       o = h(n(18)),
       s = h(n(127)),
@@ -28721,7 +28723,7 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = n(34);
+    var r = n(35);
     Object.defineProperty(e, 'Mesh', {
       enumerable: !0,
       get: function() {
@@ -28779,7 +28781,7 @@ object-assign
         return (e.default = t), e;
       })(n(2)),
       i = s(n(8)),
-      o = s(n(34));
+      o = s(n(35));
     n(10);
     function s(t) {
       return t && t.__esModule ? t : { default: t };
@@ -28934,7 +28936,7 @@ object-assign
             Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
         return (e.default = t), e;
       })(n(2)),
-      o = n(34),
+      o = n(35),
       s = (r = o) && r.__esModule ? r : { default: r };
     var a = (function() {
       function t(e) {
@@ -29333,7 +29335,7 @@ object-assign
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(34);
+      i = n(35);
     var o = (function(t) {
       function e(n, r) {
         !(function(t, e) {
@@ -29986,7 +29988,7 @@ object-assign
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(32);
+      i = n(33);
     var o = (function(t) {
       function e(n) {
         return (
@@ -30794,7 +30796,7 @@ object-assign
       s = c(n(23)),
       a = c(n(130)),
       u = (l(n(141)), n(19)),
-      h = l(n(35));
+      h = l(n(24));
     function c(t) {
       if (t && t.__esModule) return t;
       var e = {};
@@ -30976,7 +30978,7 @@ object-assign
       i = n(37),
       o = n(71),
       s = {};
-    n(20)(s, n(25)('iterator'), function() {
+    n(20)(s, n(26)('iterator'), function() {
       return this;
     }),
       (t.exports = function(t, e, n) {
@@ -30985,7 +30987,7 @@ object-assign
   },
   function(t, e, n) {
     var r = n(15),
-      i = n(28),
+      i = n(29),
       o = n(67);
     t.exports = n(16)
       ? Object.defineProperties
@@ -31005,7 +31007,7 @@ object-assign
         };
   },
   function(t, e, n) {
-    var r = n(24),
+    var r = n(25),
       i = n(265),
       o = n(266);
     t.exports = function(t) {
@@ -31072,7 +31074,7 @@ object-assign
       var r = n(11),
         i = n(20),
         o = n(65),
-        s = n(25)('toStringTag'),
+        s = n(26)('toStringTag'),
         a = 'CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,DOMTokenList,DataTransferItemList,FileList,HTMLAllCollection,HTMLCollection,HTMLFormElement,HTMLSelectElement,MediaList,MimeTypeArray,NamedNodeMap,NodeList,PaintRequestList,Plugin,PluginArray,SVGLengthList,SVGNumberList,SVGPathSegList,SVGPointList,SVGStringList,SVGTransformList,SourceBufferList,StyleSheetList,TextTrackCueList,TextTrackList,TouchList'.split(
           ','
         ),
@@ -31091,7 +31093,7 @@ object-assign
     var r = n(272),
       i = n(273),
       o = n(65),
-      s = n(24);
+      s = n(25);
     (t.exports = n(133)(
       Array,
       'Array',
@@ -31132,21 +31134,21 @@ object-assign
     var r = n(11),
       i = n(17),
       o = n(16),
-      s = n(27),
+      s = n(28),
       a = n(134),
       u = n(277).KEY,
       h = n(36),
       c = n(69),
       l = n(71),
       f = n(43),
-      p = n(25),
+      p = n(26),
       d = n(72),
       y = n(73),
       v = n(278),
       g = n(279),
-      m = n(28),
+      m = n(29),
       _ = n(21),
-      b = n(24),
+      b = n(25),
       w = n(44),
       T = n(37),
       E = n(66),
@@ -31420,7 +31422,7 @@ object-assign
       };
   },
   function(t, e, n) {
-    var r = n(24),
+    var r = n(25),
       i = n(138).f,
       o = {}.toString,
       s =
@@ -31479,12 +31481,12 @@ object-assign
     n(287), (t.exports = n(14).Object.setPrototypeOf);
   },
   function(t, e, n) {
-    var r = n(27);
+    var r = n(28);
     r(r.S, 'Object', { setPrototypeOf: n(288).set });
   },
   function(t, e, n) {
     var r = n(21),
-      i = n(28),
+      i = n(29),
       o = function(t, e) {
         if ((i(t), !r(e) && null !== e))
           throw TypeError(e + ": can't set as prototype!");
@@ -31523,7 +31525,7 @@ object-assign
     };
   },
   function(t, e, n) {
-    var r = n(27);
+    var r = n(28);
     r(r.S, 'Object', { create: n(66) });
   },
   function(t, e, n) {
@@ -32727,7 +32729,7 @@ object-assign
       i = f(n(9)),
       o = l(n(6)),
       s = l(n(299)),
-      a = f(n(35)),
+      a = f(n(24)),
       u = f(n(75)),
       h = f(n(62)),
       c = f(n(141));
@@ -44642,7 +44644,7 @@ and limitations under the License.
       Object.defineProperty(e, '__esModule', { value: !0 });
       var i,
         o,
-        s = n(26),
+        s = n(27),
         a = n(143),
         u = n(307),
         h =
@@ -77089,7 +77091,7 @@ and limitations under the License.
   function(t, e, n) {
     'use strict';
     n.r(e);
-    var r = n(26),
+    var r = n(27),
       i =
         Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array &&
