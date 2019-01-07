@@ -51,7 +51,7 @@ var Battleships = (function(t) {
       return Object.prototype.hasOwnProperty.call(t, e);
     }),
     (n.p = ''),
-    n((n.s = 144))
+    n((n.s = 145))
   );
 })([
   function(t, e, n) {
@@ -435,7 +435,7 @@ var Battleships = (function(t) {
         return K(f).default;
       }
     });
-    var p = n(180);
+    var p = n(181);
     Object.defineProperty(e, 'CanvasSpriteRenderer', {
       enumerable: !0,
       get: function() {
@@ -449,14 +449,14 @@ var Battleships = (function(t) {
         return K(d).default;
       }
     });
-    var y = n(183);
+    var y = n(184);
     Object.defineProperty(e, 'SpriteRenderer', {
       enumerable: !0,
       get: function() {
         return K(y).default;
       }
     });
-    var v = n(198);
+    var v = n(199);
     Object.defineProperty(e, 'Text', {
       enumerable: !0,
       get: function() {
@@ -477,7 +477,7 @@ var Battleships = (function(t) {
         return K(m).default;
       }
     });
-    var _ = n(200);
+    var _ = n(201);
     Object.defineProperty(e, 'Graphics', {
       enumerable: !0,
       get: function() {
@@ -491,21 +491,21 @@ var Battleships = (function(t) {
         return K(b).default;
       }
     });
-    var w = n(202);
+    var w = n(203);
     Object.defineProperty(e, 'GraphicsRenderer', {
       enumerable: !0,
       get: function() {
         return K(w).default;
       }
     });
-    var T = n(209);
+    var T = n(210);
     Object.defineProperty(e, 'CanvasGraphicsRenderer', {
       enumerable: !0,
       get: function() {
         return K(T).default;
       }
     });
-    var E = n(210);
+    var E = n(211);
     Object.defineProperty(e, 'Spritesheet', {
       enumerable: !0,
       get: function() {
@@ -799,11 +799,11 @@ var Battleships = (function(t) {
     var r = n(1),
       i = p(n(4)),
       o = p(n(18)),
-      s = p(n(168)),
-      a = f(n(169)),
+      s = p(n(169)),
+      a = f(n(170)),
       u = f(n(50)),
-      h = p(n(170)),
-      c = p(n(171)),
+      h = p(n(171)),
+      c = p(n(172)),
       l = p(n(52));
     function f(t) {
       if (t && t.__esModule) return t;
@@ -831,8 +831,8 @@ var Battleships = (function(t) {
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = o(n(166)),
-      i = o(n(167));
+    var r = o(n(167)),
+      i = o(n(168));
     function o(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -901,21 +901,21 @@ var Battleships = (function(t) {
         return f(s).default;
       }
     });
-    var a = n(156);
+    var a = n(157);
     Object.defineProperty(e, 'Circle', {
       enumerable: !0,
       get: function() {
         return f(a).default;
       }
     });
-    var u = n(157);
+    var u = n(158);
     Object.defineProperty(e, 'Ellipse', {
       enumerable: !0,
       get: function() {
         return f(u).default;
       }
     });
-    var h = n(158);
+    var h = n(159);
     Object.defineProperty(e, 'Polygon', {
       enumerable: !0,
       get: function() {
@@ -929,7 +929,7 @@ var Battleships = (function(t) {
         return f(c).default;
       }
     });
-    var l = n(159);
+    var l = n(160);
     function f(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -945,7 +945,7 @@ var Battleships = (function(t) {
     (function(t) {
       (e.__esModule = !0),
         (e.loader = e.prepare = e.particles = e.mesh = e.loaders = e.interaction = e.filters = e.extras = e.extract = e.accessibility = void 0);
-      var r = n(150);
+      var r = n(151);
       Object.keys(r).forEach(function(t) {
         'default' !== t &&
           '__esModule' !== t &&
@@ -968,17 +968,17 @@ var Battleships = (function(t) {
           });
       });
       var o,
-        s = n(211),
+        s = n(212),
         a = (o = s) && o.__esModule ? o : { default: o },
-        u = g(n(212)),
-        h = g(n(214)),
+        u = g(n(213)),
+        h = g(n(215)),
         c = g(n(111)),
-        l = g(n(224)),
-        f = g(n(231)),
-        p = g(n(233)),
-        d = g(n(237)),
-        y = g(n(242)),
-        v = g(n(247));
+        l = g(n(225)),
+        f = g(n(232)),
+        p = g(n(234)),
+        d = g(n(238)),
+        y = g(n(243)),
+        v = g(n(248));
       function g(t) {
         if (t && t.__esModule) return t;
         var e = {};
@@ -1013,14 +1013,14 @@ var Battleships = (function(t) {
   },
   function(t, e, n) {
     var r = {
-      createContext: n(160),
+      createContext: n(161),
       setVertexAttribArrays: n(81),
-      GLBuffer: n(161),
-      GLFramebuffer: n(162),
-      GLShader: n(163),
+      GLBuffer: n(162),
+      GLFramebuffer: n(163),
+      GLShader: n(164),
       GLTexture: n(82),
-      VertexArrayObject: n(164),
-      shader: n(165)
+      VertexArrayObject: n(165),
+      shader: n(166)
     };
     t.exports && (t.exports = r),
       'undefined' != typeof window &&
@@ -1030,7 +1030,7 @@ var Battleships = (function(t) {
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(146),
+      i = n(147),
       o = (r = i) && r.__esModule ? r : { default: r };
     e.default = (function() {
       function t(t, e) {
@@ -7609,7 +7609,7 @@ var Battleships = (function(t) {
     });
   },
   function(t, e, n) {
-    var r = n(263),
+    var r = n(264),
       i = n(64);
     t.exports = function(t) {
       return r(i(t));
@@ -8752,9 +8752,9 @@ var Battleships = (function(t) {
     'use strict';
     e.__esModule = !0;
     var r = c(n(97)),
-      i = c(n(181)),
+      i = c(n(182)),
       o = c(n(99)),
-      s = c(n(182)),
+      s = c(n(183)),
       a = n(3),
       u = n(1),
       h = c(n(4));
@@ -9003,7 +9003,7 @@ var Battleships = (function(t) {
   },
   function(t, e, n) {
     'use strict';
-    var r = n(234).Loader,
+    var r = n(235).Loader,
       i = n(60).Resource,
       o = n(124),
       s = n(125);
@@ -9279,17 +9279,17 @@ var Battleships = (function(t) {
     'use strict';
     e.__esModule = !0;
     var r = m(n(97)),
-      i = m(n(184)),
-      o = m(n(186)),
-      s = m(n(187)),
+      i = m(n(185)),
+      o = m(n(187)),
+      s = m(n(188)),
       a = m(n(40)),
       u = m(n(38)),
-      h = m(n(189)),
+      h = m(n(190)),
       c = m(n(22)),
-      l = m(n(190)),
-      f = m(n(191)),
-      p = m(n(193)),
-      d = m(n(194)),
+      l = m(n(191)),
+      f = m(n(192)),
+      p = m(n(194)),
+      d = m(n(195)),
       y = n(3),
       v = m(n(8)),
       g = n(1);
@@ -11693,7 +11693,7 @@ var Battleships = (function(t) {
     'use strict';
     (e.__esModule = !0), (e.Ticker = e.shared = void 0);
     var r,
-      i = n(178),
+      i = n(179),
       o = (r = i) && r.__esModule ? r : { default: r };
     var s = new o.default();
     (s.autoStart = !0),
@@ -12741,8 +12741,8 @@ var Battleships = (function(t) {
     Object.defineProperty(e, '__esModule', { value: !0 });
     var r = f(n(7)),
       i = f(n(9)),
-      o = f(n(256)),
-      s = f(n(284)),
+      o = f(n(257)),
+      s = f(n(285)),
       a = l(n(6)),
       u = f(n(24)),
       h = n(140),
@@ -12918,7 +12918,7 @@ var Battleships = (function(t) {
   },
   function(t, e, n) {
     var r = n(29),
-      i = n(262),
+      i = n(263),
       o = n(70),
       s = n(68)('IE_PROTO'),
       a = function() {},
@@ -12928,7 +12928,7 @@ var Battleships = (function(t) {
           r = o.length;
         for (
           e.style.display = 'none',
-            n(267).appendChild(e),
+            n(268).appendChild(e),
             e.src = 'javascript:',
             (t = e.contentWindow.document).open(),
             t.write('<script>document.F=Object</script>'),
@@ -13022,16 +13022,16 @@ var Battleships = (function(t) {
       i = m(n(9)),
       o = g(n(6)),
       s = n(19),
-      a = m(n(251)),
-      u = m(n(252)),
-      h = m(n(253)),
-      c = m(n(254)),
+      a = m(n(252)),
+      u = m(n(253)),
+      h = m(n(254)),
+      c = m(n(255)),
       l = (m(n(62)), g(n(23))),
       f = g(n(296)),
       p = g(n(131)),
       d = m(n(297)),
       y = g(n(130)),
-      v = (n(142), m(n(24)));
+      v = (n(143), m(n(24)));
     function g(t) {
       if (t && t.__esModule) return t;
       var e = {};
@@ -13151,7 +13151,7 @@ var Battleships = (function(t) {
     e.default = b;
   },
   function(t, e, n) {
-    var r = n(149);
+    var r = n(150);
     t.exports = function(t, e, n) {
       if ((r(t), void 0 === e)) return t;
       switch (n) {
@@ -14470,8 +14470,8 @@ var Battleships = (function(t) {
   },
   function(t, e, n) {
     'use strict';
-    var r = n(172),
-      i = n(174);
+    var r = n(173),
+      i = n(175);
     function o() {
       (this.protocol = null),
         (this.slashes = null),
@@ -14530,7 +14530,7 @@ var Battleships = (function(t) {
         'gopher:': !0,
         'file:': !0
       },
-      m = n(175);
+      m = n(176);
     function _(t, e, n) {
       if (t && i.isObject(t) && t instanceof o) return t;
       var r = new o();
@@ -15556,7 +15556,7 @@ var Battleships = (function(t) {
           return n && t(e.prototype, n), r && t(e, r), e;
         };
       })(),
-      i = u(n(185)),
+      i = u(n(186)),
       o = n(3),
       s = n(1),
       a = u(n(4));
@@ -16739,28 +16739,28 @@ var Battleships = (function(t) {
     'use strict';
     (e.__esModule = !0),
       (e.BitmapText = e.TilingSpriteRenderer = e.TilingSprite = e.AnimatedSprite = void 0);
-    var r = n(217);
+    var r = n(218);
     Object.defineProperty(e, 'AnimatedSprite', {
       enumerable: !0,
       get: function() {
         return a(r).default;
       }
     });
-    var i = n(218);
+    var i = n(219);
     Object.defineProperty(e, 'TilingSprite', {
       enumerable: !0,
       get: function() {
         return a(i).default;
       }
     });
-    var o = n(219);
+    var o = n(220);
     Object.defineProperty(e, 'TilingSpriteRenderer', {
       enumerable: !0,
       get: function() {
         return a(o).default;
       }
     });
-    var s = n(220);
+    var s = n(221);
     function a(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -16770,9 +16770,9 @@ var Battleships = (function(t) {
         return a(s).default;
       }
     }),
-      n(221),
       n(222),
-      n(223);
+      n(223),
+      n(224);
   },
   function(t, e, n) {
     'use strict';
@@ -17989,8 +17989,8 @@ var Battleships = (function(t) {
       i = c(n(6)),
       o = c(n(23)),
       s = c(n(131)),
-      a = n(292),
-      u = n(293),
+      a = n(293),
+      u = n(141),
       h = (r = u) && r.__esModule ? r : { default: r };
     function c(t) {
       if (t && t.__esModule) return t;
@@ -18053,8 +18053,8 @@ var Battleships = (function(t) {
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = s(n(257)),
-      i = s(n(274)),
+    var r = s(n(258)),
+      i = s(n(275)),
       o =
         'function' == typeof i.default && 'symbol' == typeof r.default
           ? function(t) {
@@ -18092,9 +18092,9 @@ var Battleships = (function(t) {
       o = n(134),
       s = n(20),
       a = n(65),
-      u = n(261),
+      u = n(262),
       h = n(71),
-      c = n(268),
+      c = n(269),
       l = n(26)('iterator'),
       f = !([].keys && 'next' in [].keys()),
       p = function() {
@@ -18162,7 +18162,7 @@ var Battleships = (function(t) {
   function(t, e, n) {
     var r = n(17),
       i = n(25),
-      o = n(264)(!1),
+      o = n(265)(!1),
       s = n(68)('IE_PROTO');
     t.exports = function(t, e) {
       var n,
@@ -18375,6 +18375,39 @@ var Battleships = (function(t) {
   function(t, e, n) {
     'use strict';
     Object.defineProperty(e, '__esModule', { value: !0 });
+    var r,
+      i = n(7),
+      o = (r = i) && r.__esModule ? r : { default: r },
+      s = (function(t) {
+        if (t && t.__esModule) return t;
+        var e = {};
+        if (null != t)
+          for (var n in t)
+            Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
+        return (e.default = t), e;
+      })(n(6));
+    s.loader.add('static/assets/Sprites/explosion.json').load();
+    e.default = function t(e, n) {
+      (0, o.default)(this, t);
+      var r =
+          s.loader.resources['static/assets/Sprites/explosion.json']
+            .spritesheet,
+        i = new s.extras.AnimatedSprite(r.animations.explosion);
+      (i.x = n[0]),
+        (i.y = n[1]),
+        (i.loop = !1),
+        i.anchor.set(0.5),
+        (i.animationSpeed = 0.3),
+        (i.onComplete = function() {
+          i.destroy();
+        }),
+        e.stage.addChild(i),
+        i.play();
+    };
+  },
+  function(t, e, n) {
+    'use strict';
+    Object.defineProperty(e, '__esModule', { value: !0 });
     var r = h(n(7)),
       i = h(n(9)),
       o = (function(t) {
@@ -18464,7 +18497,7 @@ var Battleships = (function(t) {
                 e = 10 + this.challenge.length / 5;
               console.log('Total Time: ' + e),
                 (this.timer = new s.default()),
-                timer.start({
+                this.timer.start({
                   countdown: !0,
                   startValues: { seconds: e },
                   target: { seconds: 0 }
@@ -18746,7 +18779,7 @@ var Battleships = (function(t) {
     }
   },
   function(t, e, n) {
-    t.exports = n(145);
+    t.exports = n(146);
   },
   function(t, e, n) {
     'use strict';
@@ -18758,16 +18791,16 @@ var Battleships = (function(t) {
       });
     i(n(75));
     var r = i(n(298));
-    n(142);
+    n(143);
     function i(t) {
       return t && t.__esModule ? t : { default: t };
     }
   },
   function(t, e, n) {
-    t.exports = { default: n(147), __esModule: !0 };
+    t.exports = { default: n(148), __esModule: !0 };
   },
   function(t, e, n) {
-    n(148);
+    n(149);
     var r = n(14).Object;
     t.exports = function(t, e, n) {
       return r.defineProperty(t, e, n);
@@ -18785,10 +18818,10 @@ var Battleships = (function(t) {
   },
   function(t, e, n) {
     'use strict';
-    n(151),
-      n(153),
+    n(152),
       n(154),
       n(155),
+      n(156),
       window.ArrayBuffer || (window.ArrayBuffer = Array),
       window.Float32Array || (window.Float32Array = Array),
       window.Uint32Array || (window.Uint32Array = Array),
@@ -18797,7 +18830,7 @@ var Battleships = (function(t) {
   function(t, e, n) {
     'use strict';
     var r,
-      i = n(152),
+      i = n(153),
       o = (r = i) && r.__esModule ? r : { default: r };
     Object.assign || (Object.assign = o.default);
   },
@@ -19713,7 +19746,7 @@ object-assign
               return a;
             }.call(e, n, e, t)) || (t.exports = i);
       })();
-    }.call(this, n(173)(t), n(12)));
+    }.call(this, n(174)(t), n(12)));
   },
   function(t, e) {
     t.exports = function(t) {
@@ -19758,7 +19791,7 @@ object-assign
   },
   function(t, e, n) {
     'use strict';
-    (e.decode = e.parse = n(176)), (e.encode = e.stringify = n(177));
+    (e.decode = e.parse = n(177)), (e.encode = e.stringify = n(178));
   },
   function(t, e, n) {
     'use strict';
@@ -19866,7 +19899,7 @@ object-assign
       })(),
       i = a(n(4)),
       o = n(1),
-      s = a(n(179));
+      s = a(n(180));
     function a(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -20345,9 +20378,9 @@ object-assign
     var r = p(n(38)),
       i = p(n(39)),
       o = p(n(59)),
-      s = p(n(195)),
-      a = p(n(196)),
-      u = p(n(197)),
+      s = p(n(196)),
+      a = p(n(197)),
+      u = p(n(198)),
       h = p(n(4)),
       c = n(3),
       l = p(n(8)),
@@ -20983,7 +21016,7 @@ object-assign
           for (var n in t)
             Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
         return (e.default = t), e;
-      })(n(188)),
+      })(n(189)),
       h = c(n(54));
     function c(t) {
       return t && t.__esModule ? t : { default: t };
@@ -21560,7 +21593,7 @@ object-assign
     'use strict';
     e.__esModule = !0;
     var r,
-      i = n(192),
+      i = n(193),
       o = (r = i) && r.__esModule ? r : { default: r };
     var s = (function() {
       function t(e) {
@@ -21885,7 +21918,7 @@ object-assign
       h = p(n(4)),
       c = p(n(105)),
       l = p(n(106)),
-      f = p(n(199));
+      f = p(n(200));
     function p(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -22275,7 +22308,7 @@ object-assign
       h = n(3),
       c = n(1),
       l = d(n(49)),
-      f = d(n(201)),
+      f = d(n(202)),
       p = d(n(31));
     function d(t) {
       return t && t.__esModule ? t : { default: t };
@@ -22958,12 +22991,12 @@ object-assign
       i = n(1),
       o = p(n(38)),
       s = p(n(39)),
-      a = p(n(203)),
-      u = p(n(204)),
-      h = p(n(205)),
-      c = p(n(206)),
-      l = p(n(207)),
-      f = p(n(208));
+      a = p(n(204)),
+      u = p(n(205)),
+      h = p(n(206)),
+      c = p(n(207)),
+      l = p(n(208)),
+      f = p(n(209));
     function p(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -24694,7 +24727,7 @@ object-assign
         return o(r).default;
       }
     });
-    var i = n(213);
+    var i = n(214);
     function o(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -24944,14 +24977,14 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = n(215);
+    var r = n(216);
     Object.defineProperty(e, 'webgl', {
       enumerable: !0,
       get: function() {
         return o(r).default;
       }
     });
-    var i = n(216);
+    var i = n(217);
     function o(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -26347,28 +26380,28 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = n(225);
+    var r = n(226);
     Object.defineProperty(e, 'FXAAFilter', {
       enumerable: !0,
       get: function() {
         return l(r).default;
       }
     });
-    var i = n(226);
+    var i = n(227);
     Object.defineProperty(e, 'NoiseFilter', {
       enumerable: !0,
       get: function() {
         return l(i).default;
       }
     });
-    var o = n(227);
+    var o = n(228);
     Object.defineProperty(e, 'DisplacementFilter', {
       enumerable: !0,
       get: function() {
         return l(o).default;
       }
     });
-    var s = n(228);
+    var s = n(229);
     Object.defineProperty(e, 'BlurFilter', {
       enumerable: !0,
       get: function() {
@@ -26389,14 +26422,14 @@ object-assign
         return l(u).default;
       }
     });
-    var h = n(229);
+    var h = n(230);
     Object.defineProperty(e, 'ColorMatrixFilter', {
       enumerable: !0,
       get: function() {
         return l(h).default;
       }
     });
-    var c = n(230);
+    var c = n(231);
     function l(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -27469,7 +27502,7 @@ object-assign
         return u(r).default;
       }
     });
-    var i = n(232);
+    var i = n(233);
     Object.defineProperty(e, 'InteractionManager', {
       enumerable: !0,
       get: function() {
@@ -28300,7 +28333,7 @@ object-assign
       }
     });
     var a = h(n(108)),
-      u = h(n(235));
+      u = h(n(236));
     function h(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -28593,7 +28626,7 @@ object-assign
     'use strict';
     e.__esModule = !0;
     var r = h(n(34)),
-      i = n(236),
+      i = n(237),
       o = h(n(18)),
       s = h(n(127)),
       a = h(n(126)),
@@ -28730,14 +28763,14 @@ object-assign
         return h(r).default;
       }
     });
-    var i = n(238);
+    var i = n(239);
     Object.defineProperty(e, 'MeshRenderer', {
       enumerable: !0,
       get: function() {
         return h(i).default;
       }
     });
-    var o = n(239);
+    var o = n(240);
     Object.defineProperty(e, 'CanvasMeshRenderer', {
       enumerable: !0,
       get: function() {
@@ -28751,14 +28784,14 @@ object-assign
         return h(s).default;
       }
     });
-    var a = n(240);
+    var a = n(241);
     Object.defineProperty(e, 'NineSlicePlane', {
       enumerable: !0,
       get: function() {
         return h(a).default;
       }
     });
-    var u = n(241);
+    var u = n(242);
     function h(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -29462,14 +29495,14 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = n(243);
+    var r = n(244);
     Object.defineProperty(e, 'ParticleContainer', {
       enumerable: !0,
       get: function() {
         return o(r).default;
       }
     });
-    var i = n(244);
+    var i = n(245);
     function o(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -29732,8 +29765,8 @@ object-assign
             Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
         return (e.default = t), e;
       })(n(2)),
-      i = a(n(245)),
-      o = a(n(246)),
+      i = a(n(246)),
+      o = a(n(247)),
       s = n(3);
     function a(t) {
       return t && t.__esModule ? t : { default: t };
@@ -30238,14 +30271,14 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = n(248);
+    var r = n(249);
     Object.defineProperty(e, 'webgl', {
       enumerable: !0,
       get: function() {
         return u(r).default;
       }
     });
-    var i = n(249);
+    var i = n(250);
     Object.defineProperty(e, 'canvas', {
       enumerable: !0,
       get: function() {
@@ -30266,7 +30299,7 @@ object-assign
         return u(s).default;
       }
     });
-    var a = n(250);
+    var a = n(251);
     function u(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -30772,7 +30805,7 @@ object-assign
         return (e.default = t), e;
       })(n(6)),
       o = n(19),
-      s = a(n(255));
+      s = a(n(256));
     function a(t) {
       return t && t.__esModule ? t : { default: t };
     }
@@ -30795,7 +30828,7 @@ object-assign
       o = c(n(6)),
       s = c(n(23)),
       a = c(n(130)),
-      u = (l(n(141)), n(19)),
+      u = (l(n(142)), n(19)),
       h = l(n(24));
     function c(t) {
       if (t && t.__esModule) return t;
@@ -30926,14 +30959,14 @@ object-assign
     };
   },
   function(t, e, n) {
-    t.exports = { default: n(258), __esModule: !0 };
+    t.exports = { default: n(259), __esModule: !0 };
   },
   function(t, e, n) {
-    n(259), n(270), (t.exports = n(72).f('iterator'));
+    n(260), n(271), (t.exports = n(72).f('iterator'));
   },
   function(t, e, n) {
     'use strict';
-    var r = n(260)(!0);
+    var r = n(261)(!0);
     n(133)(
       String,
       'String',
@@ -31008,8 +31041,8 @@ object-assign
   },
   function(t, e, n) {
     var r = n(25),
-      i = n(265),
-      o = n(266);
+      i = n(266),
+      o = n(267);
     t.exports = function(t) {
       return function(e, n, s) {
         var a,
@@ -31046,7 +31079,7 @@ object-assign
   },
   function(t, e, n) {
     var r = n(17),
-      i = n(269),
+      i = n(270),
       o = n(68)('IE_PROTO'),
       s = Object.prototype;
     t.exports =
@@ -31069,7 +31102,7 @@ object-assign
     };
   },
   function(t, e, n) {
-    n(271);
+    n(272);
     for (
       var r = n(11),
         i = n(20),
@@ -31090,8 +31123,8 @@ object-assign
   },
   function(t, e, n) {
     'use strict';
-    var r = n(272),
-      i = n(273),
+    var r = n(273),
+      i = n(274),
       o = n(65),
       s = n(25);
     (t.exports = n(133)(
@@ -31124,10 +31157,10 @@ object-assign
     };
   },
   function(t, e, n) {
-    t.exports = { default: n(275), __esModule: !0 };
+    t.exports = { default: n(276), __esModule: !0 };
   },
   function(t, e, n) {
-    n(276), n(281), n(282), n(283), (t.exports = n(14).Symbol);
+    n(277), n(282), n(283), n(284), (t.exports = n(14).Symbol);
   },
   function(t, e, n) {
     'use strict';
@@ -31136,7 +31169,7 @@ object-assign
       o = n(16),
       s = n(28),
       a = n(134),
-      u = n(277).KEY,
+      u = n(278).KEY,
       h = n(36),
       c = n(69),
       l = n(71),
@@ -31144,15 +31177,15 @@ object-assign
       p = n(26),
       d = n(72),
       y = n(73),
-      v = n(278),
-      g = n(279),
+      v = n(279),
+      g = n(280),
       m = n(29),
       _ = n(21),
       b = n(25),
       w = n(44),
       T = n(37),
       E = n(66),
-      S = n(280),
+      S = n(281),
       I = n(139),
       C = n(15),
       A = n(67),
@@ -31451,8 +31484,8 @@ object-assign
   function(t, e, n) {
     'use strict';
     e.__esModule = !0;
-    var r = s(n(285)),
-      i = s(n(289)),
+    var r = s(n(286)),
+      i = s(n(290)),
       o = s(n(132));
     function s(t) {
       return t && t.__esModule ? t : { default: t };
@@ -31475,14 +31508,14 @@ object-assign
     };
   },
   function(t, e, n) {
-    t.exports = { default: n(286), __esModule: !0 };
+    t.exports = { default: n(287), __esModule: !0 };
   },
   function(t, e, n) {
-    n(287), (t.exports = n(14).Object.setPrototypeOf);
+    n(288), (t.exports = n(14).Object.setPrototypeOf);
   },
   function(t, e, n) {
     var r = n(28);
-    r(r.S, 'Object', { setPrototypeOf: n(288).set });
+    r(r.S, 'Object', { setPrototypeOf: n(289).set });
   },
   function(t, e, n) {
     var r = n(21),
@@ -31515,10 +31548,10 @@ object-assign
     };
   },
   function(t, e, n) {
-    t.exports = { default: n(290), __esModule: !0 };
+    t.exports = { default: n(291), __esModule: !0 };
   },
   function(t, e, n) {
-    n(291);
+    n(292);
     var r = n(14).Object;
     t.exports = function(t, e) {
       return r.create(t, e);
@@ -31583,39 +31616,6 @@ object-assign
     o.loader.add('missileSprite', 'static/assets/Sprites/missile.png'),
       (u = new h('static/assets/Sounds/explode.mp3')),
       (a = new h('static/assets/Sounds/launch.mp3'));
-  },
-  function(t, e, n) {
-    'use strict';
-    Object.defineProperty(e, '__esModule', { value: !0 });
-    var r,
-      i = n(7),
-      o = (r = i) && r.__esModule ? r : { default: r },
-      s = (function(t) {
-        if (t && t.__esModule) return t;
-        var e = {};
-        if (null != t)
-          for (var n in t)
-            Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
-        return (e.default = t), e;
-      })(n(6));
-    s.loader.add('static/assets/Sprites/explosion.json').load();
-    e.default = function t(e, n) {
-      (0, o.default)(this, t);
-      var r =
-          s.loader.resources['static/assets/Sprites/explosion.json']
-            .spritesheet,
-        i = new s.extras.AnimatedSprite(r.animations.explosion);
-      (i.x = n[0]),
-        (i.y = n[1]),
-        (i.loop = !1),
-        i.anchor.set(0.5),
-        (i.animationSpeed = 0.3),
-        (i.onComplete = function() {
-          i.destroy();
-        }),
-        e.stage.addChild(i),
-        i.play();
-    };
   },
   function(t, e, n) {
     !(function(e) {
@@ -32725,15 +32725,16 @@ object-assign
   function(t, e, n) {
     'use strict';
     Object.defineProperty(e, '__esModule', { value: !0 });
-    var r = f(n(7)),
-      i = f(n(9)),
-      o = l(n(6)),
-      s = l(n(299)),
-      a = f(n(24)),
-      u = f(n(75)),
-      h = f(n(62)),
-      c = f(n(141));
-    function l(t) {
+    var r = p(n(7)),
+      i = p(n(9)),
+      o = f(n(6)),
+      s = f(n(299)),
+      a = p(n(24)),
+      u = p(n(75)),
+      h = p(n(62)),
+      c = p(n(142)),
+      l = p(n(141));
+    function f(t) {
       if (t && t.__esModule) return t;
       var e = {};
       if (null != t)
@@ -32741,7 +32742,7 @@ object-assign
           Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
       return (e.default = t), e;
     }
-    function f(t) {
+    function p(t) {
       return t && t.__esModule ? t : { default: t };
     }
     s.initializeApp({
@@ -32752,7 +32753,7 @@ object-assign
       storageBucket: 'firebase-test-222916.appspot.com',
       messagingSenderId: '368557792160'
     });
-    var p = (function() {
+    var d = (function() {
       function t(e, n, i, o, s) {
         (0, r.default)(this, t),
           (this.state = e),
@@ -32902,7 +32903,14 @@ object-assign
               this.game.ships[t.type].setPosition(t.col, t.row);
             }
           },
-          { key: 'resolveHit', value: function(t) {} },
+          {
+            key: 'resolveHit',
+            value: function(t) {
+              var e = this.game.ships[t.type].sprite.position.x,
+                n = this.game.ships[t.type].sprite.position.y;
+              new l.default(this.game.app, [e, n]);
+            }
+          },
           {
             key: 'destroyShip',
             value: function(t) {
@@ -32945,7 +32953,7 @@ object-assign
         t
       );
     })();
-    e.default = p;
+    e.default = d;
   },
   function(t, e, n) {
     'use strict';
@@ -44645,7 +44653,7 @@ and limitations under the License.
       var i,
         o,
         s = n(27),
-        a = n(143),
+        a = n(144),
         u = n(307),
         h =
           (i = n(0)) && 'object' == typeof i && 'default' in i ? i.default : i,
@@ -53803,7 +53811,7 @@ and limitations under the License.
     var r,
       i,
       o = (r = n(0)) && 'object' == typeof r && 'default' in r ? r.default : r,
-      s = n(143),
+      s = n(144),
       a = n(309),
       u = n(310),
       h = o.SDK_VERSION,

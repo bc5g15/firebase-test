@@ -91,7 +91,7 @@ export default class TypingChallenge {
     let totalTime = 10 + this.challenge.length / 5;
     console.log('Total Time: ' + totalTime);
     this.timer = new Timer();
-    timer.start({
+    this.timer.start({
       countdown: true,
       startValues: { seconds: totalTime },
       target: { seconds: 0 }
