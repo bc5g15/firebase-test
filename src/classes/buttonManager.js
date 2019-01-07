@@ -51,7 +51,7 @@ export default class FireButton {
       this.app,
       this.fireMissile,
       this.toggleButton,
-      'test' // Just using test text for now
+      'test typing challenge' // Just using test text for now
     );
     typingChal.showChallenge();
     this.button.texture = this.textureButtonDown;
