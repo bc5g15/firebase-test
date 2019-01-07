@@ -96,4 +96,9 @@ export default class SquareHighlighter {
   getPositionOfTargetSquare() {
     return [this.targetSquare.position.x, this.targetSquare.position.y];
   }
+
+  showSquares(show) {
+    this.targetSquare.visible = show;
+    this.hoverSquare.visible = show;
+  }
 }

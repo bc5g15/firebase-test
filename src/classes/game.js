@@ -10,6 +10,7 @@ import * as treasure from './treasure';
 import * as enemy from './enemy';
 import keyboardInit from './keyboard';
 import * as missileControl from './missileController';
+import { testGameState } from './test';
 
 const TEST_TREASURE_LOCATIONS = [[1, 1], [2, 2], [3, 3], [4, 4]];
 export default class Game {
@@ -28,18 +29,20 @@ export default class Game {
 
     this.dimension = dimension; // Grid size e.g. 9
     this.costOfMovement = 0;
+
+    // Array of treasures
     this.treasureArray = [];
-
-    let sizeGridSquareX = GLOBAL_WIDTH / dimension;
-    let sizeGridSquareY = GLOBAL_HEIGHT * 0.8 / dimension;
-
+    // Map of ships
     this.ships = {};
-    this.enemyShips = [];
-    this.destroyedShips = [];
 
     this.id = 0;
     this.score = 20000;
     this.health = 1000;
+
+    let sizeGridSquareX = GLOBAL_WIDTH / dimension;
+    let sizeGridSquareY = GLOBAL_HEIGHT * 0.8 / dimension;
+    this.challengetext = null;
+    this.challengedifficulty = null;
 
     this.missiles = [];
     this.missileCount = 0;
@@ -51,8 +54,6 @@ export default class Game {
       sizeGridSquareY
     );
 
-    this.gameState = [];
-
     this.ocean = new Ocean(app);
 
     this.gameGrid = new GameGrid(app, dimension);
@@ -60,8 +61,9 @@ export default class Game {
 
     // Only run if we use webpack-dev-server
     if (process.env.NODE_ENV !== 'production') {
-      this.myShip = new Ship(app, this, 0, [0, 0]); //Changed to always create a new myShip
-      this.myShip.initShip();
+      let playerShip = new Ship(app, this, 0, [0, 0]);
+      playerShip.initShip();
+      this.initPlayerShip(playerShip); //Changed to always create a new myShip
     }
 
     this.squareHighlighter = new SquareHighlighter(app, this.gameGrid);
@@ -78,7 +80,16 @@ export default class Game {
     }
 
     // initialises button and other data to display
-    this.lowerConsole = new LowerConsole(app, this, this.myShip);
+    this.lowerConsole = new LowerConsole(app, this);
+  }
+
+  initPlayerShip(playerShip) {
+    this.myShip = playerShip;
+    // Disable interface on destroy
+    this.myShip.on('destroyed', () => {
+      this.lowerConsole.FireButton.showButton(false);
+      this.squareHighlighter.showSquares(false);
+    });
   }
 
   init() {
@@ -86,21 +97,22 @@ export default class Game {
     this.app.renderer.view.style.position = 'absolute';
     this.app.renderer.view.style.display = 'block';
     this.app.renderer.autoResize = true;
-    //app.renderer.resize(window.innerWidth, window.innerHeight);
     this.app.stage.interactive = true;
     document.body.appendChild(this.app.view);
 
     // initialise keyboard input
     keyboardInit(this.app, this.mousePosition, this, this.myShip);
 
-    // loads enemy ships from game state data
-    enemy.loadEnemies(this.app, this);
+    // Only run if we use webpack-dev-server
+    if (process.env.NODE_ENV !== 'production') {
+      enemy.loadEnemies(this.app, this, testGameState());
+    }
 
     this.app.ticker.add(delta => this.tick(delta));
   }
 
   initTreasure(locations = TEST_TREASURE_LOCATIONS) {
-    // load treasure based on array of coordinates;
+    // Load treasure based on array of coordinates;
     treasure.loadTreasure(this, locations);
   }
 

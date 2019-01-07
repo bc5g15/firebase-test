@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import $ from 'jquery';
 import Game from './game';
 import Ship from './ship';
+import TypingChallenge from './typeChallengeInterface';
 
 // initialise firebase
 let config = {
@@ -55,7 +56,7 @@ export default class Communicator {
         this.handlers['destroyed'] = this.destroyShip.bind(this);
         this.handlers['new_user'] = this.updateSingleShip.bind(this);
         this.handlers['position'] = this.updateFullGameState.bind(this);
-        this.handlers['game-over'] = this.gameOver.bind(this);
+        this.handlers['typechallenge'] = this.createTypeTask.bind(this);
         $.post('/game/join');
       }
     };
@@ -133,12 +134,13 @@ export default class Communicator {
           this.game,
           tile.type,
           [tile.col, tile.row],
-          tile.hitpoints
+          tile.hitpoints,
+          tile.type !== this.state.me
         );
         this.game.ships[tile.type].initShip();
         if (tile.type === this.state.me) {
           console.log('Resetting myself');
-          this.game.myShip = this.game.ships[tile.type];
+          this.game.initPlayerShip(this.game.ships[tile.type]);
           // createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
         }
       }
@@ -151,13 +153,14 @@ export default class Communicator {
       this.game,
       newState.type,
       [newState.col, newState.row],
-      newState.hitpoints
+      newState.hitpoints,
+      newState.type !== this.state.me
     );
     this.game.ships[newState.type] = newShip;
     newShip.initShip();
     if (newState.type === this.state.me) {
       console.log('Resetting myself');
-      this.game.myShip = newShip;
+      this.game.initPlayerShip(newShip);
       // createGreenSquare(myShip.sprite.position.x, myShip.sprite.position.y);
     }
   }
@@ -176,15 +179,24 @@ export default class Communicator {
       'static/assets/Sprites/shipDestroyed.png'
     ); //Changes the ship's
     // image to represent it being destroyed
-    this.game.ships[newState.type].isDestroyed = true;
+    this.game.ships[newState.type].destroy();
   }
 
-  /*
-  Display the game over message, with the appropriate user data
-   */
-  gameOver(newState) {
-    let winnerID = newState.tiles[0].type;
-    let winnerName = newState.users.filter(u => u.uid === winnerID)[0].name;
-    $('#game-over').html('GAME OVER: ' + winnerName + ' Wins!');
+  createTypeTask(newState) {
+    console.log(newState);
+    this.game.challengetext = newState.text;
+    //console.log(this.game.challengetext);
+    this.game.challengedifficulty = newState.difficulty;
+    let typingChal = new TypingChallenge(
+      this.game.app,
+      this.game.lowerConsole.FireButton.fireMissile.bind(
+        this.game.lowerConsole.FireButton
+      ),
+      this.game.lowerConsole.FireButton.toggleButton.bind(
+        this.game.lowerConsole.FireButton
+      ),
+      this.game.challengetext
+    );
+    typingChal.showChallenge();
   }
 }

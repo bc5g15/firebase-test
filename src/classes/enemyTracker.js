@@ -7,7 +7,7 @@ import * as PIXI from 'pixi.js';
 //import Enemy from './enemy';
 import gameState from './gameState';
 import $ from 'jquery';
-var destroyedShips = [];
+let destroyedShips = [];
 let destroyedTexture = PIXI.Texture.fromImage(
   'static/assets/Sprites/shipDestroyed.png'
 );
@@ -16,14 +16,13 @@ export function loadEnemies() {
   //enemy has form of [id, [x, y]] where [x, y] is the index of the gamestate array
   //enemy ships have constructor Enemy(app, id, position)
   gameState.forEach(ship => {
-    var iteratedshipindex = gameState.indexOf(ship);
+    const iteratedshipindex = gameState.indexOf(ship);
     gameState.forEach(othership => {
       if (!(gameState.indexOf(othership) === iteratedshipindex)) {
         ship.enemyShips.push(othership); //For each player ship in the game, all of the other player ships
         //are added to the ship's enemyShips array to indicate how many enemies there are to destroy
       }
     });
-    //enemy = new Enemy(app, ship[0], ship[1]);
   });
 
   //initialises an enemy class for each enemy. Not working with NPC enemies at the moment

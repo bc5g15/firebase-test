@@ -8,6 +8,7 @@ import * as util from './utility';
 import * as missileControl from './missileController';
 import TypingChallenge from './typeChallengeInterface';
 import { GLOBAL_WIDTH, GLOBAL_HEIGHT } from '../constants';
+import $ from 'jquery';
 
 export default class FireButton {
   constructor(app, gameBoard) {
@@ -22,8 +23,6 @@ export default class FireButton {
     this.textureButtonDown = new PIXI.Texture.fromImage(
       'static/assets/Sprites/buttonFirePressed.png'
     );
-    this.fireMissile = this.fireMissile.bind(this);
-    this.toggleButton = this.toggleButton.bind(this);
 
     //creating button and changing settings
     let button = new PIXI.Sprite(this.textureButton);
@@ -40,6 +39,10 @@ export default class FireButton {
     app.stage.addChild(button);
   }
 
+  showButton(toggle) {
+    this.button.visible = toggle;
+  }
+
   toggleButton() {
     this.button.texture = this.textureButton;
     this.button.interactive = !this.button.interactive;
@@ -47,26 +50,48 @@ export default class FireButton {
 
   renderChallenge() {
     console.log('rendering challenge before firing');
-    let typingChal = new TypingChallenge(
-      this.app,
-      this.fireMissile,
-      this.toggleButton,
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Even sterilized Bureau pain and brakes. But this weekend pain. Some the most exciting environment, but grief lorem. Stress soccer convenience any time in diameter. Tomato sauce put the fear of football makeup. In addition, indoor air quality asset, was pregnant and, sapien layer. Vivamus nec molestie metus, in the venenatis tortor. Maecenas congue, elit id ultricies convallis, metus laoreet posuere turpis, sed tempor turpis orci vitae urna. However, in the region or on the basis of developers and members free. Vel sed laoreet mauris vitae, egestas lectus ac, venenatis a lion. Donec euismod blandit out, but malesuada sapien facilisis a. Justo diameter until carrots classroom. Fusce augue risus, ullamcorper in, and the warm-up, to raise up and investors. Warm just innovative element present.' // Just using test text for now
-    );
-    typingChal.showChallenge();
     this.button.texture = this.textureButtonDown;
+
+    if (this.canShoot()) {
+      $.post('/gettask');
+      let typingChal = new TypingChallenge(
+        this.app,
+        this.fireMissile.bind(this),
+        this.toggleButton.bind(this),
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fact, posuere sit amet arcu sed consequat. In order that the gate of the consequat carbon emissions. Now they hate organizations. Donec id metus gravida, auctor ligula ultricies viverra turpis. Nutrition residents soccer sad old and ugly netus et malesuada hunger and poverty. Maecenas eros propaganda, and grilled chili and real estate. Feugiat ut Fusce, pharetra augue nec borders, Nunc malesuada nibh facilisis ligula, at dapibus eros dolor Suspendisse convallis nisl. In order to dui zero biggest football across the country. Vivamus et orci ornare magna gravida tristique. Homework sterilized carrots adapter and exciting. Planning and inexpensive consumer convenience at present need in the region.'
+        // Just using test text for now
+      );
+      typingChal.showChallenge();
+    }
+  }
+
+  // Can we shoot given target position?
+  canShoot() {
+    let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
+    let shipPos = [
+      this.gameBoard.myShip.sprite.position.x,
+      this.gameBoard.myShip.sprite.position.y
+    ];
+
+    return (
+      util.calculateDistance(shipPos, pos) != 0 &&
+      !this.gameBoard.myShip.isDestroyed
+    );
   }
 
   fireMissile() {
-    console.log(this.myShip);
+    console.log(this.gameBoard.myShip);
 
     let pos = this.gameBoard.squareHighlighter.getPositionOfTargetSquare();
     let shipPos = [
       this.gameBoard.myShip.sprite.position.x,
       this.gameBoard.myShip.sprite.position.y
     ];
-    // let coords = getGridIndex(pos);
+
     let dist = util.calculateDistance(shipPos, pos);
+    if (dist == 0) {
+      return;
+    }
 
     //determines if the player can afford to shoot based on targets distance
     if (util.canAfford(this.gameBoard)) {
@@ -80,7 +105,10 @@ export default class FireButton {
       );
 
       console.log(
-        'Score after Shot: ' + this.gameBoard.score + ', Distance: ' + dist
+        'Score after Shot: ' +
+          this.gameBoard.challengedifficulty +
+          ', Distance: ' +
+          dist
       );
     } else {
       console.log('Not enough points to perform action!');

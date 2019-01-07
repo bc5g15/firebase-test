@@ -194,12 +194,12 @@ class GameState(ndb.Model):
         for x in xrange(len(self.tiles)):
             if self.tiles[x].type == user_id:
                 if self.tiles[x].hitpoints > 1:  # Reduces hitpoints by 1 if not on 1 hitpoint left
-                    self.tiles[x].hitpoints = self.tiles[x].hitpoints - 1;
+                    self.tiles[x].hitpoints = self.tiles[x].hitpoints - 1
                     self.put()
                     self.send_small_update("hit", self.tiles[x])
                     return
                 elif self.tiles[x].hitpoints == 1:  # Destroys ship if it has 1 hitpoint left
-                    self.tiles[x].hitpoints = 0;
+                    self.tiles[x].hitpoints = 0
                     self.put()
                     self.send_small_update("destroyed", self.tiles[x])
                     del self.tiles[x]

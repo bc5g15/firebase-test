@@ -3,8 +3,7 @@ from google.appengine.ext import ndb
 
 class TypeTask(ndb.Model):
     """
-    Represents the database state of a
-    typing task
+    Stores information relevant to typing challenges
     """
     text = ndb.StringProperty()
     difficulty = ndb.IntegerProperty()
