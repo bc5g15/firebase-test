@@ -20,7 +20,7 @@ This will open a browser window at `localhost:8080`, this will render a local ve
 ## Testing full server
 To test the full server (frontend and backend), run the following commands:
 ```
-npm run build
+npm run watch
 ```
 ```
 .\run
