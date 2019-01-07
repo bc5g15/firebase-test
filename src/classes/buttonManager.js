@@ -43,9 +43,9 @@ export default class FireButton {
     this.button.visible = toggle;
   }
 
-  toggleButton() {
+  toggleButton(setEnabled) {
     this.button.texture = this.textureButton;
-    this.button.interactive = !this.button.interactive;
+    this.button.interactive = setEnabled;
   }
 
   renderChallenge() {
@@ -54,14 +54,14 @@ export default class FireButton {
 
     if (this.canShoot()) {
       $.post('/gettask');
-      let typingChal = new TypingChallenge(
-        this.app,
-        this.fireMissile.bind(this),
-        this.toggleButton.bind(this),
-        'Test Test Test Test Test Test'
-        // Just using test text for now
-      );
-      typingChal.showChallenge();
+      // let typingChal = new TypingChallenge(
+      //   this.app,
+      //   this.fireMissile.bind(this),
+      //   this.toggleButton.bind(this),
+      //   //'Test Test Test Test Test T'
+      //   // Just using test text for now
+      // );
+      // typingChal.showChallenge();
     }
   }
 

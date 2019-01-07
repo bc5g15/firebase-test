@@ -140,7 +140,7 @@ export default class TypingChallenge {
       }
       this.app.stage.removeChild(this.scaleCont);
       this.hideChallenge();
-      this.btnToggleCB();
+      this.btnToggleCB(true);
     }
   }
 
@@ -152,7 +152,7 @@ export default class TypingChallenge {
 
   showChallenge() {
     this.challengeTimer();
-    this.btnToggleCB();
+    this.btnToggleCB(false);
 
     this.userInputTxt = new MultiStyleText(this.challenge, this.textStyle);
     this.userInputTxt.x = this.bg.x + 20;
