@@ -31,7 +31,7 @@ h1{
     vertical-align:top;
 }
 
-#pin > h2{
+#pin > h2, #game-over{
     font-size:24pt;
 }
 

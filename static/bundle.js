@@ -32791,6 +32791,7 @@ object-assign
                     (t.handlers.new_user = t.updateSingleShip.bind(t)),
                     (t.handlers.position = t.updateFullGameState.bind(t)),
                     (t.handlers.typechallenge = t.createTypeTask.bind(t)),
+                    (t.handlers['game-over'] = t.gameOver.bind(t)),
                     a.default.post('/game/join'));
                 }),
                 a.default.post('/game/open'),
@@ -32925,6 +32926,16 @@ object-assign
                   ),
                   this.game.challengetext
                 ).showChallenge();
+            }
+          },
+          {
+            key: 'gameOver',
+            value: function(t) {
+              var e = t.tiles[0].type,
+                n = t.users.filter(function(t) {
+                  return t.uid === e;
+                })[0].name;
+              (0, a.default)('#game-over').html('Game Over: ' + n + ' Wins!');
             }
           }
         ]),

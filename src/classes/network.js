@@ -57,6 +57,7 @@ export default class Communicator {
         this.handlers['new_user'] = this.updateSingleShip.bind(this);
         this.handlers['position'] = this.updateFullGameState.bind(this);
         this.handlers['typechallenge'] = this.createTypeTask.bind(this);
+        this.handlers['game-over'] = this.gameOver.bind(this);
         $.post('/game/join');
       }
     };
@@ -198,5 +199,11 @@ export default class Communicator {
       this.game.challengetext
     );
     typingChal.showChallenge();
+  }
+
+  gameOver(newState) {
+    let winnerID = newState.tiles[0].type;
+    let winnerName = newState.users.filter(u => u.uid === winnerID)[0].name;
+    $('#game-over').html('Game Over: ' + winnerName + ' Wins!');
   }
 }
