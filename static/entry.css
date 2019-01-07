@@ -5,6 +5,10 @@ body{
     font-family:sans-serif;
 }
 
+h1{
+    font-size:40pt;
+}
+
 h1,h2,h3{
     color:#f8f8f8;
 }
@@ -56,6 +60,8 @@ h1,h2,h3{
 #start-button{
     background-color:#00CC11;
     color:#f8f8f8;
+    margin-bottom:10%;
+
 }
 
 #start-button:hover{

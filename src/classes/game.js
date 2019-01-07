@@ -11,6 +11,7 @@ import * as enemy from './enemy';
 import keyboardInit from './keyboard';
 import * as missileControl from './missileController';
 import { testGameState } from './test';
+import $ from 'jquery';
 
 const TEST_TREASURE_LOCATIONS = [[1, 1], [2, 2], [3, 3], [4, 4]];
 export default class Game {
@@ -94,11 +95,16 @@ export default class Game {
 
   init() {
     console.log('Game init called');
+    $('#userList').css('display', 'none');
+    $('#pin').css('display', 'none');
+    $('#h1lobby').css('display', 'none');
     this.app.renderer.view.style.position = 'absolute';
     this.app.renderer.view.style.display = 'block';
+    this.app.renderer.view.style.left =
+      ($(window).width() - GLOBAL_WIDTH) / 2 + 'px';
     this.app.renderer.autoResize = true;
     this.app.stage.interactive = true;
-    document.body.appendChild(this.app.view);
+    $('#gameboard').append(this.app.view);
 
     // initialise keyboard input
     keyboardInit(this.app, this.mousePosition, this, this.myShip);

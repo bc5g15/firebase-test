@@ -11,6 +11,7 @@
     <!-- <script src="static/lib/pixi.min.js"></script>  -->
     <!-- import javascript game files here -->
     <body>
+    <h1>Ironclad TypeTester Game <span id="h1lobby">Lobby</span></h1>
         <div id="pin">
             <h2>Your friends will need this PIN code to join the game: {{ game_key }}</h2>
         </div>
@@ -24,7 +25,7 @@
                 <button id="start-game">Start!</button>
             {% endif %}
         </div>
-
+        <div id="gameboard"></div>
 
         <!-- <script src="static/lib/classes/grid.js"></script>
         <script src="static/lib/classes/ocean.js"></script>
@@ -41,7 +42,7 @@
         <script src="static/lib/classes/enemyTracker.js"></script>
         <script src="static/lib/classes/enemy.js"></script>
         <script src="static/Game.js"></script> -->
-        <script src="static/bundle.js"></script> --> <!-- Uncomment this and next script tag -->
+        <script src="static/bundle.js"></script> <!-- Uncomment this and next script tag -->
         <script>
           Battleships.initGame('{{ game_key }}', '{{ me }}', '{{ token }}', '{{ channel_id }}',
               {# use the |safe flag to get unescaped json to render #}
