@@ -58,7 +58,7 @@ export default class FireButton {
         this.app,
         this.fireMissile.bind(this),
         this.toggleButton.bind(this),
-        'Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test '
+        'Test Test Test Test Test Test'
         // Just using test text for now
       );
       typingChal.showChallenge();

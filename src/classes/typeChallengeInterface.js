@@ -86,7 +86,7 @@ export default class TypingChallenge {
 
    */
   challengeTimer() {
-    let totalTime = this.challenge.length;
+    let totalTime = 10 + this.challenge.length / 5;
     console.log('Total Time: ' + totalTime);
     let timer = new Timer();
     timer.start({

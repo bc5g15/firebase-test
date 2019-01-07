@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="static/entry.css" />
 </head>
 <body>
-    <h1>Ironclad TypeTester V1.0</h1>
+    <h1>Ironclad TypeTester</h1>
     <div id="user-details">
         <h2>User Details:</h2>
         <h3>User ID: {{ uid }} </h3>
@@ -21,11 +21,11 @@
     </div>
     <div id="game-details">
         <h2>Start/Join Game:</h2>
-        <a href="{{ url_for('game.start_game') }}"><button id="start-button">Start new game</button></a>
+        <a href="{{ url_for('game.start_game') }}"><button id="start-button">Start New Lobby</button></a>
         <form method="post" action="{{ url_for('solo.solo_join_game') }}">
             <label form="pin" class="form label">PIN:</label>
             <input type="text" name="pin" value="" class="form text-box">
-            <input type="submit" value="Join Game" id="join-button">
+            <input type="submit" value="Join Lobby" id="join-button">
         </form>
 
     </div>
