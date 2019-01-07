@@ -58,7 +58,7 @@ export default class FireButton {
         this.app,
         this.fireMissile.bind(this),
         this.toggleButton.bind(this),
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fact, posuere sit amet arcu sed consequat. In order that the gate of the consequat carbon emissions. Now they hate organizations. Donec id metus gravida, auctor ligula ultricies viverra turpis. Nutrition residents soccer sad old and ugly netus et malesuada hunger and poverty. Maecenas eros propaganda, and grilled chili and real estate. Feugiat ut Fusce, pharetra augue nec borders, Nunc malesuada nibh facilisis ligula, at dapibus eros dolor Suspendisse convallis nisl. In order to dui zero biggest football across the country. Vivamus et orci ornare magna gravida tristique. Homework sterilized carrots adapter and exciting. Planning and inexpensive consumer convenience at present need in the region.'
+        'Test Test Test Test Test Test'
         // Just using test text for now
       );
       typingChal.showChallenge();

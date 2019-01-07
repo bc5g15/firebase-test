@@ -86,7 +86,7 @@ export default class TypingChallenge {
 
    */
   challengeTimer() {
-    let totalTime = this.challenge.length * 1.5;
+    let totalTime = 10 + this.challenge.length / 5;
     console.log('Total Time: ' + totalTime);
     let timer = new Timer();
     timer.start({
@@ -107,8 +107,9 @@ export default class TypingChallenge {
   }
 
   handleChallengeSize(timer, totalTime) {
-    let scale = timer.getTimeValues().seconds / totalTime;
-    console.log('Scale: ' + scale);
+    let scale =
+      (timer.getTimeValues().minutes * 60 + timer.getTimeValues().seconds) /
+      totalTime;
     this.barCont.scale.x = scale;
   }
 
