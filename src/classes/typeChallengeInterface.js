@@ -11,7 +11,7 @@ export default class TypingChallenge {
     this.bg = new PIXI.Graphics();
     this.bg.beginFill(0x333333);
     this.bg.lineStyle(2, 0xffffff);
-    this.bg.drawRect(0, 0, 800, 375);
+    this.bg.drawRect(0, 0, 700, 375);
     this.bg2 = new PIXI.Graphics();
     this.bg2.beginFill(0x000000);
     this.bg2.lineStyle(2, 0xffffff);
@@ -20,6 +20,9 @@ export default class TypingChallenge {
     this.bg3.beginFill(0x00cc11);
     this.bg3.lineStyle(2, 0xffffff);
     this.bg3.drawRect(0, 750, 800, 25);
+
+    this.bg.x = 50;
+    this.bg.y = 50;
 
     this.textStyle = {
       default: {
@@ -148,7 +151,8 @@ export default class TypingChallenge {
     this.btnToggleCB();
 
     this.userInputTxt = new MultiStyleText(this.challenge, this.textStyle);
-    this.userInputTxt.x = 20;
+    this.userInputTxt.x = this.bg.x + 20;
+    this.userInputTxt.y = this.bg.y;
     this.chalContainer.addChild(this.userInputTxt);
   }
 
