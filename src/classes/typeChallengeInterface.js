@@ -150,7 +150,7 @@ export default class TypingChallenge {
   }
 
   showChallenge() {
-    // this.challengeTimer();
+    this.challengeTimer();
     this.btnToggleCB();
 
     this.userInputTxt = new MultiStyleText(this.challenge, this.textStyle);
