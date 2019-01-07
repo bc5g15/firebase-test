@@ -18458,7 +18458,7 @@ var Battleships = (function(t) {
             key: 'challengeTimer',
             value: function() {
               var t = this,
-                e = 1.5 * this.challenge.length;
+                e = 10 + this.challenge.length / 5;
               console.log('Total Time: ' + e);
               var n = new s.default();
               n.start({
@@ -18479,8 +18479,10 @@ var Battleships = (function(t) {
           {
             key: 'handleChallengeSize',
             value: function(t, e) {
-              var n = t.getTimeValues().seconds / e;
-              console.log('Scale: ' + n), (this.barCont.scale.x = n);
+              var n =
+                (60 * t.getTimeValues().minutes + t.getTimeValues().seconds) /
+                e;
+              this.barCont.scale.x = n;
             }
           },
           {
@@ -30852,7 +30854,7 @@ object-assign
                   this.app,
                   this.fireMissile.bind(this),
                   this.toggleButton.bind(this),
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fact, posuere sit amet arcu sed consequat. In order that the gate of the consequat carbon emissions. Now they hate organizations. Donec id metus gravida, auctor ligula ultricies viverra turpis. Nutrition residents soccer sad old and ugly netus et malesuada hunger and poverty. Maecenas eros propaganda, and grilled chili and real estate. Feugiat ut Fusce, pharetra augue nec borders, Nunc malesuada nibh facilisis ligula, at dapibus eros dolor Suspendisse convallis nisl. In order to dui zero biggest football across the country. Vivamus et orci ornare magna gravida tristique. Homework sterilized carrots adapter and exciting. Planning and inexpensive consumer convenience at present need in the region.'
+                  'Test Test Test Test Test Test'
                 ).showChallenge());
             }
           },
