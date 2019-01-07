@@ -4,6 +4,7 @@ import $ from 'jquery';
 import Game from './game';
 import Ship from './ship';
 import TypingChallenge from './typeChallengeInterface';
+import Explosion from './explosion';
 
 // initialise firebase
 let config = {
@@ -171,7 +172,9 @@ export default class Communicator {
   }
 
   resolveHit(newState) {
-    //Explosion
+    let x = this.game.ships[newState.type].sprite.position.x;
+    let y = this.game.ships[newState.type].sprite.position.y;
+    new Explosion(this.game.app, [x, y]);
   }
 
   destroyShip(newState) {
