@@ -32931,6 +32931,7 @@ object-assign
           {
             key: 'gameOver',
             value: function(t) {
+              console.log(t);
               var e = t.tiles[0].type,
                 n = t.users.filter(function(t) {
                   return t.uid === e;

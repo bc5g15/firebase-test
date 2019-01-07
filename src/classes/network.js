@@ -202,6 +202,7 @@ export default class Communicator {
   }
 
   gameOver(newState) {
+    console.log(newState);
     let winnerID = newState.tiles[0].type;
     let winnerName = newState.users.filter(u => u.uid === winnerID)[0].name;
     $('#game-over').html('Game Over: ' + winnerName + ' Wins!');
